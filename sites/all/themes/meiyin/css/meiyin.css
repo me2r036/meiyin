@@ -1,6 +1,6 @@
 
 /* -------------------------------------------- */
-/* Meiyin Drupal Theme - Master Stylesheet */
+/* Meiyin Theme - Master Stylesheet */
 /* -------------------------------------------- */
 
 /* BASE */
@@ -652,7 +652,7 @@ ul.inline .comment-add { padding: 0px; }
 .highlightbox h1,.highlightbox h2,.highlightbox h3,.highlightbox h4,.highlightbox h5,.highlightbox h6 { margin-top: 0; margin-bottom: 12px; color: #666; }
 .highlightbox h2 { line-height: 35px; }
 .highlightbox .nobottom { margin-bottom: 0; }
-.highlightbox .one_half, .highlightbox .one_third, .highlightbox .two_third, .highlightbox .three_fourth, .highlightbox .one_fourth, .highlightbox .one_fifth, .highlightbox .one_sixth { margin-bottom: 0px; }
+.highlightbox .one_half, .highlightbox .one_third, .highlightbox .two_third, .highlightbox .three_fourth, .highlightbox .four_fifth, .highlightbox .one_fourth, .highlightbox .one_fifth, .highlightbox .one_sixth { margin-bottom: 0px; }
 .highlightbox p { margin-bottom: 15px; }
 .highlightbox .btnpos { margin-top: -20px; }
 .btnposright { float: right; }
@@ -666,10 +666,11 @@ ul.inline .comment-add { padding: 0px; }
 .one_third { width: 30.66%; }
 .two_third { width: 65.33%; }
 .three_fourth { width: 74%; }
+.four_fifth { width: 79.2% ;}
 .one_fourth { width: 22%; }
 .one_fifth { width: 16.8%; }
 .one_sixth { width: 13.33%; }
-.one_half, .one_third, .two_third, .three_fourth, .one_fourth, .one_fifth, .one_sixth { margin-right: 4%; margin-bottom: 20px; float: left; }
+.one_half, .one_third, .two_third, .three_fourth, .four_fifth, .one_fourth, .one_fifth, .one_sixth { margin-right: 4%; margin-bottom: 20px; float: left; }
 .lastcolumn { margin-right: 0!important; clear: right; }
 
 /* SIDEBAR */
@@ -1523,7 +1524,7 @@ a.service:hover .serviceicon { color: #fff; background-color: #666;  }
 
 .linktext { display: none; }
 
-.one_half, .one_third, .two_third, .three_fourth, .one_fourth, .one_fifth, .one_sixth { width: 100%; }
+.one_half, .one_third, .two_third, .three_fourth, .four_fifth, .one_fourth, .one_fifth, .one_sixth { width: 100%; }
 
 .span9.right { margin-bottom: 80px; }
 .span9.left { margin-bottom: 80px; }
@@ -1570,6 +1571,7 @@ a.service:hover .serviceicon { color: #fff; background-color: #666;  }
 
 	.highlightbox .btnpos { margin-top: 0px; }
 	.highlightbox .one_fourth .btn { float: left !important; margin-bottom: 15px;  }
+	.highlightbox .one_fifth .btn { float: left !important; margin-bottom: 15px;  }
 
 	.headertop .span6			{	float:none; clear:both;}
 	.headertop .meiyinSocials	{	float:none !important; clear:both;}
