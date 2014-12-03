@@ -1,0 +1,103 @@
+name = 'Meiyin 7.x'
+description = 'Meiyin subthemem based on subtheme for the Meiyin Drupal 7 theme.'
+core = '7.x'
+base theme = meiyin
+
+stylesheets[all][0] = 'css/custom.css'
+
+regions[header_top_left] = Header Left
+regions[header_top_right] = Header Right
+
+regions[header] = Header Fullwidth
+
+regions[prescript_first] = Prescript First
+regions[prescript_second] = Prescript Second
+regions[prescript_third] = Prescript Third
+regions[prescript_fourth] = Prescript Fourth
+
+regions[sidebar_first] = Left sidebar
+regions[content] = Content
+regions[sidebar_second] = Right sidebar
+
+regions[postscript_first] = Postscript First
+regions[postscript_second] = Postscript Second
+regions[postscript_third] = Postscript Third
+regions[postscript_fourth] = Postscript Fourth
+
+regions[footer_first] = Footer First
+regions[footer_second] = Footer Second
+regions[footer_third] = Footer Third
+regions[footer_fourth] = Footer Fourth
+regions[footer_fifth] = Footer Fifth
+regions[footer_sixth] = Footer Sixth
+
+
+settings[homeSlider] = '1'
+settings[latitude] = '40.775556'
+settings[longitude] = '-73.974722'
+settings[iphoneRegularIcon] = '0'
+settings[ipadRegularIcon] = '0'
+settings[appleRetinaIcon] = '0'
+settings[layoutWidth] = 'fullwidthlayout'
+settings[layoutColor] = 'green'
+settings[responsive] = '1'
+settings[backgroundColor] = 'ffffff'
+settings[backgroundImage] = 'wavegrid'
+settings[backgroundCustom] = '0'
+settings[header_top_left_grid] = '6'
+settings[header_top_left_css] = 'headerlefttext'
+settings[header_top_right_grid] = '6'
+settings[header_top_right_css] = 'headerrighttext'
+settings[header_grid] = '0'
+settings[header_css] = ''
+settings[prescript_first_grid] = '12'
+settings[prescript_first_css] = 'rounded'
+settings[prescript_second_grid] = '4'
+settings[prescript_second_css] = ''
+settings[prescript_third_grid] = '8'
+settings[prescript_third_css] = 'rounded'
+settings[prescript_fourth_grid] = '0'
+settings[prescript_fourth_css] = ''
+settings[sidebar_first_grid] = '3'
+settings[sidebar_first_css] = 'sidebar'
+settings[content_grid] = '0'
+settings[content_css] = ''
+settings[sidebar_second_grid] = '3'
+settings[sidebar_second_css] = 'sidebar'
+settings[postscript_first_grid] = '6'
+settings[postscript_first_css] = ''
+settings[postscript_second_grid] = '6'
+settings[postscript_second_css] = ''
+settings[postscript_third_grid] = '12'
+settings[postscript_third_css] = 'row'
+settings[postscript_fourth_grid] = '0'
+settings[postscript_fourth_css] = ''
+settings[footer_first_grid] = '3'
+settings[footer_first_css] = ''
+settings[footer_second_grid] = '3'
+settings[footer_second_css] = ''
+settings[footer_third_grid] = '3'
+settings[footer_third_css] = ''
+settings[footer_fourth_grid] = '3'
+settings[footer_fourth_css] = ''
+settings[footer_fifth_grid] = '6'
+settings[footer_fifth_css] = 'lefttext'
+settings[footer_sixth_grid] = '6'
+settings[footer_sixth_css] = 'righttext'
+settings[default_logo] = '1'
+settings[logo_path] = ''
+settings[logo_upload] = ''
+settings[default_favicon] = '0'
+settings[favicon_path] = ''
+settings[favicon_upload] = ''
+settings[toggle_logo] = '1'
+settings[toggle_name] = '0'
+settings[toggle_slogan] = '0'
+settings[toggle_node_user_picture] = '1'
+settings[toggle_comment_user_picture] = '1'
+settings[toggle_comment_user_verification] = '1'
+settings[toggle_favicon] = '1'
+settings[toggle_main_menu] = '1'
+settings[toggle_secondary_menu] = '0'
+settings[meiyin_settings__active_tab] = 'edit-layout'
+settings[favicon_mimetype] = 'image/vnd.microsoft.icon'

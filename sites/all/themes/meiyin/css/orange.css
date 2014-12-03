@@ -1,0 +1,52 @@
+/* BORDER COLORS */
+body.wide { border-top: 3px solid #f49c14; }
+body.fullwidthlayout { border-top: 3px solid #f49c14; }
+.boxedlayout .headertopwrap { border-top: 3px solid #f49c14; }
+.headertopwrap.boxed { border-top: 3px solid #f49c14; }
+.sidebar .tagcloud a:hover { border-color: #f49c14; }
+
+/* BACKGROUND COLORS */
+::selection { background: #f49c14; /* Safari */}
+::-moz-selection { background: #f49c14; /* Firefox */}
+
+.colored .pagetitlewrap, .progress-success .bar, .mediaholder .link, .mediaholder .show,
+a.service:hover .serviceicon, .pricing .highlight .thead, .btn-primary:hover { 
+	background: #f49c14; 
+}
+
+.btn-primary:hover { background: #f49c14 url('../img/tiles/dark25.png') repeat !important; }
+
+.footer .tagcloud a:hover, .btn-primary, 
+.btn-primary:hover, .btn-primary:active, .btn-primary.active, 
+.btn-primary.disabled, .btn-primary[disabled], .form-submit #submit, .standardbtn, .form-submit #submit:hover, .standardbtn:hover,
+.form-submit #submit:active, .standardbtn:active, .form-submit #submit:active, .standardbtn.active, .form-submit #submit:disabled,
+.standardbtn.disabled, .form-submit #submit:hover , .standardbtn[disabled], .form-submit #submit:active, .standardbtn:active,
+.standardbtn.active, .footer .tagcloud a:hover, .sidebar .tagcloud a:hover  { 
+	background-color: #f49c14; 
+}
+	
+/* TEXT COLORS */
+.themecolor, .notfounderror, a, a.color, a.service:hover h4, a.service:hover h5, span.hlink, .pricing .price, 
+.pricing .price .dollar, .blogpost.sticky h2 a, .blogpost.sticky .month, .blogpost.sticky .month, .blogpost.sticky .day, 
+.blogpost.sticky .day, .sidebar .block-posts ul li span, .block-archive ul li a:before, .block-categories ul li a:before,
+.sidebar .block-posts ul li span, .block-archive ul li a:before, .block-categories ul li a:before, ul.recentcomments li a.username,
+ul.recentcomments li a:before, ul.portfoliofilter li a:hover, ul.portfoliofilter li a.selected, .foliotextholder .itemcategories,
+.foliotextholder .itemcategories a, .projectnav a:hover:before, .nav-tabs > .active > a, .nav-tabs > .active > a:hover, 
+.accordion-toggle, a.accordion-toggle:hover, .pagination ul > li > a:hover, .pagination ul > .active > a, .pagination ul > .active > span, 
+.pagination ul > .disabled > span, .pagination ul > .disabled > a, .pagination ul > .disabled > a:hover, .pagination ul > .pager-current > a, 
+.pagination ul > .pager-current > span, .pagination ul > .pager-current > a:hover, #block-menu-menu-elements ul li a:before { 
+	color: #f49c14; 
+}
+
+/* MENUS */
+.ddsmoothmenu ul li.active a, .ddsmoothmenu ul li.current-menu-ancestor a { color: #f49c14; border-top: 1px solid #f49c14; }
+.ddsmoothmenu ul li a:hover, .ddsmoothmenu ul li a.selected { color: #f49c14; }
+.block-sidebar-menu ul li span {  color: #f49c14;  }
+
+/* SLIDER CAPTIONS */
+
+.tp-caption.fat_small_green, .tp-caption.fat_medium_green, .tp-caption.fat_green { 
+	background-color: #f49c14 !important; 
+}
+
+.icon-forward { color: #f49c14 !important; }

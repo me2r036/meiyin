@@ -1,0 +1,258 @@
+<?php
+
+/**
+ * @file
+ * Sets up the base table for our entity and a table to store information about
+ * the entity types.
+ */
+
+
+/**
+ * Implements hook_schema().
+ */
+function revolution_slider_schema() {
+  $schema = array();
+
+  $schema['revolution_slider'] = array(
+    'description' => 'The base table for revolution_slider entities.',
+    'fields' => array(
+      'revolution_slider_id' => array(
+        'description' => 'Primary Key: Identifier for a revolution_slider.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'type' => array(
+        'description' => 'The {revolution_slider_type}.type of this revolution_slider.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'language' => array(
+        'description' => 'The language of the revolution_slider.',
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'name' => array(
+        'description' => 'The name of the revolution_slider - a human-readable identifier.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'created' => array(
+        'description' => 'The Unix timestamp when the revolution_slider was created.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'changed' => array(
+        'description' => 'The Unix timestamp when the revolution_slider was most recently saved.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'data' => array(
+        'type' => 'blob',
+        'not null' => FALSE,
+        'size' => 'big',
+        'serialize' => TRUE,
+        'description' => 'A serialized array of additional data.',
+      ),
+    ),
+    'primary key' => array('revolution_slider_id'),
+    'indexes' => array(
+      'type' => array('type'),
+    ),
+  );
+
+  $schema['revolution_slider_type'] = array(
+    'description' => 'Stores information about defined revolution_slider types.',
+    'fields' => array(
+      'id' => array(
+        'type' => 'serial',
+        'not null' => TRUE,
+        'description' => 'Primary Key: Unique revolution_slider type identifier.',
+      ),
+      'type' => array(
+        'description' => 'The machine-readable name of this revolution_slider type.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+      ),
+      'label' => array(
+        'description' => 'The human-readable name of this revolution_slider type.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'weight' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+        'size' => 'tiny',
+        'description' => 'The weight of this revolution_slider type in relation to others.',
+      ),
+      'data' => array(
+        'type' => 'text',
+        'not null' => FALSE,
+        'size' => 'big',
+        'serialize' => TRUE,
+        'description' => 'A serialized array of additional data related to this revolution_slider type.',
+      ),
+    ) + entity_exportable_schema_fields(),
+    'primary key' => array('id'),
+    'unique keys' => array(
+      'type' => array('type'),
+    ),
+  );
+
+  return $schema;
+}
+
+function revolution_slider_field_schema($field) {
+	switch($field['type']) {
+	    case 'revolution_slider_layer':
+	      $columns = array(
+	        'layer' => array(
+	          'type' => 'varchar',
+	          'length' => '128',
+	          'not null' => FALSE,
+	        ),
+	        'animation' => array(
+	          'type' => 'varchar',
+	          'length' => '128',
+	          'not null' => FALSE,
+	        ),
+	        'easing' => array(
+	          'type' => 'varchar',
+	          'length' => '128',
+	          'not null' => FALSE,
+	        ),
+	        'x' => array(
+	          'type' => 'text',
+	          'not null' => FALSE,
+	        ),
+	        'y' => array(
+	          'type' => 'text',
+	          'not null' => FALSE,
+	        ),
+	        'hoffset' => array(
+	          'type' => 'text',
+	          'not null' => FALSE,
+	        ),
+	        'voffset' => array(
+	          'type' => 'text',
+	          'not null' => FALSE,
+	        ),
+	        'speed' => array(
+	          'type' => 'text',
+	          'not null' => FALSE,
+	        ),
+	        'start' => array(
+	          'type' => 'text',
+	          'not null' => FALSE,
+	        ),
+	        'endspeed' => array(
+	          'type' => 'text',
+	          'not null' => FALSE,
+	        ),
+	        'end' => array(
+	          'type' => 'text',
+	          'not null' => FALSE,
+	        ),
+	        'endeasing' => array(
+	          'type' => 'text',
+	          'not null' => FALSE,
+	        ),
+			'img' => array(
+	        	'type' => 'int',
+	        	'not null' => FALSE,
+	        	'unsigned' => TRUE,
+	      	),
+	      	'markup' => array(
+      			'type' => 'text',
+      			'not null' => FALSE,
+	      	),
+	      	'css' => array(
+      			'type' => 'text',
+      			'not null' => FALSE,
+	      	),
+	      );
+	      $indexes = array(
+
+	      );
+	      break;
+	      
+	      case 'revolution_slider_slide':
+	      
+	      $columns = array(
+			'transition' => array(
+	          'type' => 'varchar',
+	          'length' => '128',
+	          'not null' => FALSE,
+	        ),
+       		'masterspeed' => array(
+	          'type' => 'text',
+	          'not null' => FALSE,
+	        ),
+       		'slotamount' => array(
+	          'type' => 'varchar',
+	          'length' => '128',
+	          'not null' => FALSE,
+	        ),
+	        'image' => array(
+	        		'type' => 'int',
+	        		'not null' => FALSE,
+	        		'unsigned' => TRUE,
+	        ),
+       		'link' => array(
+	          'type' => 'text',
+	          'not null' => FALSE,
+	        ),
+       		'target' => array(
+	          'type' => 'text',
+	          'not null' => FALSE,
+	        ),
+       		'linktoslide' => array(
+	          'type' => 'text',
+	          'not null' => FALSE,
+	        ),
+       		'delay' => array(
+	          'type' => 'text',
+	          'not null' => FALSE,
+	        ),
+       		'fsenabled' => array(
+	          'type' => 'varchar',
+	          'length' => '128',
+	          'not null' => FALSE,
+	        ),
+       		'fstransition' => array(
+	          'type' => 'varchar',
+	          'length' => '128',
+	          'not null' => FALSE,
+	        ),
+       		'fsmasterspeed' => array(
+	          'type' => 'text',
+	          'not null' => FALSE,
+	        ),
+       		'fsslotamount' => array(
+	          'type' => 'text',
+	          'not null' => FALSE,
+	        ),
+	      );  
+	      $indexes = array(
+	      	'transition' => array('transition'),
+	      );
+	          
+	      break;
+		}
+  return array(
+    'columns' => $columns,
+    'indexes' => $indexes,
+  );
+}

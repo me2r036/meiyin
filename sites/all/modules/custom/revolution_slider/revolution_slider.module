@@ -1,0 +1,650 @@
+<?php
+
+require_once dirname(__FILE__) . '/includes/revolution_slider.fields.inc';
+
+/**
+ * @file
+ * Module for the RevolutionSlider Entity - a starting point to create your own Entity
+ * and associated administration interface
+ */  
+
+/**
+ * Implement hook_entity_info().
+ *
+ * We define two entities here - the actual entity that will hold our domain
+ * specific information and an entity that holds information about the different
+ * types of entities. See here: http://drupal.org/node/977380 for a discussion on this
+ * choice.
+ */
+
+function revolution_slider_entity_info() {
+  $return['revolution_slider'] = array(
+    'label' => t('Slide'),
+    // The entity class and controller class extend the classes provided by the
+    // Entity API
+    'entity class' => 'RevolutionSlider',
+    'controller class' => 'RevolutionSliderController',
+    'base table' => 'revolution_slider',
+    'fieldable' => TRUE,
+    'entity keys' => array(
+        'id' => 'revolution_slider_id',
+        'bundle' => 'type',
+    ),
+    // Bundles are defined by the revolution_slider types below
+    'bundles' => array(),
+    // Bundle keys tell the FieldAPI how to extract information from the bundle objects
+    'bundle keys' => array(
+      'bundle' => 'type',
+    ),
+    'label callback' => 'entity_class_label',
+    'uri callback' => 'entity_class_uri',
+    'creation callback' => 'revolution_slider_create',
+    'access callback' => 'revolution_slider_access',
+    'module' => 'revolution_slider',
+    // The information below is used by the RevolutionSliderUIController (which extends the EntityDefaultUIController)
+    'admin ui' => array(
+      'path' => 'admin/content/revolution_slider',
+      'file' => 'revolution_slider.admin.inc',
+      'controller class' => 'RevolutionSliderUIController',
+      'menu wildcard' => '%revolution_slider',
+    ),
+  );
+  // The entity that holds information about the entity types	  
+  $return['revolution_slider_type'] = array(
+    'label' => t('Revolution Slider'),
+    'entity class' => 'RevolutionSliderType',
+    'controller class' => 'RevolutionSliderTypeController',
+    'base table' => 'revolution_slider_type',
+    'fieldable' => FALSE,
+    'bundle of' => 'revolution_slider',
+    'exportable' => TRUE,
+    'entity keys' => array(
+      'id' => 'id',
+      'name' => 'type',
+      'label' => 'label',
+    ),
+    'access callback' => 'revolution_slider_type_access',
+    'module' => 'revolution_slider',
+    // Enable the entity API's admin UI.
+    'admin ui' => array(
+      'path' => 'admin/structure/revolution_slider',
+      'file' => 'revolution_slider_type.admin.inc',
+      'controller class' => 'RevolutionSliderTypeUIController',
+    ),
+  );
+
+  return $return;
+}
+
+
+/**
+ * Implements hook_entity_info_alter().
+ *
+ * We are adding the info about the revolution_slider types via a hook to avoid a recursion
+ * issue as loading the revolution_slider types requires the entity info as well.
+ *
+ * @todo This needs to be improved
+ */
+function revolution_slider_entity_info_alter(&$entity_info) {
+  foreach (revolution_slider_get_types() as $type => $info) {
+    $entity_info['revolution_slider']['bundles'][$type] = array(
+      'label' => $info->label,
+      'admin' => array(
+        'path' => 'admin/structure/revolution_slider/manage/%revolution_slider_type',
+        'real path' => 'admin/structure/revolution_slider/manage/' . $type,
+        'bundle argument' => 4,
+        'access arguments' => array('administer revolution_slider types'),
+      ),
+    );
+  }
+}
+  
+
+/**
+ * Implements hook_permission().
+ */
+function revolution_slider_permission() {
+  // We set up permisssions to manage entity types, manage all entities and the
+  // permissions for each individual entity
+  $permissions = array(
+    'administer revolution_slider types' => array(
+      'title' => t('Administer Revolution Slider types'),
+      'description' => t('Create and delete fields for revolution_slider types, and set their permissions.'),
+    ),
+    'administer revolution_slider' => array(
+      'title' => t('Administer Revolution Sliders'),
+      'description' => t('Edit and delete all Revolution Sliders'),
+    ),  
+  );
+  
+  //Generate permissions per revolution_slider 
+  foreach (revolution_slider_get_types() as $type) {
+    $type_name = check_plain($type->type);
+    $permissions += array(
+      "edit any $type_name revolution_slider" => array(
+        'title' => t('%type_name: Edit any revolution_slider', array('%type_name' => $type->label)),
+      ),
+      "view any $type_name revolution_slider" => array(
+        'title' => t('%type_name: View any revolution_slider', array('%type_name' => $type->label)),
+      ),
+    );
+  }
+  return $permissions;  
+}
+
+
+/**
+ * Determines whether the given user has access to a revolution_slider.
+ *
+ * @param $op
+ *   The operation being performed. One of 'view', 'update', 'create', 'delete'
+ *   or just 'edit' (being the same as 'create' or 'update').
+ * @param $revolution_slider
+ *   Optionally a revolution_slider or a revolution_slider type to check access for. If nothing is
+ *   given, access for all revolution_slider is determined.
+ * @param $account
+ *   The user to check for. Leave it to NULL to check for the global user.
+ * @return boolean
+ *   Whether access is allowed or not.
+ */
+function revolution_slider_access($op, $revolution_slider = NULL, $account = NULL) {
+  if (user_access('administer revolution_slider', $account)) {
+    return TRUE;
+  }
+  if (isset($revolution_slider) && $type_name = $revolution_slider->type) {
+    $op = ($op == 'view') ? 'view' : 'edit';
+    if (user_access("$op any $type_name revolution_slider", $account)) {
+      return TRUE;
+    }
+  }
+  return FALSE;
+}
+
+
+/**
+ * Access callback for the entity API.
+ */
+function revolution_slider_type_access($op, $type = NULL, $account = NULL) {
+  return user_access('administer revolution_slider types', $account);
+}
+
+
+/**
+ * Gets an array of all revolution_slider types, keyed by the type name.
+ *
+ * @param $type_name
+ *   If set, the type with the given name is returned.
+ * @return RevolutionSliderType[]
+ *   Depending whether $type isset, an array of revolution_slider types or a single one.
+ */
+function revolution_slider_get_types($type_name = NULL) {
+  // entity_load will get the Entity controller for our revolution_slider entity and call the load
+  // function of that object - we are loading entities by name here.
+  $types = entity_load_multiple_by_name('revolution_slider_type', isset($type_name) ? array($type_name) : FALSE);
+  return isset($type_name) ? reset($types) : $types;
+}
+
+
+/**
+ * Menu argument loader; Load a revolution_slider type by string.
+ *
+ * @param $type
+ *   The machine-readable name of a revolution_slider type to load.
+ * @return
+ *   A revolution_slider type array or FALSE if $type does not exist.
+ */
+function revolution_slider_type_load($type) {
+  return revolution_slider_get_types($type);
+}
+
+
+/**
+ * Fetch a revolution_slider object. Make sure that the wildcard you choose 
+ * in the revolution_slider entity definition fits the function name here.
+ *
+ * @param $revolution_slider_id
+ *   Integer specifying the revolution_slider id.
+ * @param $reset
+ *   A boolean indicating that the internal cache should be reset.
+ * @return
+ *   A fully-loaded $revolution_slider object or FALSE if it cannot be loaded.
+ *
+ * @see revolution_slider_load_multiple()
+ */
+function revolution_slider_load($revolution_slider_id, $reset = FALSE) {
+  $revolution_slider = revolution_slider_load_multiple(array($revolution_slider_id), array(), $reset);
+  return reset($revolution_slider);
+}
+
+
+/**
+ * Load multiple revolution_slider based on certain conditions.
+ *
+ * @param $revolution_slider_ids
+ *   An array of revolution_slider IDs.
+ * @param $conditions
+ *   An array of conditions to match against the {revolution_slider} table.
+ * @param $reset
+ *   A boolean indicating that the internal cache should be reset.
+ * @return
+ *   An array of revolution_slider objects, indexed by revolution_slider_id.
+ *
+ * @see entity_load()
+ * @see revolution_slider_load()
+ */
+function revolution_slider_load_multiple($revolution_slider_ids = array(), $conditions = array(), $reset = FALSE) {
+  return entity_load('revolution_slider', $revolution_slider_ids, $conditions, $reset);
+}
+
+
+/**
+ * Deletes a revolution_slider.
+ */
+function revolution_slider_delete(RevolutionSlider $revolution_slider) {
+  $revolution_slider->delete();
+}
+
+
+/**
+ * Delete multiple revolution_slider.
+ *
+ * @param $revolution_slider_ids
+ *   An array of revolution_slider IDs.
+ */
+function revolution_slider_delete_multiple(array $revolution_slider_ids) {
+  entity_get_controller('revolution_slider')->delete($revolution_slider_ids);
+}
+
+
+/**
+ * Create a revolution_slider object.
+ */
+function revolution_slider_create($values = array()) {
+  return entity_get_controller('revolution_slider')->create($values);
+}
+
+
+/**
+ * Saves a revolution_slider to the database.
+ *
+ * @param $revolution_slider
+ *   The revolution_slider object.
+ */
+function revolution_slider_save(RevolutionSlider $revolution_slider) {
+  return $revolution_slider->save();
+}
+
+
+/**
+ * Saves a revolution_slider type to the db.
+ */
+function revolution_slider_type_save(RevolutionSliderType $type) {
+  $type->save();
+}
+
+
+/**
+ * Deletes a revolution_slider type from the db.
+ */
+function revolution_slider_type_delete(RevolutionSliderType $type) {
+	$type->delete();
+}
+
+
+/**
+ * URI callback for revolution_slider
+ */
+function revolution_slider_uri(RevolutionSlider $revolution_slider){
+  return array(
+    'path' => 'revolution_slider/' . $revolution_slider->revolution_slider_id,
+  );
+}
+
+
+/**
+ * Menu title callback for showing individual entities
+ */
+function revolution_slider_page_title(RevolutionSlider $revolution_slider){
+  return $revolution_slider->name;
+}
+
+
+/**
+ * Sets up content to show an individual revolution_slider
+ * @todo - get rid of drupal_set_title();
+ */
+function revolution_slider_page_view($revolution_slider, $view_mode = 'full') {    
+  $controller = entity_get_controller('revolution_slider');  
+  $content = $controller->view(array($revolution_slider->revolution_slider_id => $revolution_slider));
+  drupal_set_title($revolution_slider->name);
+  return $content;
+}
+
+
+/**
+ * Implements hook_views_api().
+ */
+function revolution_slider_views_api() {
+  return array(
+    'api' => 3,
+    'path' => drupal_get_path('module', 'revolution_slider') . '/views',
+  );
+}
+
+
+/**
+ * Implement hook_theme().
+ */
+function revolution_slider_theme() {
+  return array(
+    'revolution_slider_add_list' => array(
+      'variables' => array('content' => array()),
+      'file' => 'revolution_slider.admin.inc',
+    ),
+    'revolution_slider' => array(
+      'render element' => 'elements',
+      'template' => 'revolution_slider',
+    ),
+   'revolution_slider_sample_data' => array(
+      'variables' => array('revolution_slider_sample_data', 'revolution_slider' => NULL),
+      'template' => 'revolution_slider-sample-data',
+    ),
+
+
+  );
+}  
+
+
+/**
+ * Implements hook_menu_local_tasks_alter().
+ */
+function revolution_slider_menu_local_tasks_alter(&$data, $router_item, $root_path) {
+  // Add action link 'admin/structure/revolution_slider/add' on 'admin/structure/revolution_slider'.
+  if ($root_path == 'admin/content/revolution_slider') {
+    $item = menu_get_item('admin/content/revolution_slider/add');
+    if ($item['access']) {
+      $data['actions']['output'][] = array(
+        '#theme' => 'menu_local_action',
+        '#link' => $item,
+      );
+    }
+  }
+}
+
+
+/**
+ * The class used for revolution_slider entities
+ */
+class RevolutionSlider extends Entity {
+  
+  public function __construct($values = array()) {
+    parent::__construct($values, 'revolution_slider');
+  }
+
+  protected function defaultLabel() {
+    return $this->name;
+  }
+
+  protected function defaultUri() {
+    return array('path' => 'revolution_slider/' . $this->revolution_slider_id);
+  }
+  
+  
+}
+
+
+/**
+ * The class used for revolution_slider type entities
+ */
+class RevolutionSliderType extends Entity {
+  
+  public $type;
+  public $label;
+  
+  public function __construct($values = array()) {
+    parent::__construct($values, 'revolution_slider_type');
+  }
+  
+}
+
+
+/**
+ * The Controller for RevolutionSlider entities
+ */
+class RevolutionSliderController extends EntityAPIController {
+  public function __construct($entityType) {
+    parent::__construct($entityType);
+  }
+
+
+  /**
+   * Create a revolution_slider - we first set up the values that are specific
+   * to our revolution_slider schema but then also go through the EntityAPIController
+   * function.
+   * 
+   * @param $type
+   *   The machine-readable type of the revolution_slider.
+   *
+   * @return
+   *   A revolution_slider object with all default fields initialized.
+   */
+  public function create(array $values = array()) {
+    // Add values that are specific to our RevolutionSlider
+    $values += array( 
+      'revolution_slider_id' => '',
+      'is_new' => TRUE,
+      'title' => '',
+      'created' => '',
+      'changed' => '',
+      'data' => '',
+    );
+    
+    $revolution_slider = parent::create($values);
+    return $revolution_slider;
+  }
+  
+  /**
+   * Overriding the buldContent function to add entity specific fields
+   */
+  public function buildContent($entity, $view_mode = 'full', $langcode = NULL, $content = array()) {
+    $content = parent::buildContent($entity, $view_mode, $langcode, $content);
+    $content['revolution_slider_sample_data'] =  array(
+      '#markup' => theme('revolution_slider_sample_data', array('revolution_slider_sample_data' => check_plain($entity->data['sample_data']), 'revolution_slider' => $entity)),
+    );
+
+    return $content;
+  }
+  
+}
+
+
+/**
+ * The Controller for RevolutionSlider entities
+ */
+class RevolutionSliderTypeController extends EntityAPIControllerExportable {
+  public function __construct($entityType) {
+    parent::__construct($entityType);
+  }
+  
+   /**
+   * Create a revolution_slider type - we first set up the values that are specific
+   * to our revolution_slider type schema but then also go through the EntityAPIController
+   * function.
+   * 
+   * @param $type
+   *   The machine-readable type of the revolution_slider.
+   *
+   * @return
+   *   A revolution_slider type object with all default fields initialized.
+   */
+  public function create(array $values = array()) {
+    // Add values that are specific to our RevolutionSlider
+    $values += array( 
+      'id' => '',
+      'is_new' => TRUE,
+      'data' => '',
+    );
+    $revolution_slider_type = parent::create($values);
+    return $revolution_slider_type;
+  }
+
+}
+
+
+/**
+ * Implements hook_block_info().
+ */
+function revolution_slider_block_info() {
+	$query = new EntityFieldQuery();
+	$query->entityCondition('entity_type', 'revolution_slider');
+	$result = $query->execute();
+	$blocks = array();
+	
+	if (isset($result['revolution_slider'])) {
+		foreach($result['revolution_slider'] as $slider) {
+			$slider_block[] = $result['revolution_slider'][$slider->revolution_slider_id]->type;
+		}
+			
+		$sliders = array_unique($slider_block, SORT_REGULAR);
+			
+		foreach($sliders as $item) {
+			$slider_id = db_query("SELECT id from revolution_slider_type where type = '".$item."'")->fetchAssoc();
+			$label = db_query("SELECT label from revolution_slider_type where type = '".$item."'")->fetchAssoc();
+			
+			$blocks['revolution_slider_'.$slider_id['id']] = array(
+					// info: The name of the block.
+					'info' => t('Revolution Slider ('.$label['label'].')'),
+					'status' => TRUE,
+					'region' => -1
+			);
+		}
+	}
+	
+	return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function revolution_slider_block_view($delta = '') {
+	$query = new EntityFieldQuery();
+	$query->entityCondition('entity_type', 'revolution_slider');
+	$result = $query->execute();	
+
+	$blocks = array();
+	
+	if (isset($result['revolution_slider'])) {
+		$news_items_nids = array_keys($result['revolution_slider']);
+		$news_items = entity_load('revolution_slider', $news_items_nids);
+		
+		foreach($result['revolution_slider'] as $slider) {
+			$slider_block[] = $result['revolution_slider'][$slider->revolution_slider_id]->type;
+		}
+		
+		/* Generate Slider Markup */
+		$sliders = array_unique($slider_block, SORT_REGULAR);
+		
+		foreach($sliders as $item) {
+			$slider_id = db_query("SELECT id from revolution_slider_type where type = '".$item."'")->fetchAssoc();
+			$label = db_query("SELECT label from revolution_slider_type where type = '".$item."'")->fetchAssoc();
+			$data = db_query("SELECT data from revolution_slider_type where type = '".$item."'")->fetchAssoc();
+			$groups = unserialize($data['data']);
+			$settings = array_merge((array)$groups['global'], (array)$groups['navigation'], (array)$groups['layout']);
+			$count = count($settings);
+			
+			if($delta == 'revolution_slider_'.$slider_id['id']){
+				/* Grab Block Slides */
+				$slide = new EntityFieldQuery();
+				$slide->entityCondition('entity_type', 'revolution_slider')
+				->entityCondition('bundle', $item);
+				$slide_results = $slide->execute();
+				$slide_info = array_keys($slide_results['revolution_slider']);
+				$slide_items = entity_load('revolution_slider', $slide_info);
+				
+				/* Sort Slides by Weight */
+				foreach ($slide_items as $row) {
+					$weight = $slide_items[$row->revolution_slider_id]->field_weight['und'][0]['value'];
+					$order[]  = $weight;
+				}
+				array_multisort($order, SORT_ASC, $slide_items);
+				
+				/* Genereate Block JavaScript */
+				$i = 0;
+				$output = 'jQuery(document).ready(function() { '."\n";
+				$output .= "\t".'jQuery("#revolution_slider_'.$slider_id['id'].'").revolution({'."\n";
+				foreach($settings as $item => $v) {
+					if(($i !== 0) && ($i !== $count - 1)) { $output .= "\t"."\t"."'".$item."':".$v.','."\n"; }
+					if($i == $count - 1) { $output .= "\t"."\t"."'".$item."':".$v."\n"; }
+					$i++;
+				}
+				$output .= "\t".' });'."\n".'});';
+				
+				drupal_add_js($output, array('type' => 'inline', 'scope' => 'footer'));
+				
+				/* Genereate Block HTML */
+				$slide = array('masterspeed', 'slotamount', 'link', 'target', 'linktoslide', 'delay', 'fstransition', 'fsmasterspeed', 'fsslotamount');
+				$layer = array('x', 'y', 'start', 'speed', 'hoffset', 'voffset', 'easing');
+				$css = array('css', 'animation', 'end');
+				$slide_id = '0';
+				$layer_id = '0';
+				$blocks['subject'] = t('Revolution Slider ('.$label['label'].')');
+				$blocks['content'] = '<div class="fullwidthbanner-container">';
+				$blocks['content'] .= '<div id="revolution_slider_'.$slider_id['id'].'" class="fullwidthbanner"><ul>';
+				
+				foreach($slide_items as $list_item) {
+					
+					$blocks['content'] .= '<li data-transition="'.$slide_items[$slide_id]->field_slide_settings['und'][0]['transition'].'"';
+					
+					foreach($slide as $item) {
+						$value = $slide_items[$slide_id]->field_slide_settings['und'][0][$item];
+						if((!$value == NULL) && (!$value == 0)){ $blocks['content'] .= ' data-'.$item.'="'.$value.'"'; }
+					}
+					
+					$blocks['content'] .= '><img src="'.file_create_url($slide_items[$slide_id]->field_image['und'][0]['uri']).'" data-lazyload="'.file_create_url($slide_items[$slide_id]->field_image['und'][0]['uri']).'" />';
+					
+					if(!empty($slide_items[$slide_id]->field_layer_settings['und'])) {
+						foreach($slide_items[$slide_id]->field_layer_settings['und'] as $item) {
+							$layerType = $slide_items[$slide_id]->field_layer_settings['und'][$layer_id]['layer'];
+							
+							if($layerType == 'img') {
+								$blocks['content'] .= '<div';
+							} else {
+								$blocks['content'] .= '<'.$layerType;
+							}
+							
+							$blocks['content'] .= ' class="caption';
+								
+							foreach($css as $item){
+								$blocks['content'] .= ' '.$slide_items[$slide_id]->field_layer_settings['und'][$layer_id][$item];
+							}
+						
+							$blocks['content'] .= '"';
+							
+							foreach($layer as $item){
+								$blocks['content'] .= ' data-'.$item.'="'.$slide_items[$slide_id]->field_layer_settings['und'][$layer_id][$item].'"';
+							}
+							
+							if($layerType == 'img') {
+								$blocks['content'] .= '><img src="'.file_create_url(file_load($slide_items[$slide_id]->field_layer_settings['und'][$layer_id]['img'])->uri).'"/></div>';
+							} else {
+								$blocks['content'] .= '>'.$slide_items[$slide_id]->field_layer_settings['und'][$layer_id]['markup'];
+								$blocks['content'] .= '</'.$layerType.'>';
+							}
+							
+							$layer_id++;
+						}
+						$layer_id = 0;	
+					}
+					$slide_id++;
+					$blocks['content'] .= '</li>';
+				}
+						
+				$blocks['content'] .= '</ul></div></div>';
+				
+			}
+			
+		}
+		
+	}
+	return $blocks;
+}

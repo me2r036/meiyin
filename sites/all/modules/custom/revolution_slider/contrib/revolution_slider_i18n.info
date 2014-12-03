@@ -1,0 +1,7 @@
+name = Revolution Slider: Translation
+description = Translate Revolution Slider.
+dependencies[] = revolution_slider
+dependencies[] = i18n_string
+package = Multilingual - Internationalization
+core = 7.x
+

@@ -1,0 +1,7 @@
+tr.side  td {
+	white-space: nowrap;
+}
+
+tr.side input[type=text]{
+	width: 60%;
+}
