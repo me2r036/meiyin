@@ -98,9 +98,7 @@
 			<div class="row pagetitle">
 				<?php print render($title_prefix); ?>
 				<?php if ($title): ?>
-				<h1 class="title" id="page-title">
-					<?php print $title; ?>
-				</h1>
+				<h1 class="title" id="page-title"><?php print $title; ?></h1>
 				<?php endif; ?>
 				<?php print render($title_suffix); ?>
 				<?php if ($breadcrumb): ?>
@@ -208,4 +206,4 @@
 </footer>
 <!-- /#footer -->
 
-<script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
+<script src="http://www.google.cn/maps/api/js?sensor=false" type="text/javascript"></script>

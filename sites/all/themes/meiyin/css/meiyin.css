@@ -6,7 +6,7 @@
 /* BASE */
 /* ------------------------------------ */
 
-body { margin: 0; font-family:'Open Sans', sans-serif;; font-size: 13px; font-weight: 400; line-height: 22px; color: #777; background-color: #fff; }
+body { margin: 0; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 13px; font-weight: 400; line-height: 22px; color: #777; background-color: #fff; }
 body.wide { border-top: 3px solid #8BAA2B; }
 body.fullwidthlayout { border-top: 3px solid #8BAA2B; }
 body.boxed { border-top: 0; }
@@ -16,10 +16,10 @@ iframe { border: 0; }
 .bold { font-weight: 700; }
 strong { font-weight: 700; }
 .normal { font-weight: normal; }
-h1,h2,h3,h4,h5,h6 { margin: 0; margin-bottom: 30px; margin-top: 0px; font-family: 'Open Sans', sans-serif;; font-weight: 300; line-height: 1; color: #111; opacity: 0.99; }
+h1,h2,h3,h4,h5,h6 { margin: 0; margin-bottom: 30px; margin-top: 0px; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; font-weight: 300; line-height: 1; color: #111; opacity: 0.99; }
 h2 { font-size: 27px; }
 h5,h6 { margin-bottom: 15px; color: #111; opacity: 0.99; }
-h1 a,h2 a,h3 a,h4 a,h5 a,h6 a { color: #111; }
+h1 a,h2 a,h3 a,h4 a,h5 a,h6 a { color: #666; }
 h1 a:hover,h2 a:hover,h3 a:hover,h4 a:hover,h5 a:hover,h6 a:hover { color: #111; }
 ::selection { background: #8BAA2B; color: #fff; /* Safari */ }
 ::-moz-selection { background: #8BAA2B; color: #fff; /* Firefox */ }
@@ -85,7 +85,7 @@ a.color:hover { color: #353535; text-decoration: none; }
 
 .pagetitlewrap { float: left; border-bottom: 1px solid #e5e5e5; position: relative; width: 100%; left: 0; margin: 0; padding: 0; margin-top: -1px; background: #f3f3f3; }
 .pagetitle { width: 1170px; margin: 0 auto; padding: 0; }
-.pagetitle h1 { float: left; font-family: 'Open Sans', sans-serif;; font-weight: 300; font-size: 30px; line-height: 30px; margin:0; color: #666; font-style: normal; text-transform: none; text-align: left; margin-top: 31px; margin-bottom: 32px; padding-left: 0px; }
+.pagetitle h1 { float: left; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; font-weight: 300; font-size: 30px; line-height: 30px; margin:0; color: #666; font-style: normal; text-transform: none; text-align: left; margin-top: 31px; margin-bottom: 32px; padding-left: 0px; }
 .pagetitlewrap.boxed { float: left; position: relative; width: 1230px; left: 50%; margin-left: -615px; margin-bottom: 40px; }
 
 .colored .pagetitlewrap { background: #8BAA2B; border-bottom: 0;}
@@ -858,7 +858,7 @@ ul.recentcomments li a:before { float: left; font-size: 13px; line-height: 13px;
 
 .carousel { float: left; position: relative; margin-bottom: 0px; line-height: 1; border: 1px solid #eee; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; }
 .carousel-inner { float: left; position: relative; width: 100%; overflow: hidden;}
-.carousel .item { font-size: 14px; line-height: 26px; position: relative; display: none; -webkit-transition: 0.6s left; -moz-transition: 0.6s left; -o-transition: 0.6s left; transition: 0.6s left; color: #777; height: auto; background: #f3f3f3; font-family: 'Open Sans', sans-serif;; }
+.carousel .item { font-size: 14px; line-height: 26px; position: relative; display: none; -webkit-transition: 0.6s left; -moz-transition: 0.6s left; -o-transition: 0.6s left; transition: 0.6s left; color: #777; height: auto; background: #f3f3f3; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
 .carousel .padded { padding: 35px; }
 .carousel .item > img { display: block; line-height: 1; width: 100%;}
 .carousel .active, .carousel .next, .carousel .prev { display: block; }
@@ -881,7 +881,7 @@ ul.recentcomments li a:before { float: left; font-size: 13px; line-height: 13px;
 .carousel .item .image.right { float: right; margin-left: 15px; margin-right: 0; }
 .carousel .item .image.left { float: left; margin-right: 15px; }
 cite { display: block; font-size: 12px; margin-top: 10px; text-transform: uppercase; color: #aaa; }
-blockquote { font-size: 14px; line-height: 26px; color: #777; background: #eee; font-family: 'Open Sans', sans-serif;; padding: 20px; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; border: 0; }
+blockquote { font-size: 14px; line-height: 26px; color: #777; background: #eee; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; padding: 20px; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; border: 0; }
 
 /* PORTFOLIO */
 /* ------------------------------------ */
@@ -921,7 +921,7 @@ ul.portfoliofilter li a.selected { color: #8BAA2B; background: #fff; }
 .foliotextwrapper { padding-left: 10px; padding-right: 10px; }
 .foliotextholder { margin-bottom: 10px; float: left; position:relative; -moz-box-sizing: border-box; box-sizing:border-box; -webkit-order-sizing:border-box; -webkit-border-bottom-right-radius: 5px; -webkit-border-bottom-left-radius: 5px; -moz-border-radius-bottomright: 5px; -moz-border-radius-bottomleft: 5px; border-bottom-right-radius: 5px; border-bottom-left-radius: 5px; background: #fefefe; border: 1px solid #eee; border-top: 0; width: 100%; padding-bottom: 15px; padding-top: 15px; }
 .foliotextholder .itemtitle	{ float: left; width: 100%; cursor:pointer; text-align: center; font-size: 20px; font-weight: 300; line-height: 25px; margin: 0; -webkit-transition: all 0.2s; -moz-transition: all 0.2s; -o-transition: all 0.2s; -ms-transition: all 0.2s; }
-.foliotextholder .itemtitle a { color: #111; font-weight: 300; }
+.foliotextholder .itemtitle a { color: #666; font-weight: 300; }
 .foliotextholder .itemtitle a:hover { }
 .foliotextholder .itemcategories {	float: left; width: 100%; margin-top: 0px; color: #8BAA2B; font-weight: normal; font-size: 13px; line-height: 20px; font-style: normal; cursor:pointer; text-align: center; -webkit-transition: all 0.2s; -moz-transition: all 0.2s; -o-transition: all 0.2s; -ms-transition: all 0.2s; }
 .foliotextholder .itemcategories a { color: #8BAA2B; font-weight: normal; }
@@ -1088,7 +1088,7 @@ filter: gray; /* IE6-9 */
 
 /*#buddypress button, #buddypress a.button, #buddypress input[type=submit], #buddypress input[type=button], #buddypress input[type=reset], #buddypress ul.button-nav li a, #buddypress div.generic-button a, #buddypress .comment-reply-link, a.bp-title-button,*/
 .form-submit #submit , .standardbtn {
-font-family: 'Open Sans', sans-serif; !important; font-weight: 600 !important; font-size: 15px !important; text-shadow: none !important; border: 0 !important; -webkit-box-shadow: none !important; -moz-box-shadow: none !important; box-shadow: none !important; -webkit-transition: all 0.3s !important; -moz-transition: all 0.3s !important; -o-transition: all 0.3s !important; -ms-transition: all 0.3s !important; transition: all 0.3s !important; padding-bottom: 9px !important; padding-left: 14px !important; padding-right: 14px !important; padding-top: 9px !important; color: #fff !important; text-shadow: none; background-color: #8BAA2B; background-image: url('img/tiles/transparent.png') repeat; border: 0; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px;
+font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important; font-weight: 600 !important; font-size: 15px !important; text-shadow: none !important; border: 0 !important; -webkit-box-shadow: none !important; -moz-box-shadow: none !important; box-shadow: none !important; -webkit-transition: all 0.3s !important; -moz-transition: all 0.3s !important; -o-transition: all 0.3s !important; -ms-transition: all 0.3s !important; transition: all 0.3s !important; padding-bottom: 9px !important; padding-left: 14px !important; padding-right: 14px !important; padding-top: 9px !important; color: #fff !important; text-shadow: none; background-color: #8BAA2B; background-image: url('img/tiles/transparent.png') repeat; border: 0; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px;
 }
 
 .form-submit #submit:hover , .standardbtn:hover,
@@ -1109,7 +1109,7 @@ font-family: 'Open Sans', sans-serif; !important; font-weight: 600 !important; f
 /* FORM STYLES */
 /* ------------------------------------ */
 
-input, button, select, textarea { font-family: 'Open Sans', "Helvetica Neue",Helvetica,Arial,sans-serif; }
+input, button, select, textarea { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
 select, textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"],
 textarea:focus, input[type="text"]:focus, input[type="password"]:focus, input[type="datetime"]:focus, input[type="datetime-local"]:focus, input[type="date"]:focus, input[type="month"]:focus, input[type="time"]:focus, input[type="week"]:focus, input[type="number"]:focus, input[type="email"]:focus, input[type="url"]:focus, input[type="search"]:focus, input[type="tel"]:focus, input[type="color"]:focus, .uneditable-input:focus {
   border-color: #e5e5e5; outline: 0; -webkit-box-shadow: none; -moz-box-shadow: none; box-shadow: none; }
@@ -1128,7 +1128,7 @@ input::-webkit-input-placeholder, textarea::-webkit-input-placeholder { color: #
 .headersearch input { text-indent: -500px; cursor: pointer; border: 0; width: 35px; background: url(../img/tiles/search.png) no-repeat 0px center;
 padding-top: 8px; padding-bottom: 7px; padding-left: 0; padding-right: 0; -webkit-border-radius: 0px; -moz-border-radius: 0px; border-radius: 0px; margin-bottom: 0px;
 -webkit-transition: width 0.3s, background-color 0.3s; -moz-transition: width 0.3s, background-color 0.3s; -o-transition: width 0.3s, background-color 0.3s; -ms-transition: width 0.3s, background-color 0.3s; transition: width 0.3s, background-color 0.3s;
--webkit-border-radius: 30px; -moz-border-radius: 30px; border-radius: 30px; font-family: 'Open Sans', sans-serif;;
+-webkit-border-radius: 30px; -moz-border-radius: 30px; border-radius: 30px; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
  }
 .headersearch input:hover { background-color: #f3f3f3; }
 .headersearch input:focus { color: #777; background-color: #f3f3f3; text-indent: 25px; width: 520px; cursor: text; padding-left: 15px; padding-right: 15px;}
@@ -1138,9 +1138,9 @@ padding-top: 8px; padding-bottom: 7px; padding-left: 0; padding-right: 0; -webki
 
 .mobilemenu { margin-right: -20px; }
 .mobilemenu form { opacity: 0; float: left; height: 100%; width: 40px; position: relative; margin: 0px; padding: 0px; }
-.mobilemenu	select {  -webkit-appearance: none; border: 1px solid #ddd; outline: none; overflow: hidden; font: 13px "Open Sans", sans-serif; color: #555; margin: 0; width: 100%;  max-width: 100%; display: block; height: auto; padding: 10px 10px; }
+.mobilemenu	select {  -webkit-appearance: none; border: 1px solid #ddd; outline: none; overflow: hidden; font: 13px "Helvetica Neue", Helvetica, Arial, sans-serif; color: #555; margin: 0; width: 100%;  max-width: 100%; display: block; height: auto; padding: 10px 10px; }
 .mobilemenu	select:before { content: '\2630'; }
-.mobilemenu	option { outline: none; border: 0; overflow: hidden; font: 13px "Open Sans", sans-serif; color: #555; margin: 0; width: 100%; max-width: 100%; display: block; padding-left: 15px; }
+.mobilemenu	option { outline: none; border: 0; overflow: hidden; font: 13px "Helvetica Neue", Helvetica, Arial, sans-serif; color: #555; margin: 0; width: 100%; max-width: 100%; display: block; padding-left: 15px; }
 .mobilemenu .icon-menu { cursor: pointer; position: absolute; font-size: 30px; background: #666; color: #fff; padding: 5px; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; }
 
 

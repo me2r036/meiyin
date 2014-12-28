@@ -86,9 +86,15 @@ jQuery(document).ready(function($) {
 
 		var map = new google.maps.Map(mapInner.get(0), mapOptions);
 
+		var image = 'http://maps.gstatic.cn/mapfiles/marker.png';
+		var title = '美音婚礼 | meiyin.co - feel the differences ~';
+
 		var myMarker = new google.maps.Marker({
 			position: coordinate,
 			map: map,
+			icon: image,
+			title: title,
+			animation: google.maps.Animation.DROP
 		});
 	}
 	
