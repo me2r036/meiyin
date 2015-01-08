@@ -766,8 +766,8 @@ ul.inline .comment-add { padding: 0px; }
 .block-projects ul { float: left; margin: 0; padding: 0; list-style:none; margin-bottom: -10px; margin-right: -10px; }
 .block-projects ul li { float: left; margin-right:10px; margin-bottom: 10px; }
 .block-projects li a { -webkit-backface-visibility: hidden; float: left; z-index: 1; position: relative; -webkit-transition: all 0.2s; -moz-transition: all 0.2s; -o-transition: all 0.2s; -ms-transition: all 0.2s; }
-.block-projects li a img { -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; width: 50px; height: 50px; border: 5px solid #353535; 
-	-webkit-backface-visibility: hidden; 
+.block-projects li a img { -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; width: 56px; height: 56px; border: 2px solid #353535;
+	-webkit-backface-visibility: hidden;
 	-webkit-transition: all 0.2s;
 	-moz-transition: all 0.2s;
 	-o-transition: all 0.2s;
