@@ -193,7 +193,7 @@ a.color:hover { color: #353535; text-decoration: none; }
 .boxedlayout .headerwrap { float: left; position: relative; width: 1230px; left: 50%; margin-left: -615px; }
 .header { position: relative; width: 1170px; left: 50%; margin-left: -585px; }
 .front .header { z-index: 25000; }
-.header .logo { float: left; position: relative; padding-top: 0px; padding-bottom: 0px;  padding-left: 0px; margin-top: 32px; margin-bottom: 35px; }
+.header .logo { float: left; position: relative; padding-top: 0px; padding-bottom: 0px;  padding-left: 0px; margin-top: 15px; margin-bottom: 15px; }
 .region.header { float: left; width: 100%; left: auto; margin-left: 0; position: relative; z-index: 15000; }
 
 /* MAIN NAVIGATION */
@@ -693,7 +693,7 @@ ul.inline .comment-add { padding: 0px; }
 .footerwrap { position: relative; width: 1230px; left: 50%; margin-left: -615px; background: #444; padding: 0px; padding-top: 50px; padding-bottom: 30px; margin-bottom: 0;  }
 .footer { margin-left: 30px; font-size: 13px; line-height: 22px; }
 .footerwrap.wide .footer { margin: 0 auto; width: 1170px; }
-.footerwrap.wide { width: 100%; left: 0; margin-left: 0; background: #444; padding: 0px; padding-top: 50px; padding-bottom: 30px; margin-bottom: 0; }
+.footerwrap.wide { width: 100%; left: 0; margin-left: 0; background: #444; padding: 0px; padding-top: 30px; padding-bottom: 30px; margin-bottom: 0; }
 .footer .block { float: left; color: #888; margin-bottom: 50px;  }
 .footer h1,.footer h2,.footer h3,.footer h4,.footer h5,.footer h6 { color: #fff; }
 .footer a { color: #bbb; }
@@ -705,7 +705,10 @@ ul.inline .comment-add { padding: 0px; }
 .footer article:first-child { margin-left:0; }
 .footer .widget .widget { margin-top:40px }
 .footer .widget.first { margin-top:0 }
-.footer .footer-logo { margin-bottom: 20px; width: 204px; }
+.footer .footer-logo { margin-bottom: 20px; width: 208px; }
+.footer .footer-second { padding-top: 27px; }
+.footer .footer-third { padding-top: 27px; }
+.footer .footer-fourth { padding-top: 27px; }
 
 /* SUBFOOTER */
 /* ------------------------------------ */
