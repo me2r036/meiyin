@@ -211,10 +211,10 @@ a.color:hover { color: #353535; text-decoration: none; }
 .ddsmoothmenu ul li a{ display: block; text-decoration: none; padding-left: 13px; padding-right: 13px; margin-right: 0px; border: 0; }
 .ddsmoothmenu ul li:last-child a { margin-right: 0px; }
 * html .ddsmoothmenu ul li a{ /*IE6 hack to get sub menu links to behave correctly*/ display: inline-block; }
-.ddsmoothmenu ul li a:link, .ddsmoothmenu ul li a:visited{ font-weight: 400; color: #666; padding-bottom: 28.5px; padding-top: 37.5px; height: 15px; font-size: 15px; line-height: 15px; text-transform: none; border-top: 1px solid transparent; -webkit-transition: color 0.2s, background-color 0.2s, border-color 0.2s; -moz-transition: color 0.2s, background-color 0.2s, border-color 0.2s; -o-transition: color 0.2s, background-color 0.2s, border-color 0.2s; -ms-transition: color 0.2s, background-color 0.2s, border-color 0.2s; transition: color 0.2s, background-color 0.2s, border-color 0.2s; }
-.ddsmoothmenu ul li.active a, .ddsmoothmenu ul li.current-menu-ancestor a { font-weight: 400; color: #8BAA2B; border-top: 1px solid #8BAA2B; padding-bottom: 28.5px; padding-top: 37.5px; }
+.ddsmoothmenu ul li a:link, .ddsmoothmenu ul li a:visited{ font-weight: 400; color: #666; padding-bottom: 18.5px; padding-top: 47.5px; height: 15px; font-size: 15px; line-height: 15px; text-transform: none; border-top: 1px solid transparent; -webkit-transition: color 0.2s, background-color 0.2s, border-color 0.2s; -moz-transition: color 0.2s, background-color 0.2s, border-color 0.2s; -o-transition: color 0.2s, background-color 0.2s, border-color 0.2s; -ms-transition: color 0.2s, background-color 0.2s, border-color 0.2s; transition: color 0.2s, background-color 0.2s, border-color 0.2s; }
+.ddsmoothmenu ul li.active a, .ddsmoothmenu ul li.current-menu-ancestor a { font-weight: 400; color: #8BAA2B; border-top: 1px solid #8BAA2B; padding-bottom: 18.5px; padding-top: 47.5px; }
 .ddsmoothmenu ul li a:hover,
-.ddsmoothmenu ul li a.selected { color: #8BAA2B; padding-bottom: 28.5px; padding-top: 37.5px; }
+.ddsmoothmenu ul li a.selected { color: #8BAA2B; padding-bottom: 18.5px; padding-top: 47.5px; }
 .ddsmoothmenu ul li ul li a:link, .ddsmoothmenu ul li ul li a:visited{
 -webkit-transition: all 0 ease-out; -moz-transition: all 0 ease-out; -o-transition: all 0 ease-out; -ms-transition: all 0 ease-out; transition: all 0 ease-out;
 font-weight: 400; background: #fff; color: #666; border: 0; /*border-bottom: 1px solid #797979; border-top: 1px solid #999999;*/ padding: 0; margin: 0; padding-left: 20px; font-size: 13px; line-height: 20px; padding-top: 5px; padding-bottom: 11px; }
@@ -1125,7 +1125,7 @@ input::-webkit-input-placeholder, textarea::-webkit-input-placeholder { color: #
 /* HEADER SEARCH FORM */
 /* ------------------------------------ */
 
-.headersearch { position: absolute; right: 0px; top: 27.5px; z-index: 102; }
+.headersearch { position: absolute; right: 0px; top: 37.5px; z-index: 102; transition: all .4s ease-in-out;}
 .headersearch form { float: left; }
 .headersearch .form-item { margin-top: 0; margin-bottom: 0; }
 .headersearch input { text-indent: -500px; cursor: pointer; border: 0; width: 35px; background: url(../img/tiles/search.png) no-repeat 0px center;
@@ -1487,7 +1487,7 @@ background: #fff; border: 1px solid #e5e5e5; border-top: 0;
 .region.header > .block { position: relative; margin-left: -20px; margin-right: -20px; }
 .mediaholder { overflow: visible; }
 .headerwrap, .boxedlayout .headerwrap { width: 100%; margin: 0; margin-bottom: 0px; margin-left: -20px; padding-right: 40px; left: 0; }
-.header, .boxedlayout .header { width: 100%; z-index: 500; height: 80px; margin-left: 0; left: 0; }
+.header, .boxedlayout .header { width: 100%; z-index: 500; height: 110px; margin-left: 0; left: 0; }
 .header .logo, .boxedlayout .header .logo { float: left; padding: 0px; margin-left: 20px; position: absolute; }
 
 .mobilemenu, .boxedlayout .mobilemenu { padding-right: 0px; float: right; margin-top: 23.5px; margin-bottom: 34.5px; }
@@ -1812,4 +1812,11 @@ ul.retina-icons li i {
 	.fixed.headerwrap { -webkit-box-shadow: 0 2px 6px rgba(0, 0, 0, 0.07); -moz-box-shadow: 0 2px 6px rgba(0, 0, 0, 0.07); box-shadow: 0 2px 6px rgba(0, 0, 0, 0.07);}
 	.boxedlayout.sticky-header .headerwrap.fixed{position:fixed;}
 	.stickyheader .fancybox-lock .fancybox-overlay { z-index: 100000; }
+
+    /* Solve the jumping problem */
+	header { margin-bottom: 93px; }
+
+	.headerwrap .logo img { width: 330px; -webkit-transition: all .4s ease-in-out; -moz-transition: all .4s ease-in-out; -o-transition: all .4s ease-in-out; -ms-transition: all .4s ease-in-out; transition: all .4s ease-in-out; }
+	.headerwrap.fixed .logo img { width: 260px; }
+	.headerwrap.fixed .headersearch { top: 27.5px; }
 }

@@ -292,10 +292,9 @@ function initStickyHeader(){
         var value = $(this).scrollTop();
        
         if ( value > 100 && navIsBig ){
-            $nav.animate({height:45},"slow");
-                    $logo.animate({height:($height * 0.8)},"slow");
-            navIsBig = false;
-            
+           $nav.animate({height:45},"slow");
+           $logo.animate({height:($height * 0.8)},"slow");
+           navIsBig = false;
         }
         else if (value <= 100 && !navIsBig ) {
            $nav.animate({height:100},"slow");
@@ -437,10 +436,9 @@ function footerHandler() {
 	        var value = $(this).scrollTop();
 	       
 	        if ( value > 100 && navIsBig ){
-	            $nav.animate({height:45},"slow");
-	                    $logo.animate({height:($height * 0.8)},"slow");
-	            navIsBig = false;
-	            
+	           $nav.animate({height:45},"slow");
+	           $logo.animate({height:($height * 0.8)},"slow");
+	           navIsBig = false;
 	        }
 	        else if (value <= 100 && !navIsBig ) {
 	           $nav.animate({height:100},"slow");
