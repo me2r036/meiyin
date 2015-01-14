@@ -141,14 +141,19 @@ jQuery(document).ready(function($) {
 
 	if (jQuery('.sticky-header').exists()) {
 
+        /*Replace the logo picture while the transition finishing */ 
+        var $image = $('.logo').find('img');
+
 	    $(window).resize(function() {
 	    	var $top = $('.headertopwrap').height() + 3;   
 	        if ($(this).scrollTop() >= $top) {
 				$('.headerwrap').addClass('fixed');
 				$('.headerwrap').css('margin-top', -$top+'px');
+                $image.attr('src', $image.attr('src').replace('logo.png', 'logo-s.png'));
 			} else {
 				$('.headerwrap').removeClass('fixed');
 				$('.headerwrap').css('margin-top', 'inherit');
+                $image.attr('src', $image.attr('src').replace('logo-s.png', 'logo.png'));
 			}
 	    });
 	    
@@ -157,9 +162,11 @@ jQuery(document).ready(function($) {
 	        if ($(this).scrollTop() >= $top) {
 				$('.headerwrap').addClass('fixed');
 				$('.headerwrap').css('margin-top', -$top+'px');
+                $image.attr('src', $image.attr('src').replace('logo.png', 'logo-s.png'));
 			} else {
 				$('.headerwrap').removeClass('fixed');
 				$('.headerwrap').css('margin-top', 'inherit');
+                $image.attr('src', $image.attr('src').replace('logo-s.png', 'logo.png'));
 			}
 	    });		
 	}
