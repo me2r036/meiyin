@@ -6,8 +6,8 @@ body.fullwidthlayout { border-top: 3px solid #f45858; }
 .sidebar .tagcloud a:hover { border-color: #f45858; }
 
 /* BACKGROUND COLORS */
-::selection { background: #f45858; /* Safari */}
-::-moz-selection { background: #f45858; /* Firefox */}
+/*::selection { background: #f45858; } /* Safari */
+/*::-moz-selection { background: #f45858; } /* Firefox */
 
 .colored .pagetitlewrap, .progress-success .bar, .mediaholder .link, .mediaholder .show,
 a.service:hover .serviceicon, .pricing .highlight .thead, .btn-primary:hover { 

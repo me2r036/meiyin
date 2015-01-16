@@ -104,8 +104,10 @@
 			$form['basic']['keys'] = array(
 				'#type' => 'textfield',
 				'#title' => t('Enter your keywords'),
-				'#title_display' => 'invisible'
+				'#title_display' => 'invisible',
+				'#attributes' => array('placeholder' => array(t('Search')))
 			);
+			//$form['basic']['keys']['#attributes'] = array('placeholder' => t('Search'));
 		}
 	}
 	
