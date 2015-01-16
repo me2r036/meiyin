@@ -29,6 +29,7 @@
   <?php print $styles; ?>
   <?php print $skin; ?>
   <?php print $jquery; ?>
+  <?php print $migrate; ?>
   <?php print $scripts; ?>
     <!--[if lt IE 9]>
       <link rel="stylesheet" href="<?php print drupal_get_path('theme', 'meiyin') . '/css/ie8.css'; ?>" type="text/css" media="all" />
