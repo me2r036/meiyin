@@ -420,37 +420,67 @@ function footerHandler() {
 
 
 // Check Mobile
-	function is_mobile() {
-	      var agents = ['android', 'webos', 'iphone', 'ipad', 'blackberry','Android', 'webos', ,'iPod', 'iPhone', 'iPad', 'Blackberry', 'BlackBerry'];
-	   var ismobile=false;
-	      for(i in agents) {
+function is_mobile() {
+    var agents = ['android', 'webos', 'iphone', 'ipad', 'blackberry','Android', 'webos', ,'iPod', 'iPhone', 'iPad', 'Blackberry', 'BlackBerry'];
+    var ismobile=false;
+    for(i in agents) {
+        if (navigator.userAgent.split(agents[i]).length>1) {
+            ismobile = true;
+        }
+    }
+    return ismobile;
+}
 	
-	       if (navigator.userAgent.split(agents[i]).length>1) {
-	              ismobile = true;
-	            
-	            }
-	      }
-	      return ismobile;
-	  }
-	
-	function initStickyHeader(){
-	    var navIsBig = true;
-	    var $nav = $('.headerwrap');
-	    var $logo = $('.logo img');
-	    var $height = $logo.height()
-	    
-	    $(document).scroll( function() {
-	        var value = $(this).scrollTop();
-	       
-	        if ( value > 100 && navIsBig ){
-	           $nav.animate({height:45},"slow");
-	           $logo.animate({height:($height * 0.8)},"slow");
-	           navIsBig = false;
-	        }
-	        else if (value <= 100 && !navIsBig ) {
-	           $nav.animate({height:100},"slow");
-	           $logo.animate({height:($height * 1)},"slow");
-	            navIsBig = true;
-	        }
-	    });
-	}
+function initStickyHeader(){
+    var navIsBig = true;
+    var $nav = $('.headerwrap');
+    var $logo = $('.logo img');
+    var $height = $logo.height()
+    
+    $(document).scroll( function() {
+        var value = $(this).scrollTop();
+
+        if ( value > 100 && navIsBig ){
+           $nav.animate({height:45},"slow");
+           $logo.animate({height:($height * 0.8)},"slow");
+           navIsBig = false;
+        }
+        else if (value <= 100 && !navIsBig ) {
+           $nav.animate({height:100},"slow");
+           $logo.animate({height:($height * 1)},"slow");
+            navIsBig = true;
+        }
+    });
+}
+
+(function ($) {
+    Drupal.behaviors.backtotop = {
+        attach: function (context, settings) {
+            var exist = jQuery('#backtotop').length;
+            if (exist == 0) {
+                $("body", context).once(function () {
+                    $(this).append("<div id='backtotop'>" + Drupal.t('Back to top') + "</div>");
+                });
+            }
+            $(window).scroll(function () {
+                if ($(this).scrollTop() > 500) {
+                    $('#backtotop').fadeIn();
+                } else {
+                    $('#backtotop').fadeOut();
+                }
+            });
+
+            $('#backtotop', context).once(function () {
+                $(this).click(function () {
+                    $("html, body").bind("scroll mousedown DOMMouseScroll mousewheel keyup", function () {
+                        $('html, body').stop();
+                    });
+                    $('html,body').animate({scrollTop: 0}, 1200, 'easeOutQuart', function () {
+                        $("html, body").unbind("scroll mousedown DOMMouseScroll mousewheel keyup");
+                    });
+                    return false;
+                });
+            });
+        }
+    };
+})(jQuery);

@@ -1820,3 +1820,20 @@ ul.retina-icons li i {
 	.headerwrap.fixed .logo img { width: 260px; }
 	.headerwrap.fixed .headersearch { top: 27.5px; }
 }
+
+/* Quick links */
+.html #backtotop {
+background: url(/sites/all/themes/meiyin/img/quick-links.png) no-repeat left -150px;
+height: 40px;
+width: 40px;
+position: fixed;
+right: 0;
+display: none;
+text-indent: -9999px;
+cursor: pointer;
+bottom: 60px;
+}
+
+.html #backtotop:hover {
+background-position-y: -350px;
+}
