@@ -118,8 +118,8 @@
 		$skin = '<link rel="stylesheet" href="'.$GLOBALS['base_url'].'/'.path_to_theme().'/css/'.theme_get_setting('layoutColor').'.css"/>';
 		$vars['classes_array'][] = 'colored';
 		//$vars['jquery'] = '<script type="text/javascript" src="'.$GLOBALS['base_url'].'/'.path_to_theme().'/js/jquery.min.js"></script>';
-		$vars['jquery'] = '<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.2.min.js"></script>';
-		$vars['migrate'] = '<script type="text/javascript" src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>';
+		$vars['jquery'] = '<script type="text/javascript" src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>';
+		$vars['migrate'] = '<script type="text/javascript" src="http://cdn.bootcss.com/jquery-migrate/1.2.1/jquery-migrate.min.js"></script>';
 		
 		(theme_get_setting('layoutWidth') == 'boxedlayout') ? $vars['classes_array'][] = 'boxedlayout' : $vars['classes_array'][] = 'fullwidthlayout';
 		(theme_get_setting('layoutColor') !== 'green') ? $vars['skin'] = $skin : $vars['skin'] = '';
