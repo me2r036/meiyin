@@ -17,9 +17,9 @@ $first = reset($result['node']);
 $last = end($result['node']);
 
 switch($nid) {
-	case $first->nid: $prev = $last->nid; $next = $nid + 1;	break;
-	case $last->nid: $prev = $nid - 1; $next = $first->nid;	break;
-	default: $prev = $nid - 1; $next = $nid + 1; break;
+  case $first->nid: $prev = $last->nid; $next = $nid + 1;	break;
+  case $last->nid: $prev = $nid - 1; $next = $first->nid;	break;
+  default: $prev = $nid - 1; $next = $nid + 1; break;
 }
 
 $path = "node/".$node->nid; 
