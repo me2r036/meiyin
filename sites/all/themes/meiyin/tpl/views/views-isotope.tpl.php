@@ -7,7 +7,6 @@
  */
 ($view->current_display == 'withsidebar') ? $sidebar = ' withsidebar' : $sidebar = '';
 ?>
-
 <div class="row portfoliowrap">
   <div id="isotope-container" class="portfolio isotope<?php print $sidebar; ?>">
     <?php $count = 0; ?>

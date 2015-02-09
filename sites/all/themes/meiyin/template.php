@@ -22,23 +22,23 @@
  		}
 	}
 	
-	/**
-	 * Implements hook_js_alter().
-	 */
-	function meiyin_js_alter(&$javascript) {
-		/* Unset old version of jQuery on non-administration pages */
-		if (!path_is_admin(current_path())) {
-			unset($javascript['misc/jquery.js']);
-		}
-		
-		global $language;
-		
-		if($language->direction == LANGUAGE_RTL) {
-			unset($javascript[drupal_get_path('theme', 'meiyin') . '/js/screen.js']);
-			drupal_add_js(drupal_get_path('theme', 'meiyin') . '/js/screen-rtl.js');
-		}
-	}
-	
+  /**
+   * Implements hook_js_alter().
+   */
+  function meiyin_js_alter(&$javascript) {
+    // Unset old version of jQuery on non-administration pages
+    if (!path_is_admin(current_path())) {
+      unset($javascript['misc/jquery.js']);
+    }
+
+    global $language;
+
+    if($language->direction == LANGUAGE_RTL) {
+      unset($javascript[drupal_get_path('theme', 'meiyin') . '/js/screen.js']);
+      drupal_add_js(drupal_get_path('theme', 'meiyin') . '/js/screen-rtl.js');
+    }
+  }
+
 	function meiyin_menu_local_tasks(&$vars) {
 		$output = '';
 	
@@ -92,57 +92,54 @@
 		}
 	}
 	
-	/**
-	 * Implements hook_form_alter().
-	 */
-	function meiyin_form_alter(&$form, &$form_state, $form_id) {
-		$form['actions']['submit']['#attributes']['class'][] = 'btn btn-primary';
-		if ($form_id == 'search_form' && (arg(0) !== 'search')) {
-			$form['basic']['submit'] = array(
-				'#attributes' => array('class' => array('element-invisible'))
-			);
-			$form['basic']['keys'] = array(
-				'#type' => 'textfield',
-				'#title' => t('Enter your keywords'),
-				'#title_display' => 'invisible',
-				'#attributes' => array('placeholder' => array(t('Search')))
-			);
-			//$form['basic']['keys']['#attributes'] = array('placeholder' => t('Search'));
-		}
-	}
+  /**
+   * Implements hook_form_alter().
+   */
+  function meiyin_form_alter(&$form, &$form_state, $form_id) {
+    $form['actions']['submit']['#attributes']['class'][] = 'btn btn-primary';
+    if($form_id == 'search_form' && (arg(0) !== 'search')) {
+      $form['basic']['submit'] = array('#attributes' => array('class' => array('element-invisible')));
+      $form['basic']['keys'] = array(
+              '#type' => 'textfield', 
+              '#title' => t('Enter your keywords'), 
+              '#title_display' => 'invisible', // Add placeholder to the search form 
+              '#attributes' => array('placeholder' => array(t('Search')))
+            );
+      //$form['basic']['keys']['#attributes'] = array('placeholder' => t('Search'));
+    }
+  }
+
+  /**
+   * Implements hook_preprocess_html().
+   */
+  function meiyin_preprocess_html(&$vars) {
+    $skin = '<link rel="stylesheet" href="'.$GLOBALS['base_url'].'/'.path_to_theme().'/css/'.theme_get_setting('layoutColor').'.css"/>';
+    $vars['classes_array'][] = 'colored';
+    //$vars['jquery'] = '<script type="text/javascript" src="'.$GLOBALS['base_url'].'/'.path_to_theme().'/js/jquery.min.js"></script>';
+    $vars['jquery'] = '<script type="text/javascript" src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>';
+    $vars['migrate'] = '<script type="text/javascript" src="http://cdn.bootcss.com/jquery-migrate/1.2.1/jquery-migrate.min.js"></script>';
+
+    (theme_get_setting('layoutWidth') == 'boxedlayout') ? $vars['classes_array'][] = 'boxedlayout' : $vars['classes_array'][] = 'fullwidthlayout';
+    (theme_get_setting('layoutColor') !== 'green') ? $vars['skin'] = $skin : $vars['skin'] = '';
+
+    if(theme_get_setting('backgroundImage') !== 'no-background') {
+      $vars['classes_array'][] = theme_get_setting('backgroundImage');
+    }
+
+    if(theme_get_setting('backgroundImage') == 'custom') {
+      $image = 'body.custom {background-image: url('.file_create_url(file_load(theme_get_setting('backgroundCustom'))->uri).');}';
+      drupal_add_css($image, 'inline', array('every_page' => TRUE, 'preprocess' => TRUE));
+    }
+
+    if(theme_get_setting('backgroundColor') != NULL) {
+      $color = 'body { background-color: #'.theme_get_setting('backgroundColor').' !important; }';
+      drupal_add_css($color, 'inline', array('every_page' => TRUE, 'preprocess' => TRUE));
+    }
 	
-	/**
-	 * Implements hook_preprocess_html().
-	 */
-    function meiyin_preprocess_html(&$vars) {
-		$skin = '<link rel="stylesheet" href="'.$GLOBALS['base_url'].'/'.path_to_theme().'/css/'.theme_get_setting('layoutColor').'.css"/>';
-		$vars['classes_array'][] = 'colored';
-		//$vars['jquery'] = '<script type="text/javascript" src="'.$GLOBALS['base_url'].'/'.path_to_theme().'/js/jquery.min.js"></script>';
-		$vars['jquery'] = '<script type="text/javascript" src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>';
-		$vars['migrate'] = '<script type="text/javascript" src="http://cdn.bootcss.com/jquery-migrate/1.2.1/jquery-migrate.min.js"></script>';
-		
-		(theme_get_setting('layoutWidth') == 'boxedlayout') ? $vars['classes_array'][] = 'boxedlayout' : $vars['classes_array'][] = 'fullwidthlayout';
-		(theme_get_setting('layoutColor') !== 'green') ? $vars['skin'] = $skin : $vars['skin'] = '';
-		
-		if(theme_get_setting('backgroundImage') !== 'no-background') {
-			$vars['classes_array'][] = theme_get_setting('backgroundImage');
-		}
-		
-		if(theme_get_setting('backgroundImage') == 'custom') {
-			$image = 'body.custom {background-image: url('.file_create_url(file_load(theme_get_setting('backgroundCustom'))->uri).');}';
-			drupal_add_css($image, 'inline', array('every_page' => TRUE, 'preprocess' => TRUE));
-		}
-		
-		if(theme_get_setting('backgroundColor') != NULL) {
-			$color = 'body { background-color: #'.theme_get_setting('backgroundColor').' !important; }';
-			drupal_add_css($color, 'inline', array('every_page' => TRUE, 'preprocess' => TRUE));
-		}
-		
-		if(theme_get_setting('sticky-header') == 1) {
-			$vars['classes_array'][] = 'sticky-header';
-		}
-			
-	}
+    if(theme_get_setting('sticky-header') == 1) {
+      $vars['classes_array'][] = 'sticky-header';
+    }
+  }
 	
 	/**
 	 * Implements hook_preprocess_page().
@@ -173,17 +170,37 @@
 			drupal_add_js(drupal_get_path('theme', 'meiyin') . '/js/TweenMax.min.js');
 		}
 	}
-	
-	
-	/**
-	 * Implements hook_preprocess_node().
-	 */
-	function meiyin_preprocess_node(&$vars) {
-		if (module_exists('statistics')) {
-			unset($vars['content']['links']['statistics']['#links']['statistics_counter']);
-		}
-	}
 
+  /**
+   * Implements hook_preprocess_node().
+  */
+  function meiyin_preprocess_node(&$vars) {
+    // Load the currently logged in user
+    global $user; 
+    $roles = $user->roles;
+    // Hide the link statistics if current user is not admin or editor.
+    if(module_exists('statistics') 
+        && !in_array("editor", array_values($roles)) 
+        && !in_array("administrator", array_values($roles))) {
+      unset($vars['content']['links']['statistics']['#links']['statistics_counter']);
+    }
+  }
+
+  /* To check if the current user has a single role or any of multiple roles, a great way is to do:
+  // can be used in access callback too
+  function user_has_role($roles) {
+    //checks if user has role/roles
+    return !!count(array_intersect(is_array($roles)? $roles : array($roles), array_values($GLOBALS['user']->roles)));
+  };
+
+  if (user_has_role(array('moderator', 'administrator'))) {
+    // $user is admin or moderator
+  } else if(user_has_role('tester')){
+    // $user is tester
+  } else{
+    // $user is not admin and not moderator
+  }
+  */
 
 	function meiyin_preprocess_region(&$vars) {		
 		$theme = meiyin_get_theme();

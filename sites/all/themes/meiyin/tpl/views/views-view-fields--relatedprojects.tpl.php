@@ -23,37 +23,44 @@
  *
  * @ingroup views_templates
  */
-
 ?>
-
-<?php foreach ($fields as $id => $field): ?>
+<?php foreach($fields as $id => $field): ?>
   <?php if($id == 'field_fancybox'): ?>
-  	<div class="mediaholder">
-	  	<img src="<?php print image_style_url('isotope_portfolio_400x225', $row->field_field_image[0]['raw']['uri']); ?>" />
-	  	<div class="cover"></div>
-	  	<?php if(!empty($row->field_field_fancybox[0]['raw']['value'])): ?>
-			<a title="<?php print $row->node_title; ?>" href="<?php print file_create_url($row->field_field_image[0]['raw']['uri']); ?>" class="fancybox">
-				<div class="show icon-search notalone"></div>
-			</a>
-		<a href="<?php $options = array('absolute' => TRUE); print url('node/' . $row->nid, $options);?>">
-			<div class="link icon-plus notalone"></div>
-		</a>
-		<?php else: ?>
-		<a href="<?php $options = array('absolute' => TRUE); print url('node/' . $row->nid, $options);?>">
-			<div class="link icon-plus"></div>
-		</a>
-		<?php endif; ?>
-  	</div>
-  <?php endif;?>
-	
-  <?php if($id != 'field_fancybox' && $id != 'field_image'): ?>
-  <?php if (!empty($field->separator)): ?>
-    <?php print $field->separator; ?>
-  <?php endif; ?>
+    <div class="mediaholder">
+      <img src="<?php print image_style_url('portfolio_isotope_small_400x192', $row->field_field_image[0]['raw']['uri']); ?>" />
+      <div class="cover"></div>
+      <?php if(!empty($row->field_field_fancybox[0]['raw']['value'])): ?>
+        <a class="fancybox" href="<?php print file_create_url($row->field_field_image[0]['raw']['uri']); ?>" data-fancybox-group="gallery<?php print $row->nid; ?>" title="<?php print $row->node_title; ?>">
+          <div class="show icon-search notalone"></div>
+        </a>
+        <a href="<?php $options = array('absolute' => TRUE); print url('node/' . $row->nid, $options);?>">
+          <div class="link icon-plus notalone"></div>
+        </a>
 
-  <?php print $field->wrapper_prefix; ?>
+        <?php //Add images in the field_gallery to fancybox ?>
+        <?php $galleryArray = $row->_field_data[nid][entity]->field_gallery; ?>
+        <?php if(!empty($galleryArray)): ?>
+          <?php foreach($galleryArray[und] as $imageInfo): ?>
+            <a class="fancybox" href="<?php print file_create_url($imageInfo['uri']); ?>" data-fancybox-group="gallery<?php print $row->nid; ?>" title="<?php print $row->node_title; ?>"></a>
+          <?php endforeach; ?>
+        <?php endif; ?>
+
+      <?php else: ?>
+        <a href="<?php $options = array('absolute' => TRUE); print url('node/' . $row->nid, $options);?>">
+          <div class="link icon-plus"></div>
+        </a>
+      <?php endif; ?>
+    </div>
+  <?php endif;?>
+
+  <?php if($id != 'field_fancybox' && $id != 'field_image'): ?>
+    <?php if (!empty($field->separator)): ?>
+      <?php print $field->separator; ?>
+    <?php endif; ?>
+
+    <?php print $field->wrapper_prefix; ?>
     <?php print $field->label_html; ?>
     <?php print $field->content; ?>
-  <?php print $field->wrapper_suffix; ?>
+    <?php print $field->wrapper_suffix; ?>
   <?php endif; ?>
 <?php endforeach; ?>

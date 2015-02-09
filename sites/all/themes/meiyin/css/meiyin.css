@@ -192,9 +192,9 @@ a.color:hover { color: #353535; text-decoration: none; }
 /*.colored .headerwrap { border-bottom: 0; }*/
 .boxedlayout .headerwrap { float: left; position: relative; width: 1230px; left: 50%; margin-left: -615px; }
 .header { position: relative; width: 1170px; left: 50%; margin-left: -585px; }
-.front .header { z-index: 25000; }
+.front .header { z-index: 8000; }
 .header .logo { float: left; position: relative; padding-top: 0px; padding-bottom: 0px;  padding-left: 0px; margin-top: 15px; margin-bottom: 15px; }
-.region.header { float: left; width: 100%; left: auto; margin-left: 0; position: relative; z-index: 15000; }
+.region.header { float: left; width: 100%; left: auto; margin-left: 0; position: relative; z-index: 7500; }
 
 /* MAIN NAVIGATION */
 /* ------------------------------------ */
@@ -271,7 +271,7 @@ font-weight: 400; background: #fff; color: #666; border: 0; /*border-bottom: 1px
 .tp-captions,
 .tp-parallax									{	-webkit-backface-visibility: hidden;}
 
-.slotholder										{	position:relative;z-index:1;background: transparent; -webkit-backface-visibility: hidden;-webkit-perspective: 1000;-webkit-transform: translateZ(-1000px);}
+.slotholder										{	position:relative;z-index: 1; background: transparent; -webkit-backface-visibility: hidden; -webkit-perspective: 1000; -webkit-transform: translateZ(-1000px); }
 
 
 /* TOOLTIPS */
@@ -563,6 +563,8 @@ box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;
 .postinfo .time, .postinfo .tags, .postinfo .author, .postinfo .categories, .postinfo .comments, .postinfo .readmore { float: left; color: #aaa; margin-right: 20px; margin-bottom: 0px; font-size: 12px; text-transform: none; line-height: 18px; }
 .postinfo a { line-height: 18px; }
 .postinfo a:hover { color: #111; }
+.postinfo #viewcounter {float: right; color: #857e76; font-size: 12px; }
+
 .blogpost .postinfo { 
 	padding-left: 60px; 
 	margin-bottom: 15px; 
@@ -989,18 +991,16 @@ border-radius: 5px 0px 0px 0px;
 
 }
 .mediaholder:hover img {
-
-	/*-webkit-transform: scale(1.1);  
-   -moz-transform: scale(1.1);  
-    -ms-transform: scale(1.1);  
-     -o-transform: scale(1.1);  
-        transform: scale(1.1);*/
-         
-filter: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'><filter id='grayscale'><feColorMatrix type='matrix' values='0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0'/></filter></svg>#grayscale"); /* Firefox 10+, Firefox on Android */
-filter: gray; /* IE6-9 */
--webkit-filter: grayscale(100%); /* Chrome 19+, Safari 6+, Safari 6+ iOS */
-
-	
+  /*
+  -webkit-transform: scale(1.1);  
+     -moz-transform: scale(1.1);  
+      -ms-transform: scale(1.1);  
+       -o-transform: scale(1.1);  
+          transform: scale(1.1);
+  */ 
+  filter: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'><filter id='grayscale'><feColorMatrix type='matrix' values='0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0'/></filter></svg>#grayscale"); /* Firefox 10+, Firefox on Android */
+  filter: gray; /* IE6-9 */
+  -webkit-filter: grayscale(100%); /* Chrome 19+, Safari 6+, Safari 6+ iOS */
 }
 .mediaholder:hover .link.notalone { left:100%; top:100%;}
 .mediaholder:hover .show.notalone {	left:100%; top:100%;}
@@ -1049,7 +1049,7 @@ filter: gray; /* IE6-9 */
     -webkit-transition: all 0.3s; -moz-transition: all 0.3s; -o-transition: all 0.3s; -ms-transition: all 0.3s; transition: all 0.3s;
 }
 .nextproject a { margin-left: 5px; }
-
+#projectnavwrap { float: right; }
 
 
 /* THEME BUTTON COLOR */
@@ -1289,7 +1289,6 @@ background: #fff; border: 1px solid #e5e5e5; border-top: 0;
 /* Popovers */
 .popover-title { font-weight: bold; }
 
-
 /* Pagination */
 	.pagination { float: right; height: 30px; margin: 0; }
 	.pagination ul { display: inline-block; *display: inline; margin-bottom: 0; margin-left: 0; -webkit-border-radius: 0; -moz-border-radius: 0; border-radius: 0; *zoom: 1; -webkit-box-shadow: none; -moz-box-shadow: none; box-shadow: none; text-align: right; }
@@ -1316,8 +1315,6 @@ background: #fff; border: 1px solid #e5e5e5; border-top: 0;
 	.span9.left .pagination { margin-right: 20px; }
 	.span9.right .pagination { margin-left: 20px; }
 	.pagenumbers { float: left; color: #bbb; }
-	
-	
 	
 	/* GOOGLE MAPS */
 /* ------------------------------------ */
@@ -1805,17 +1802,26 @@ ul.retina-icons li i {
 .field-name-field-categories { display: inline-block; }
 #block-views-meiyin-homepage-serv4col { margin-top: -20px; }
 .page-taxonomy-term .node { border-bottom: 1px solid #e4e4e4; padding-top: 20px;  }
-.contextual-links-wrapper { float: left; display: block; z-index: 2000; }
-#toolbar { z-index: 50000; }
+.contextual-links-wrapper { float: left; display: block; z-index: 1000; }
+#toolbar { z-index: 5000; }
 .node-type-blog-post .field-type-image img { width: 100%; }
+
+/* fancybox style */
+#fancybox-thumbs.bottom { bottom: 46px; }
+.fancybox-overlay { background: rgba(0, 0, 0, 0.8); }
+#gallerywrap { float: left; display: block; padding-bottom: 5px; margin-bottom: 20px; background: rgba(0, 0, 0, 0.1); width: 100%;}
+#gallery { padding: 5px 0 0 10px; }
+.thumbholder{ float: left; margin-right: 5px; }
+.thumbholder .fancybox { display: block; position: relative; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; overflow: hidden; }
+.thumbholder .thumboverlay { position: absolute; top: 0; background: rgba(0, 0, 0, 0.3); width: 100%; height: 100%; }
 
 /* STICKY HEADER (ADDED V1.1) */
 
 @media only screen and (min-width: 767px) {
-	.fixed { background: #fff; width: 100%; position: fixed; z-index: 50001; }
+	.fixed { background: #fff; width: 100%; position: fixed; z-index: 9000; }
 	.fixed.headerwrap { -webkit-box-shadow: 0 2px 6px rgba(0, 0, 0, 0.07); -moz-box-shadow: 0 2px 6px rgba(0, 0, 0, 0.07); box-shadow: 0 2px 6px rgba(0, 0, 0, 0.07);}
 	.boxedlayout.sticky-header .headerwrap.fixed{position:fixed;}
-	.stickyheader .fancybox-lock .fancybox-overlay { z-index: 100000; }
+	.stickyheader .fancybox-lock .fancybox-overlay { z-index: 8016; }
 
     /* Solve the jumping problem */
 	header { margin-bottom: 93px; }
@@ -1837,6 +1843,7 @@ ul.retina-icons li i {
   text-indent: -9999px;
   cursor: pointer;
   bottom: 60px;
+  z-index: 8051;
 }
 
 .html #backtotop:hover {
