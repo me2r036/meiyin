@@ -6,7 +6,6 @@
  * @ingroup views_templates
  */
 ?>
-
 <div id="isotope-options">
   <ul id="filters" class="option-set portfoliofilter clearfix" data-option-key="filter">
    	<li class="first active"><a href="#filter" data-option-value="*" class="selected"><?php print t('All'); ?></a></li>
@@ -22,10 +21,5 @@
       ?>
           
       <li><a class="filterbutton" data-option-value=".<?php print $dataoption; ?>" href="#filter"><?php print trim($row); ?></a></li>
-
-      
-    <?php endforeach; ?>
-    
+    <?php endforeach; ?>   
   </div> 
-
-
