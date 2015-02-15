@@ -37,6 +37,9 @@ $url = url($path, $options);
 				<?php if(!empty($content['field_tags'])): ?>
 					<div class="tags"><span>tagged:</span> <?php print render($content['field_tags']); ?></div>
 				<?php endif; ?>
+                <?php if(!empty($content['links']['statistics']['#links']['statistics_counter'])): // Print the page view counter ?>
+                  <div id="viewcounter"><span class="icon_wrap"><i class="fa fa-eye"></i><?php print $content['links']['statistics']['#links']['statistics_counter']['title']; ?></span></div>
+                <?php endif; ?>
 			</div>
 		<?php endif; ?>
 		
@@ -65,6 +68,9 @@ $url = url($path, $options);
 				<?php if(!empty($content['field_tags'])): ?>
 					<div class="tags"><span>tagged:</span> <?php print render($content['field_tags']); ?></div>
 				<?php endif; ?>
+                <?php if(!empty($content['links']['statistics']['#links']['statistics_counter'])): // Print the page view counter ?>
+                  <div id="viewcounter"><span class="icon_wrap"><i class="fa fa-eye"></i><?php print $content['links']['statistics']['#links']['statistics_counter']['title']; ?></span></div>
+                <?php endif; ?>
 			</div>
 		<?php endif; ?>
 		
@@ -89,6 +95,9 @@ $url = url($path, $options);
 				<?php if(!empty($content['field_tags'])): ?>
 					<div class="tags"><span>tagged:</span> <?php print render($content['field_tags']); ?></div>
 				<?php endif; ?>
+                <?php if(!empty($content['links']['statistics']['#links']['statistics_counter'])): // Print the page view counter ?>
+                  <div id="viewcounter"><span class="icon_wrap"><i class="fa fa-eye"></i><?php print $content['links']['statistics']['#links']['statistics_counter']['title']; ?></span></div>
+                <?php endif; ?>
 			</div>
 		<?php endif; ?>
 		
@@ -110,6 +119,9 @@ $url = url($path, $options);
 				<?php if(!empty($content['field_tags'])): ?>
 					<div class="tags"><span>tagged:</span> <?php print render($content['field_tags']); ?></div>
 				<?php endif; ?>
+                <?php if(!empty($content['links']['statistics']['#links']['statistics_counter'])): // Print the page view counter ?>
+                  <div id="viewcounter"><span class="icon_wrap"><i class="fa fa-eye"></i><?php print $content['links']['statistics']['#links']['statistics_counter']['title']; ?></span></div>
+                <?php endif; ?>
 			</div>
 		<?php endif; ?>
 	
@@ -124,7 +136,7 @@ $url = url($path, $options);
 	
 	
 	<!-- Render Links and Comments -->
-	<?php print render($content['links']); ?>
+	<?php //print render($content['links']); ?>
 	<?php print render($content['comments']); ?>
 
 </div>

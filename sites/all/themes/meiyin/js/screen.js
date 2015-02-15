@@ -155,6 +155,16 @@ jQuery(document).ready(function($) {
     });		
   }
 
+  // CDN fallback function for font-awesome.
+  (function ($){
+    var $span = $('<span class="fa" style="display:none"></span>').appendTo('body');
+    if($span.css('fontFamily') !== 'FontAwesome' ) {
+      // Fallback Link
+      $('head').append('<link type="text/css" rel="stylesheet" href="/sites/all/themes/meiyin/font/font-awesome/css/font-awesome.min.css" />');
+    }
+    $span.remove();
+  })(jQuery);
+
 });
 
 		/******************************
@@ -328,7 +338,7 @@ function addFancyBox() {
 
 // Callback function for the fancybox module.
 function showCount() {
-  this.title = (this.title ?  this.title + ' - ' : '') + 'Image ' + (this.index + 1) + ' of ' + this.group.length + ' in this gallery';
+  this.title = (this.title ?  this.title + ' ' : '') + (this.index + 1) + '/' + this.group.length;
 }
 
 /* #Menu Handler

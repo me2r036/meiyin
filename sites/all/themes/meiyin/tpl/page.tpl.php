@@ -114,9 +114,8 @@
 		<section class="headerwrap">
 			<div class="header span12">
 				<?php if ($logo): ?>
-				<a href="<?php print $front_page; ?>"
-					title="<?php print t('Home'); ?>" rel="home" class="logo"> <img
-					src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>" />
+				<a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>" rel="home" class="logo">
+				  <img src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>" />
 				</a>
 				<?php endif; ?>
 

@@ -60,7 +60,7 @@
 
 
 .tparrows:before {
-    font-family: 'fontello';
+    font-family: 'FontAwesome';
 	color: #fff;
     font-style: normal;
     font-weight: normal;
@@ -96,10 +96,12 @@
     color: #fff;
 }
 .tp-leftarrow:before {
-    content: '\e765';
+    content: '\f104';
+    font-size: 2.2em;
 }
 .tp-rightarrow:before {
-    content: '\e766';
+    content: '\f105';
+    font-size: 2.2em;
 }
 .tparrows.tp-rightarrow:before {
     margin-left: 1px;

@@ -225,6 +225,7 @@ function jquery_update_settings_form() {
       'google' => t('Google'),
       'microsoft' => t('Microsoft'),
       'jquery' => t('jQuery'),
+      'bootcss' => t('Bootcss'),
     ),
     // Do not show this field if jQuery version is default
     '#states' => array(
@@ -300,6 +301,12 @@ function jquery_update_jquery_replace(&$javascript, $cdn, $path, $min, $version)
 
     case 'jquery':
       $javascript['jquery']['js']['misc/jquery.js']['data'] = '//code.jquery.com/jquery-' . $trueversion . $min . '.js';
+      $javascript['jquery']['js']['misc/jquery.js']['type'] = 'external';
+      jquery_update_jquery_backup($javascript, $path, $min, $version);
+      break;
+
+    case 'bootcss':
+      $javascript['jquery']['js']['misc/jquery.js']['data'] = '//cdn.bootcss.com/jquery/' . $trueversion . '/jquery' . $min . '.js';
       $javascript['jquery']['js']['misc/jquery.js']['type'] = 'external';
       jquery_update_jquery_backup($javascript, $path, $min, $version);
       break;
@@ -417,6 +424,12 @@ function jquery_update_jqueryui_replace(&$javascript, $cdn, $path, $min) {
 
     case 'jquery':
       $cdn = '//code.jquery.com/ui/1.10.2/jquery-ui' . $min . '.js';
+      jquery_update_jqueryui_cdn($cdn, $javascript, $path, $min, $names);
+      jquery_update_jqueryui_backup($javascript, $path, $min);
+      break;
+
+    case 'bootcss':
+      $cdn = '//cdn.bootcss.com/jqueryui/1.10.2/jquery-ui' . $min . '.js';
       jquery_update_jqueryui_cdn($cdn, $javascript, $path, $min, $names);
       jquery_update_jqueryui_backup($javascript, $path, $min);
       break;

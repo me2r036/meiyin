@@ -52,30 +52,35 @@
 		return $output;
 	}
 	
-	function meiyin_menu_link(&$vars) {
-		$element = &$vars['element'];
-		$sub_menu = '';
-	
-	
-		if ($element['#href'] == '<front>' && drupal_is_front_page()) {
-			$element['#attributes']['class'][] = 'active';
+  function meiyin_menu_link(&$vars) {
+    $element = &$vars['element'];
+    $sub_menu = '';
+
+    if($element['#href'] == '<front>' && drupal_is_front_page()) {
+      $element['#attributes']['class'][] = 'active';
 		}
+    
+    if($element['#href'] == current_path()) {
+      $element['#attributes']['class'][] = 'active';
+    }
 	
-		if ($element['#href'] == current_path()) {
-			$element['#attributes']['class'][] = 'active';
-		}
+    if($element['#below']) {
+      $sub_menu = drupal_render($element['#below']);
+    }
+
+    $output = l($element['#title'], $element['#href'], $element['#localized_options']);
+
+    //Add icon to the 'Home' menu link.
+    if($element['#title'] == 'Home') {
+      $output = str_replace("Home", '<span class="icon_wrap"><i class="fa fa-home"></i>Home</span>', $output);
+    }
+
+    return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
+  }
 	
-		if ($element['#below']) {
-			$sub_menu = drupal_render($element['#below']);
-		}
-	
-		$output = l($element['#title'], $element['#href'], $element['#localized_options']);
-		return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
-	}
-	
-	function meiyin_menu_tree(&$variables) {
-		return '<ul>' . $variables['tree'] . '</ul>';
-	}
+  function meiyin_menu_tree(&$vars) {
+    return '<ul>' . $vars['tree'] . '</ul>';
+  }
 	
 	/**
 	 * Implements theme_breadcrumb().
@@ -100,27 +105,50 @@
     if($form_id == 'search_form' && (arg(0) !== 'search')) {
       $form['basic']['submit'] = array('#attributes' => array('class' => array('element-invisible')));
       $form['basic']['keys'] = array(
-              '#type' => 'textfield', 
-              '#title' => t('Enter your keywords'), 
-              '#title_display' => 'invisible', // Add placeholder to the search form 
-              '#attributes' => array('placeholder' => array(t('Search')))
-            );
+        '#type' => 'textfield', 
+        '#title' => t('Enter your keywords'), 
+        '#title_display' => 'invisible', 
+        '#attributes' => array('placeholder' => array(t('Search'))) // Add placeholder to the search form 
+      );
       //$form['basic']['keys']['#attributes'] = array('placeholder' => t('Search'));
     }
+
+    if($form_id == 'contact_site_form') {
+      $form['actions'] = array(
+        'submit' => array(
+          '#markup' => '<div class="form-actions form-wrapper" id="edit-actions">
+                          <button type="submit" class="btn btn-primary form-submit"><span class="icon_wrap"><i class="fa fa-send"></i>发送消息</span></button>
+                        </div>'
+        )
+      );
+      //drupal_set_message(print_r($form));
+    }
+
   }
 
   /**
    * Implements hook_preprocess_html().
    */
   function meiyin_preprocess_html(&$vars) {
-    $skin = '<link rel="stylesheet" href="'.$GLOBALS['base_url'].'/'.path_to_theme().'/css/'.theme_get_setting('layoutColor').'.css"/>';
-    $vars['classes_array'][] = 'colored';
-    //$vars['jquery'] = '<script type="text/javascript" src="'.$GLOBALS['base_url'].'/'.path_to_theme().'/js/jquery.min.js"></script>';
-    $vars['jquery'] = '<script type="text/javascript" src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>';
-    $vars['migrate'] = '<script type="text/javascript" src="http://cdn.bootcss.com/jquery-migrate/1.2.1/jquery-migrate.min.js"></script>';
+    if(theme_get_setting('layoutcolor') !== 'green') {
+      $skin = drupal_get_path('theme', 'meiyin') . '/css/' . theme_get_setting('layoutColor') . '.css';
+      drupal_add_css($skin, array('group' => CSS_THEME, 'every_page' => TRUE));
+    }
 
+    // Load fontawesome from cdn, fallback with globle js.
+    drupal_add_css('//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css', 
+                          array('type' => 'external', 'group' => CSS_THEME, 'every_page' => TRUE));
+
+   // $vars['jquery'] = '<script type="text/javascript" src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>';
+   // $vars['migrate'] = '<script type="text/javascript" src="http://cdn.bootcss.com/jquery-migrate/1.2.1/jquery-migrate.min.js"></script>';
+
+    // Add jquery-migrate with fallback if the cdn unavailable
+    drupal_add_js('//cdn.bootcss.com/jquery-migrate/1.2.1/jquery-migrate.min.js', array('type' => 'external', 'group' => JS_LIBRARY, 'weight' => -16));
+    $data = 'window.jQuery || document.write("<script src=\'' . base_path() . drupal_get_path('theme', 'meiyin') . '/js/jquery-migrate.min.js\'>\x3C/script>")';
+    drupal_add_js($data, array('type' => 'inline', 'group' => JS_LIBRARY, 'weight' => -15.999999999));
+
+    $vars['classes_array'][] = 'colored';
     (theme_get_setting('layoutWidth') == 'boxedlayout') ? $vars['classes_array'][] = 'boxedlayout' : $vars['classes_array'][] = 'fullwidthlayout';
-    (theme_get_setting('layoutColor') !== 'green') ? $vars['skin'] = $skin : $vars['skin'] = '';
 
     if(theme_get_setting('backgroundImage') !== 'no-background') {
       $vars['classes_array'][] = theme_get_setting('backgroundImage');
@@ -128,19 +156,19 @@
 
     if(theme_get_setting('backgroundImage') == 'custom') {
       $image = 'body.custom {background-image: url('.file_create_url(file_load(theme_get_setting('backgroundCustom'))->uri).');}';
-      drupal_add_css($image, 'inline', array('every_page' => TRUE, 'preprocess' => TRUE));
+      drupal_add_css($image, array('type' => 'inline', 'every_page' => TRUE));
     }
 
     if(theme_get_setting('backgroundColor') != NULL) {
       $color = 'body { background-color: #'.theme_get_setting('backgroundColor').' !important; }';
-      drupal_add_css($color, 'inline', array('every_page' => TRUE, 'preprocess' => TRUE));
+      drupal_add_css($color, array('type' => 'inline', 'every_page' => TRUE));
     }
-	
+
     if(theme_get_setting('sticky-header') == 1) {
       $vars['classes_array'][] = 'sticky-header';
     }
   }
-	
+
 	/**
 	 * Implements hook_preprocess_page().
 	 */
@@ -179,10 +207,13 @@
     global $user; 
     $roles = $user->roles;
     // Hide the link statistics if current user is not admin or editor.
-    if(module_exists('statistics') 
-        && !in_array("editor", array_values($roles)) 
-        && !in_array("administrator", array_values($roles))) {
-      unset($vars['content']['links']['statistics']['#links']['statistics_counter']);
+    if(module_exists('statistics')) {
+      if(!in_array("editor", array_values($roles)) && !in_array("administrator", array_values($roles))) {
+        unset($vars['content']['links']['statistics']['#links']['statistics_counter']);
+      } else {
+        $vars['content']['links']['statistics']['#links']['statistics_counter']['title'] = 
+          substr_replace($vars['content']['links']['statistics']['#links']['statistics_counter']['title'], "", -6, 6);
+      }
     }
   }
 

@@ -84,6 +84,10 @@
 
   <?php print $user_picture; ?>
 
+  <?php if(!empty($content['links']['statistics']['#links']['statistics_counter'])): // Print the page view counter ?>
+    <div id="viewcounter"><span class="icon_wrap"><i class="fa fa-eye"></i><?php print $content['links']['statistics']['#links']['statistics_counter']['title']; ?></span></div>
+  <?php endif; ?>
+
   <?php print render($title_prefix); ?>
   <?php if (!$page): ?>
     <h2<?php print $title_attributes; ?>><a href="<?php print $node_url; ?>"><?php print $title; ?></a></h2>
@@ -105,7 +109,7 @@
     ?>
   </div>
 
-  <?php print render($content['links']); ?>
+  <?php //print render($content['links']); ?>
 
   <?php print render($content['comments']); ?>
 

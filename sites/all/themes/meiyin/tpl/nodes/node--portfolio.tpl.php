@@ -41,10 +41,10 @@
           <div class="postinfo">
             <div class="author">by <?php print $node->name; ?></div>
             <?php if(!empty($content['field_portfolio_tags'])): ?>
-              <div class="categories"><span>in</span> <?php print render($content['field_portfolio_tags']); ?></div>
+              <div class="categories"><span>in</span><?php print render($content['field_portfolio_tags']); ?></div>
             <?php endif; ?>
             <?php if(!empty($content['links']['statistics']['#links']['statistics_counter'])): // Print the page view counter ?>
-               <div id="viewcounter"><?php print $content['links']['statistics']['#links']['statistics_counter']['title']; ?></div>
+              <div id="viewcounter"><span class="icon_wrap"><i class="fa fa-eye"></i><?php print $content['links']['statistics']['#links']['statistics_counter']['title']; ?></span></div>
             <?php endif; ?>
           </div>
         <?php endif; ?>
@@ -94,7 +94,7 @@
               <div class="categories"><span>in</span> <?php print render($content['field_portfolio_tags']); ?></div>
             <?php endif; ?>
             <?php if(!empty($content['links']['statistics']['#links']['statistics_counter'])): // Print the page view counter ?>
-               <div id="viewcounter"><?php print $content['links']['statistics']['#links']['statistics_counter']['title']; ?></div>
+              <div id="viewcounter"><span class="icon_wrap"><i class="fa fa-eye"></i><?php print $content['links']['statistics']['#links']['statistics_counter']['title']; ?></span></div>
             <?php endif; ?>
           </div>
         <?php endif; ?>
@@ -118,7 +118,7 @@
               <div class="categories"><span>in</span> <?php print render($content['field_portfolio_tags']); ?></div>
             <?php endif; ?>
             <?php if(!empty($content['links']['statistics']['#links']['statistics_counter'])): // Print the page view counter ?>
-               <div id="viewcounter"><?php print $content['links']['statistics']['#links']['statistics_counter']['title']; ?></div>
+              <div id="viewcounter"><span class="icon_wrap"><i class="fa fa-eye"></i><?php print $content['links']['statistics']['#links']['statistics_counter']['title']; ?></span></div>
             <?php endif; ?>
           </div>
         <?php endif; ?>
@@ -139,7 +139,7 @@
               <div class="categories"><span>in</span> <?php print render($content['field_portfolio_tags']); ?></div>
             <?php endif; ?>
             <?php if(!empty($content['links']['statistics']['#links']['statistics_counter'])): // Print the page view counter ?>
-               <div id="viewcounter"><?php print $content['links']['statistics']['#links']['statistics_counter']['title']; ?></div>
+              <div id="viewcounter"><span class="icon_wrap"><i class="fa fa-eye"></i><?php print $content['links']['statistics']['#links']['statistics_counter']['title']; ?></span></div>
             <?php endif; ?>
           </div>
         <?php endif; ?>
@@ -160,7 +160,9 @@
         <div class="projectnavwrapper">
           <div id="projectnavwrap">
             <?php if(!empty($content['field_project_link'])): ?>
-              <a href="<?php print $content['field_project_link']['#items'][0]['safe_value']; ?>" target="_blank" class="btn btn-primary btn-normal launchbtn"><?php print (t("Launch Project")); ?></a>
+              <a href="<?php print $content['field_project_link']['#items'][0]['safe_value']; ?>" target="_blank" class="btn btn-primary btn-normal launchbtn">
+                <span class="icon_wrap"><i class="fa fa-camera"></i><?php print (t("Launch Project")); ?></span>
+              </a>
             <?php endif; ?>
             <div class="projectnav previousproject" data-rel="tooltip" data-original-title="<?php print(t("Previous Project")); ?>">
               <a href="<?php print url('node/' . $prev, array('absolute' => TRUE)); ?>" rel="prev" rev="next"></a>
