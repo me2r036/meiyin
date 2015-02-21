@@ -210,12 +210,8 @@
     if(module_exists('statistics')) {
       if(!in_array("editor", array_values($roles)) && !in_array("administrator", array_values($roles))) {
         unset($vars['content']['links']['statistics']['#links']['statistics_counter']);
-      } else {
-        $vars['content']['links']['statistics']['#links']['statistics_counter']['title'] = 
-          substr_replace($vars['content']['links']['statistics']['#links']['statistics_counter']['title'], "", -6, 6);
-      }
+      } 
     }
-  }
 
   /* To check if the current user has a single role or any of multiple roles, a great way is to do:
   // can be used in access callback too
@@ -232,6 +228,7 @@
     // $user is not admin and not moderator
   }
   */
+  }
 
 	function meiyin_preprocess_region(&$vars) {		
 		$theme = meiyin_get_theme();
