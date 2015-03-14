@@ -134,7 +134,16 @@ $url = url($path, $options);
 
 	<?php endif; ?>
 	
-	
+    <div class="bdsharebuttonbox">
+      <h6>分享到：</h6>
+      <a href="#" class="bds_weixin" data-cmd="weixin"></a>
+      <a href="#" class="bds_tsina" data-cmd="tsina"></a>
+      <a href="#" class="bds_tqq" data-cmd="tqq"></a>
+      <a href="#" class="bds_sqq" data-cmd="sqq"></a>
+      <a href="#" class="bds_qzone" data-cmd="qzone"></a>
+      <a href="#" class="bds_more" data-cmd="more"></a>
+    </div>
+
 	<!-- Render Links and Comments -->
 	<?php //print render($content['links']); ?>
 	<?php print render($content['comments']); ?>

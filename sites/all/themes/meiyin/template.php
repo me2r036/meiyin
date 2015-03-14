@@ -213,6 +213,19 @@
       } 
     }
 
+    // Baidu share script added here
+    if($vars['type'] == 'portfolio' || $vars['type'] == 'blog_post'){
+      $data = 'window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdPic":"","bdStyle":"1"},
+              "share":{"bdSize":"24"},
+              "image":{"viewList":["weixin","tsina","tqq","sqq","qzone"],"viewText":"分享到：","viewPos":"top","viewSize":"16"},
+              "selectShare":{"bdContainerClass":null,"bdSelectMiniList":["weixin","tsina","tqq","sqq","qzone"]}};
+              with(document)0[(getElementsByTagName(\'head\')[0]||body).appendChild(createElement(\'script\'))
+              .src=\'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=\'+~(-new Date()/36e5)];';
+      drupal_add_js($data, array('type' => 'inline', 'group' => JS_THEME));
+    }
+
+    //print_r($vars);
+
   /* To check if the current user has a single role or any of multiple roles, a great way is to do:
   // can be used in access callback too
   function user_has_role($roles) {
