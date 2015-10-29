@@ -47,7 +47,7 @@ function fancybox_admin_settings_form($form, &$form_state) {
   if (version_compare($jquery['version'], '1.7', '<')) {
     drupal_set_message(t('fancyBox requires jQuery 1.7 or higher. Please !configure to use a higher jQuery version.', array('!configure' => l(t('configure jQuery Update'), 'admin/config/development/jquery_update'))), 'error');
 
-    //return;
+    return;
   }
 
   $form['settings'] = array(

@@ -1030,16 +1030,16 @@ border-radius: 5px 0px 0px 0px;
   font-weight: 400; 
   font-size: 13px;
   color: #666; 
-  text-transform: none; 
+  text-transform: none;
   padding: 0, 0, 0, 0;
-  background: #fff;				
+  background: #fff;		
   border: 1px solid #e5e5e5;
-  -webkit-border-radius: 5px; 
-     -moz-border-radius: 5px; 
+  -webkit-border-radius: 5px;
+     -moz-border-radius: 5px;
           border-radius: 5px;
 }
 .projectnav a:hover:before {
-	color: #8baa2b; 
+	color: #8baa2b;
 }
 .previousproject a:before {
     content: '\f104';
