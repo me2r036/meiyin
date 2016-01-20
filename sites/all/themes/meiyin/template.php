@@ -64,18 +64,82 @@
       $element['#attributes']['class'][] = 'active';
     }
 	
-    if($element['#below']) {
-      $sub_menu = drupal_render($element['#below']);
-    }
-
-    $output = l($element['#title'], $element['#href'], $element['#localized_options']);
+    //if($element['#below']) {
+    //  $sub_menu = drupal_render($element['#below']);
+    //}
+    //$output = l($element['#title'], $element['#href'], $element['#localized_options']);
 
     //Add icon to the 'Home' menu link.
-    if($element['#title'] == 'Home') {
-      $output = str_replace("Home", '<span class="icon_wrap"><i class="fa fa-home"></i>Home</span>', $output);
-    }
+    //if($element['#title'] == 'Home') {
+    //  $output = str_replace('Home', '<span class="icon_wrap"><i class="fa fa-home"></i>' . t('Home') . '</span>', $output);
+    //  $output = str_replace('Home', ' ' . t('Home'), $output);
+    //  drupal_set_message(print "<pre>");
+    //  drupal_set_message(print_r($element));
+    //  drupal_set_message(print "</pre>");
+    //}
+    //if ($element['#title'] == 'Contact') {
+    //  $output = str_replace('Contact', ' ' . t('Contact'), $output);
+    //}
 
-    return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
+    //return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
+
+    /**
+     * Implements theme_menu_link().
+     *
+     * This code adds an icon <I> tag for use with icon fonts when a menu item
+     * contains a CSS class that starts with "icon-". You may add CSS classes to
+     * your menu items through the Drupal admin UI with the menu_attributes contrib
+     * module.
+     *
+     * Originally written by lacliniquemtl.
+     * Refactored by jwilson3 > mroji28 > driesdelaey.
+     * @see http://drupal.org/node/1689728
+     */
+    $exclusion = array(
+      'fa-lg','fa-2x','fa-3x','fa-4x','fa-5x',
+      'fa-fw',
+      'fa-ul', 'fa-li',
+      'fa-border',
+      'fa-spin',
+      'fa-rotate-90', 'fa-rotate-180','fa-rotate-270','fa-flip-horizontal','fa-flip-vertical',
+      'fa-stack', 'fa-stack-1x', 'fa-stack-2x',
+      'fa-inverse'
+    );
+
+    if (isset($element['#original_link']['options']['attributes']['class'])) {
+      foreach ($element['#original_link']['options']['attributes']['class'] as $key => $class) {
+        if (substr($class, 0, 3) == 'fa-' && !in_array($class, $exclusion)) {
+
+        // We're injecting custom HTML into the link text, so if the original
+        // link text was not set to allow HTML (the usual case for menu items),
+        // we MUST do our own filtering of the original text with check_plain(),
+        // then specify that the link text has HTML content.
+
+          if (!isset($element['#original_link']['options']['html']) || empty($element['#original_link']['options']['html'])) {
+            $element['#title'] = check_plain($element['#title']);
+            $element['#localized_options']['html'] = TRUE;
+          }
+
+          // Add the default-FontAwesome-prefix so we don't need to add it manually in the menu attributes
+            // My approach still need to specify fa fa-icon in the menu attributes. by me2 on 14/11/2015
+          $class = 'fa ' . $class;
+
+          // Create additional HTML markup for the link's icon element and wrap
+          // the link text in a SPAN element, to easily turn it on or off via CSS.
+          $element['#title'] = '<i class="' . $class . '"></i><span>' . t($element['#title']) . '</span>';
+
+          // Finally, remove the icon class from link options, so it is not printed twice.
+          unset($element['#localized_options']['attributes']['class']);
+
+          // kpr($element); // For debugging.
+
+        }
+      }
+    }
+    // Save our modifications, and call core theme_menu_link().
+    $var['element'] = $element;
+    return theme_menu_link($var);
+    // return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
   }
 	
   function meiyin_menu_tree(&$vars) {
@@ -111,17 +175,25 @@
         '#attributes' => array('placeholder' => array(t('Search'))) // Add placeholder to the search form 
       );
       //$form['basic']['keys']['#attributes'] = array('placeholder' => t('Search'));
+      $form['#submit'][] = 'input_search_submit'; 
     }
 
     if($form_id == 'contact_site_form') {
-      $form['actions'] = array(
-        'submit' => array(
-          '#markup' => '<div class="form-actions form-wrapper" id="edit-actions">
-                          <button type="submit" class="btn btn-primary form-submit"><span class="icon_wrap"><i class="fa fa-send"></i>发送消息</span></button>
-                        </div>'
-        )
-      );
-      //drupal_set_message(print_r($form));
+      $form['actions']['submit']['#value'] = decode_entities('&#xf1d8;') . ' 发送消息';
+      //$form['actions'] = array(
+      //  'submit' => array(
+      //    '#markup' => '<div class="form-actions form-wrapper" id="edit-actions">
+      //                    <button type="submit" class="btn btn-primary form-submit"><span class="icon_wrap"><i class="fa fa-send"></i>发送消息</span></button>
+      //                  </div>',
+          // '#type' => 'markup',
+          // '#prefix' => '<div class ...',
+          // '#suffix' => '</div>',
+      //  )
+      //);
+    }
+
+    if ($form_id == 'webform_client_form_47') {
+      $form['actions']['submit']['#value'] = decode_entities('&#xf1d8;') . ' 提交预约';
     }
 
   }
@@ -136,7 +208,7 @@
     }
 
     // Load fontawesome from cdn, fallback with globle js.
-    drupal_add_css('//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css', 
+    drupal_add_css('//cdn.bootcss.com/font-awesome/4.4.0/css/font-awesome.min.css', 
                           array('type' => 'external', 'group' => CSS_THEME, 'every_page' => TRUE));
 
    // $vars['jquery'] = '<script type="text/javascript" src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>';
@@ -207,14 +279,14 @@
     global $user; 
     $roles = $user->roles;
     // Hide the link statistics if current user is not admin or editor.
-    if(module_exists('statistics')) {
+    if (module_exists('statistics')) {
       if(!in_array("editor", array_values($roles)) && !in_array("administrator", array_values($roles))) {
         unset($vars['content']['links']['statistics']['#links']['statistics_counter']);
       } 
     }
 
     // Baidu share script added here
-    if($vars['type'] == 'portfolio' || $vars['type'] == 'blog_post'){
+    if ($vars['type'] == 'portfolio' || $vars['type'] == 'blog_post' || $vars['type'] == 'webform'){
       $data = 'window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdPic":"","bdStyle":"1"},
               "share":{"bdSize":"24"},
               "image":{"viewList":["weixin","tsina","tqq","sqq","qzone"],"viewText":"分享到：","viewPos":"top","viewSize":"16"},
@@ -264,7 +336,6 @@
 		if (($css != 'none')) { $vars['classes_array'][] = $css; } else { die; }
 		
 	}
-
 	
 	function meiyin_process_region(&$vars) {
 		$theme = meiyin_get_theme();
