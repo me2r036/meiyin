@@ -159,7 +159,7 @@
 				
 				<div class="row mobilemenu">
 					<div class="icon-menu"></div>
-					<form id="responsive-menu" action="#" method="post">
+					<form id="responsive-menu" action="#" method="post" accept-charset="UTF-8">
 						<select></select>
 					</form>
 				</div>
@@ -191,6 +191,12 @@
 			<div class="clearfix"></div>
 		</section>
 	<?php endif; ?>
+
+    <?php if ($messages): ?>
+      <div id="messages"><div class="section clearfix">
+        <?php print $messages; ?>
+      </div></div> <!-- /.section, /#messages -->
+    <?php endif; ?>
 	
 	<section id="firstcontentcontainer" class="container">
 		<?php if ($page['prescript_first'] || $page['prescript_second'] || $page['prescript_third'] || $page['prescript_fourth']): ?>
