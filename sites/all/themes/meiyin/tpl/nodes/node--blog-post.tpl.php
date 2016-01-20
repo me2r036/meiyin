@@ -144,8 +144,4 @@ $url = url($path, $options);
       <a href="#" class="bds_more" data-cmd="more"></a>
     </div>
 
-	<!-- Render Links and Comments -->
-	<?php //print render($content['links']); ?>
-	<?php print render($content['comments']); ?>
-
 </div>

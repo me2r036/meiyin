@@ -206,4 +206,4 @@
 </footer>
 <!-- /#footer -->
 
-<script src="http://www.google.cn/maps/api/js?sensor=false" type="text/javascript"></script>
+<script type="text/javascript" src="http://www.google.cn/maps/api/js?v=3&sensor=false"></script>
