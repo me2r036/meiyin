@@ -1,10 +1,10 @@
 # Chinese, Simplified translation of Transliteration (7.x-3.2)
-# Copyright (c) 2014 by the Chinese, Simplified translation team
+# Copyright (c) 2015 by the Chinese, Simplified translation team
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Transliteration (7.x-3.2)\n"
-"POT-Creation-Date: 2014-03-18 18:23+0000\n"
+"POT-Creation-Date: 2015-11-01 07:07+0000\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Language-Team: Chinese, Simplified\n"
 "MIME-Version: 1.0\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n!=1);\n"
 
 msgid "This action cannot be undone."
-msgstr "此动作无法恢复。"
+msgstr "此动作无法撤销。"
 msgid "Settings"
 msgstr "设置"
 msgid "Transliteration"

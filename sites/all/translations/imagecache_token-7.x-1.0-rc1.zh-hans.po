@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Imagecache Token (7.x-1.0-rc1)\n"
-"POT-Creation-Date: 2015-08-02 06:51+0000\n"
+"POT-Creation-Date: 2015-12-30 09:39+0000\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Language-Team: Chinese, Simplified\n"
 "MIME-Version: 1.0\n"

@@ -1,10 +1,10 @@
-# Chinese, Simplified translation of Token (7.x-1.5)
-# Copyright (c) 2014 by the Chinese, Simplified translation team
+# Chinese, Simplified translation of Token (7.x-1.6)
+# Copyright (c) 2015 by the Chinese, Simplified translation team
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Token (7.x-1.5)\n"
-"POT-Creation-Date: 2014-09-26 12:27+0000\n"
+"Project-Id-Version: Token (7.x-1.6)\n"
+"POT-Creation-Date: 2015-12-30 14:55+0000\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Language-Team: Chinese, Simplified\n"
 "MIME-Version: 1.0\n"
@@ -47,7 +47,7 @@ msgstr "菜单链接"
 msgid "Roles"
 msgstr "角色"
 msgid "Count"
-msgstr "次数"
+msgstr "计数"
 msgid "Last"
 msgstr "末页"
 msgid "Arguments"
@@ -65,7 +65,7 @@ msgstr "可用的token"
 msgid "First"
 msgstr "第一"
 msgid "Reversed"
-msgstr "反向排序"
+msgstr "反向"
 msgid "Menus"
 msgstr "菜单"
 msgid "Extension"
