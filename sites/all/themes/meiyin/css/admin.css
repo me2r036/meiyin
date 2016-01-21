@@ -129,7 +129,7 @@
 .form-item label[for="edit-layoutcolor-green"] { background: #8baa2b; }
 .form-item label[for="edit-layoutcolor-blue"] { background: #2a80b9; }
 .form-item label[for="edit-layoutcolor-orange"] { background: #f49c14; }
-.form-item label[for="edit-layoutcolor-red"] { background: #f45858; }
+.form-item label[for="edit-layoutcolor-red"] { background: #ff5165; }
 .form-item label[for="edit-layoutcolor-navy"] { background: #34495e; }
 
 .form-radios .form-item.form-item-layoutColor {

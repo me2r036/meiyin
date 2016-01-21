@@ -1,52 +1,60 @@
 /* BORDER COLORS */
-body.wide { border-top: 3px solid #f45858; }
-body.fullwidthlayout { border-top: 3px solid #f45858; }
-.boxedlayout .headertopwrap { border-top: 3px solid #f45858; }
-.headertopwrap.boxed { border-top: 3px solid #f45858; }
-.sidebar .tagcloud a:hover { border-color: #f45858; }
+body.wide { border-top: 3px solid #ff5165; }
+body.fullwidthlayout { border-top: 3px solid #f9bad4; }
+.boxedlayout .headertopwrap { border-top: 3px solid #ff5165; }
+.headertopwrap.boxed { border-top: 3px solid #ff5165; }
 
 /* BACKGROUND COLORS */
-/*::selection { background: #f45858; } /* Safari */
-/*::-moz-selection { background: #f45858; } /* Firefox */
+/*::selection { background: #ff5165; } /* Safari */
+/*::-moz-selection { background: #ff5165; } /* Firefox */
 
 .colored .pagetitlewrap, .progress-success .bar, .mediaholder .link, .mediaholder .show,
 a.service:hover .serviceicon, .pricing .highlight .thead, .btn-primary:hover { 
-	background: #f45858; 
+	background: #f48cb7; 
 }
 
-.btn-primary:hover { background: #f45858 url('../img/tiles/dark25.png') repeat !important; }
-
-.footer .tagcloud a:hover,  
+.btn-primary:hover { background: #f48cb7 url('../img/tiles/dark25.png') repeat !important; }
 .btn-primary:hover, .btn-primary:active, .btn-primary.active, 
 .btn-primary.disabled, .btn-primary[disabled], .form-submit #submit, .standardbtn, .form-submit #submit:hover, .standardbtn:hover,
 .form-submit #submit:active, .standardbtn:active, .form-submit #submit:active, .standardbtn.active, .form-submit #submit:disabled,
 .standardbtn.disabled, .form-submit #submit:hover , .standardbtn[disabled], .form-submit #submit:active, .standardbtn:active,
-.standardbtn.active, .footer .tagcloud a:hover, .sidebar .tagcloud a:hover  { 
-	background-color: #f45858; 
+.standardbtn.active { 
+	background-color: #f48cb7; 
 }
+.footer .tagcloud a:hover { background-color: #ff5165; }
+.foliotextholder .itemcategories a { color: #f48cb7; }
 	
 /* TEXT COLORS */
 .themecolor, .notfounderror, a, a.color, a.service:hover h4, a.service:hover h5, span.hlink, .pricing .price, 
 .pricing .price .dollar, .blogpost.sticky h2 a, .blogpost.sticky .month, .blogpost.sticky .month, .blogpost.sticky .day, 
-.blogpost.sticky .day, .sidebar .block-posts ul li span, .block-archive ul li a:before, .block-categories ul li a:before,
-.sidebar .block-posts ul li span, .block-archive ul li a:before, .block-categories ul li a:before, ul.recentcomments li a.username,
+.blogpost.sticky .day, .block-archive ul li a:before, .block-categories ul li a:before, .block-archive ul li a:before, 
+.block-categories ul li a:before, ul.recentcomments li a.username,
 ul.recentcomments li a:before, ul.portfoliofilter li a:hover, ul.portfoliofilter li a.selected, .foliotextholder .itemcategories,
-.foliotextholder .itemcategories a, .projectnav a:hover:before, .nav-tabs > .active > a, .nav-tabs > .active > a:hover, 
+.projectnav a:hover:before, .nav-tabs > .active > a, .nav-tabs > .active > a:hover, 
 .accordion-toggle, a.accordion-toggle:hover, .pagination ul > li > a:hover, .pagination ul > .active > a, .pagination ul > .active > span, 
 .pagination ul > .disabled > span, .pagination ul > .disabled > a, .pagination ul > .disabled > a:hover, .pagination ul > .pager-current > a, 
 .pagination ul > .pager-current > span, .pagination ul > .pager-current > a:hover, #block-menu-menu-elements ul li a:before { 
-	color: #f45858; 
+	color: #f7abcb; 
 }
 
 /* MENUS */
-.ddsmoothmenu ul li.active a, .ddsmoothmenu ul li.current-menu-ancestor a { color: #f01818; border-top: 1px solid #f01818; }
-.ddsmoothmenu ul li a:hover, .ddsmoothmenu ul li a.selected { color: #f01818; }
-.block-sidebar-menu ul li span {  color: #f45858;  }
+.ddsmoothmenu ul li.active a, .ddsmoothmenu ul li.active-trail a, .ddsmoothmenu ul li.current-menu-ancestor a { color: #fff; border-top: 1px solid transparent; background: #f48cb7; }
+.ddsmoothmenu ul li.active a:hover, .ddsmoothmenu ul li.active-trail a:hover, .ddsmoothmenu ul li.current-menu-ancestor a:hover { color: #fff; border-top: 1px solid #f48cb7;}
+.ddsmoothmenu ul li.active, .ddsmoothmenu ul li.active-trail { color: #fff; }
+.ddsmoothmenu ul li a:hover, .ddsmoothmenu ul li a.selected { color: #f48cb7; border-top: 1px solid #ed3e87; }
+.ddsmoothmenu ul li.active a, .ddsmoothmenu ul li.active-trail a { color: #fff; }
+
+.ddsmoothmenu ul li ul li.active a:hover, .ddsmoothmenu ul li ul li.active-trail a:hover, 
+.ddsmoothmenu ul li ul li.current-menu-ancestor a:hover { color: #fff; background: #f48cb7; }
+.ddsmoothmenu ul li ul li a:hover, .ddsmoothmenu ul li ul li a.selected { color: #fff; background: #f48cb7; }
+
+
+.block-sidebar-menu ul li span { color: #ff5165; }
 
 /* SLIDER CAPTIONS */
 
 .tp-caption.fat_small_green, .tp-caption.fat_medium_green, .tp-caption.fat_green { 
-	background-color: #f45858 !important; 
+	background-color: #ff5165 !important; 
 }
 
-.icon-forward { color: #f45858 !important; }
+.icon-forward { color: #ff5165 !important; }
