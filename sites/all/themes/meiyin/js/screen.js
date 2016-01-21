@@ -57,80 +57,81 @@ jQuery(document).ready(function($) {
     jQuery(this).find('.thumboverlay').fadeToggle(100);
   });
 
-	/* GOOGLE MAPS */
-	if (jQuery('.map').exists()) {
-		var container = jQuery(".map");
-		if (container.length == 0){ return; } 
-		var mapInner = jQuery('.map');	
-		var coordinate = new google.maps.LatLng(container.data("lat"), container.data("lon"));
+  /* GOOGLE MAPS */
+  if (jQuery('.map').exists()) {
+    var container = jQuery(".map");
+    if (container.length == 0){ return; }
+    var mapInner = jQuery('.map');
+    var coordinate = new google.maps.LatLng(container.data("lat"), container.data("lon"));
 
-		var mapOptions = {
-				center: coordinate,
-				zoom: 15,
-				mapTypeId: google.maps.MapTypeId.ROADMAP,
-				mapTypeControl: false
-		};
+    var mapOptions = {
+      center: coordinate,
+      zoom: 3,
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      mapTypeControl: false
+    };
 
-		var map = new google.maps.Map(mapInner.get(0), mapOptions);
+    var map = new google.maps.Map(mapInner.get(0), mapOptions);
 
-		var image = 'http://maps.gstatic.cn/mapfiles/marker.png';
-		var title = '美音婚礼 | meiyin.co - feel the differences ~';
+    var image = 'http://maps.gstatic.cn/mapfiles/marker.png';
+    var title = '美音婚礼 | meiyin.co - feel the differences ~\n';
+        title += '陕西省 西安市 科技路1号 秦融酒店1018\n';
+        title += '029 8754 7720 / 186 8181 6517 / info@meiyin.co';
 
-		var myMarker = new google.maps.Marker({
-			position: coordinate,
-			map: map,
-			icon: image,
-			title: title,
-			animation: google.maps.Animation.DROP
-		});
-	}
+    var myMarker = new google.maps.Marker({
+      position: coordinate,
+      map: map,
+      icon: image,
+      title: title,
+      animation: google.maps.Animation.DROP
+    });
+  }
 	
-	/* RETINA ICONS */
-
-	if (jQuery('ul.retina-icons').exists()) {
-		jQuery('ul.retina-icons li > i').each(function() {
-			$class = jQuery(this).attr("class");
-			jQuery(this).attr('data-rel', 'tooltip').attr('data-title', $class).attr('data-placement', 'bottom').tooltip();
-		});
-	}
+  /* RETINA ICONS */
+  if (jQuery('ul.retina-icons').exists()) {
+    jQuery('ul.retina-icons li > i').each(function() {
+      $class = jQuery(this).attr("class");
+      jQuery(this).attr('data-rel', 'tooltip').attr('data-title', $class).attr('data-placement', 'bottom').tooltip();
+    });
+  }
 	
-	/* MODIFY PAGINATOR */
-	if ($('.pager').exists()) {
-		var $pages = 0,
-			$current = $('.pager-current').text(),
-			$parent = $('.pager').parent();
+  /* MODIFY PAGINATOR */
+  if ($('.pager').exists()) {
+    var $pages = 0,
+    $current = $('.pager-current').text(),
+    $parent = $('.pager').parent();
 		
-		$('.pager-item, .pager-current').each(function() {
-			$pages++;
-		});
+    $('.pager-item, .pager-current').each(function() {
+      $pages++;
+    });
 		
-		$parent.addClass('pagination').before('<div class="pagenumbers">Page '+$current+ ' of '+$pages+'</div>');
-		$('.pager').removeClass('pager');
-		$('.pager-current').wrapInner('<span />');
+    $parent.addClass('pagination').before('<div class="pagenumbers">Page '+$current+ ' of '+$pages+'</div>');
+    $('.pager').removeClass('pager');
+    $('.pager-current').wrapInner('<span />');
 
-	}
+  }
 
-	/* CARE ABOUT THE INPUT FIELDS */
-	initInputFields();
+  /* CARE ABOUT THE INPUT FIELDS */
+  initInputFields();
 
-	/*WAIT FOR SLIDER LOADER*/
-	if (jQuery('.front').exists()) {
-		initSliderFun();
-		initSliderHeight();
-	}
+  /*WAIT FOR SLIDER LOADER*/
+  if (jQuery('.front').exists()) {
+    initSliderFun();
+    initSliderHeight();
+  }
 	
-	if (jQuery('.messages').exists()) {
-		jQuery('.messages:last').css('margin-bottom', '20px');
-	}
+  if (jQuery('.messages').exists()) {
+    jQuery('.messages:last').css('margin-bottom', '20px');
+  }
 	
-  /* STICKY HEADER */
+  /* STICKY HEADER, TRANSPARENT HEADER, FOOTER LOGO ANIMATION by me2 */
   if (jQuery('.sticky-header').exists()) {
     /*Replace the logo picture while the transition finishing */ 
     var $image = $('.logo').find('img');
 
     $(window).resize(function() {
       var $top = $('.headertopwrap').height() + 3;   
-      if($(this).scrollTop() >= $top) {
+      if ($(this).scrollTop() >= $top) {
         $('.headerwrap').addClass('fixed');
         $('.headerwrap').css('margin-top', -$top+'px');
         $image.attr('src', $image.attr('src').replace('logo.png', 'logo-s.png'));
@@ -143,10 +144,22 @@ jQuery(document).ready(function($) {
 
     $(document).scroll( function() {
       var $top = $('.headertopwrap').height() + 3;   
-      if($(this).scrollTop() >= $top) {
+      if ($(this).scrollTop() >= $top) {
         $('.headerwrap').addClass('fixed');
         $('.headerwrap').css('margin-top', -$top+'px');
         $image.attr('src', $image.attr('src').replace('logo.png', 'logo-s.png'));
+
+        if ($(this).scrollTop() >= $top + $('.region.header').height() + 16) {
+          $('.headerwrap').addClass('bg-white');
+        }
+        else {
+          $('.headerwrap').removeClass('bg-white');
+        }
+
+        if (($(this).scrollTop() >= $('.allwrapper').height() - document.documentElement.clientHeight + 108) && $('.front').exists() && $('.logo-init').exists()) {
+          $('.footer-about').removeClass('logo-init');
+        }
+
       } else {
         $('.headerwrap').removeClass('fixed');
         $('.headerwrap').css('margin-top', 'inherit');
@@ -155,7 +168,7 @@ jQuery(document).ready(function($) {
     });		
   }
 
-  // CDN fallback function for font-awesome.
+  /* CDN fallback function for font-awesome. */
   (function ($){
     var $span = $('<span class="fa" style="display:none"></span>').appendTo('body');
     if($span.css('fontFamily') !== 'FontAwesome' ) {
@@ -164,6 +177,18 @@ jQuery(document).ready(function($) {
     }
     $span.remove();
   })(jQuery);
+
+  /* Webform component background color. */
+  jQuery('.webform-component').click(function() {
+    var $item = $(this);
+    if (!$item.hasClass('webform-focus')) {
+      jQuery('.webform-focus').removeClass('webform-focus');
+      $item.addClass('webform-focus');
+    }
+  });
+
+  /* Init footer logo */
+  initFooterLogo();
 
 });
 
@@ -186,7 +211,6 @@ jQuery(document).ready(function($) {
 				});
 			
 			jQuery(window).scroll(function() {			
-
 				var offset = jQuery(window).scrollTop();
 					jQuery('#revolution_slider_1 .tp-parallax').each(function() {
 						var tp=jQuery(this);
@@ -282,29 +306,6 @@ function initTeamMemberAdjustment() {
 //	});
 }
 
-/* Sticky Header */
-function initStickyHeader(){
-    var navIsBig = true;
-    var $nav = $('nav');
-    var $logo = $('.logo img');
-    var $height = $logo.height()
-    
-    $(document).scroll( function() {
-        var value = $(this).scrollTop();
-       
-        if ( value > 100 && navIsBig ){
-           $nav.animate({height:45},"slow");
-           $logo.animate({height:($height * 0.8)},"slow");
-           navIsBig = false;
-        }
-        else if (value <= 100 && !navIsBig ) {
-           $nav.animate({height:100},"slow");
-           $logo.animate({height:($height * 1)},"slow");
-           navIsBig = true;
-        }
-    });
-}
-
 /* INITIALISE  THE COLLAPSE FUNCTIONS */
 function initCollapseExtras() {
 	jQuery('.accordion-toggle').each(function() {
@@ -352,9 +353,15 @@ function menuHandler() {
 		var a=jQuery(this);
 		var par= a.parents().length-defpar -3;
 
-		var atext = a.html().split('<')[0];
-		atext = atext.toLowerCase();
-		atext = atext.substr(0,1).toUpperCase() + atext.substr(1,atext.length);
+    /* Solve problem caused by Menu Attribute */
+    var str = a.html();
+    str = str.replace(/<i.*><\/i>/g, "");
+    str = str.replace(/<span>/g, "");
+
+		var atext = str.split('<')[0];
+
+    atext = atext.toLowerCase();
+    atext = atext.substr(0,1).toUpperCase() + atext.substr(1,atext.length);
 
 		if (par==0)
 			var newtxt=jQuery("<div>"+atext+"</div>").text();
@@ -403,28 +410,23 @@ function footerHandler() {
 				footer_wrap.animate({'marginTop':"0px"},{duration:300,queue:false});
 			}
 		}
-
-
 	};
-
-
-
 }
-
 
 // Check Mobile
 function is_mobile() {
     var agents = ['android', 'webos', 'iphone', 'ipad', 'blackberry','Android', 'webos', ,'iPod', 'iPhone', 'iPad', 'Blackberry', 'BlackBerry'];
-    var ismobile=false;
+    var ismobile = false;
     for(i in agents) {
-        if (navigator.userAgent.split(agents[i]).length>1) {
+        if (navigator.userAgent.split(agents[i]).length > 1) {
             ismobile = true;
         }
     }
     return ismobile;
 }
-	
-function initStickyHeader(){
+
+/* Sticky Header */
+function initStickyHeader() {
     var navIsBig = true;
     var $nav = $('.headerwrap');
     var $logo = $('.logo img');
@@ -446,6 +448,14 @@ function initStickyHeader(){
     });
 }
 
+/* Init footer logo */
+function initFooterLogo() {
+  if (jQuery('.front').exists()) {
+    jQuery('.footer-about').addClass('logo-init');
+  }
+}
+
+/* Back to top */
 (function ($) {
   Drupal.behaviors.backtotop = {
     attach: function (context, settings) {
