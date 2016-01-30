@@ -30,7 +30,7 @@
       <img src="<?php print image_style_url('portfolio_isotope_small_400x192', $row->field_field_image[0]['raw']['uri']); ?>" />
       <div class="cover"></div>
       <?php if(!empty($row->field_field_fancybox[0]['raw']['value'])): ?>
-        <a class="fancybox" href="<?php print file_create_url($row->field_field_image[0]['raw']['uri']); ?>" data-fancybox-group="gallery<?php print $row->nid; ?>" title="<?php print $row->node_title; ?>">
+        <a class="fancybox" href="<?php print image_style_url('portfolio_markedwhite_1280x615', $row->field_field_image[0]['raw']['uri']); ?>" data-fancybox-group="gallery<?php print $row->nid; ?>" title="<?php print $row->node_title; ?>">
           <div class="show icon-search notalone"></div>
         </a>
         <a href="<?php $options = array('absolute' => TRUE); print url('node/' . $row->nid, $options);?>">
@@ -41,7 +41,7 @@
         <?php $galleryArray = $row->_field_data[nid][entity]->field_gallery; ?>
         <?php if(!empty($galleryArray)): ?>
           <?php foreach($galleryArray[und] as $imageInfo): ?>
-            <a class="fancybox" href="<?php print file_create_url($imageInfo['uri']); ?>" data-fancybox-group="gallery<?php print $row->nid; ?>" title="<?php print $row->node_title; ?>"></a>
+            <a class="fancybox" href="<?php print image_style_url('portfolio_markedwhite_1280x615', $imageInfo['uri']); ?>" data-fancybox-group="gallery<?php print $row->nid; ?>" title="<?php print $row->node_title; ?>"></a>
           <?php endforeach; ?>
         <?php endif; ?>
 

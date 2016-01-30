@@ -61,16 +61,16 @@
         <div id="gallerywrap">
           <div id="gallery">
             <div class="thumbholder">
-              <a class="fancybox" href="<?php print file_create_url($node->field_image['und'][0]['uri']); ?>" data-fancybox-group="gallery<?php print $node->nid; ?>" title="<?php print $title; ?>">
-                <img src="<?php print image_style_url('thumbnail', $node->field_image['und'][0]['uri']); ?>" />
+              <a class="fancybox" href="<?php print image_style_url('portfolio_markedwhite_1280x615', $node->field_image['und'][0]['uri']); ?>" data-fancybox-group="gallery<?php print $node->nid; ?>" title="<?php print $title; ?>">
+                <img src="<?php print image_style_url('portfolio_fancybox_thumbnail_100x48', $node->field_image['und'][0]['uri']); ?>" />
                 <div class="thumboverlay" style="display: none"></div>
               </a>
             </div>
             <?php if(!empty($node->field_gallery)): ?>
               <?php foreach ($node->field_gallery['und'] as $imageInfo): ?>
                 <div class="thumbholder">
-                  <a class="fancybox" href="<?php print file_create_url($imageInfo['uri']); ?>" data-fancybox-group="gallery<?php print $node->nid; ?>" title="<?php print $title; ?>">
-                    <img src="<?php print image_style_url('thumbnail', $imageInfo['uri']); ?>" />
+                  <a class="fancybox" href="<?php print image_style_url('portfolio_markedwhite_1280x615', $imageInfo['uri']); ?>" data-fancybox-group="gallery<?php print $node->nid; ?>" title="<?php print $title; ?>">
+                    <img src="<?php print image_style_url('portfolio_fancybox_thumbnail_100x48', $imageInfo['uri']); ?>" />
                     <div class="thumboverlay" style="display: none"></div>
                   </a>
                 </div>
