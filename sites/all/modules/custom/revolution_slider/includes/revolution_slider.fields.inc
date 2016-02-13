@@ -609,7 +609,7 @@ function revolution_slider_field_widget_form(&$form, &$form_state, $field, $inst
 					'#upload_validators' => array(
 							'file_validate_extensions' => array(0 => 'png jpg jpeg gif'),
 					),
-					'#upload_location' => 'public://default_images/',
+					'#upload_location' => 'public://images/slider/layer/',
 					'#description' => t("Upload an image."),
 					'#states' => array(
 							'visible' => array(      // Action to take: check the checkbox.
