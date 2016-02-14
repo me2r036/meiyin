@@ -26,14 +26,14 @@ $url = url($path, $options);
     </div>
   <?php endif; ?>
 
-  <?php if(!empty($content['field_body'])): ?>
+  <?php if(!empty($content['body'])): ?>
     <div class="field-items webform-body">
-      <?php print render($content['field_body']); ?>
+      <?php print render($content['body']); ?>
     </div>
   <?php endif; ?>
 
   <?php if(!empty($content['field_image'])): ?>
-    <div class="webform-background-wrapper" style="background:url(<?php print file_create_url($node->field_image['und']['0']['uri']); ?>) no-repeat; ">
+    <div class="webform-background-wrapper" style="background:url(<?php print file_create_url($node->field_image['und']['0']['uri']); ?>) no-repeat;">
   <?php endif; ?>
 
   <?php
@@ -41,6 +41,7 @@ $url = url($path, $options);
     hide($content['comments']);
     hide($content['links']);
     hide($content['field_description']);
+    hide($content['body']);
     hide($content['field_image']);
     print render($content);
   ?>
