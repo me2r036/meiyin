@@ -35,7 +35,7 @@
 
       <?php switch($node->field_template['und'][0]['value']): case 'image': ?>
         <div class="postmedia">
-          <img src="<?php print image_style_url('portfolio_fullwidth_1170x468', $node->field_image['und'][0]['uri']); ?>" />
+          <img src="<?php print image_style_url('portfolio_sidebar_870x348', $node->field_image['und'][0]['uri']); ?>" />
         </div>
         <?php if ($display_submitted): ?>
           <div class="postinfo">
