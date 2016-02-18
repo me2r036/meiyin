@@ -51,7 +51,7 @@
         </a>
       <?php endif; ?>
     </div>
-  <?php endif;?>
+  <?php endif; ?>
 
   <?php if($id != 'field_fancybox' && $id != 'field_image'): ?>
     <?php if (!empty($field->separator)): ?>
