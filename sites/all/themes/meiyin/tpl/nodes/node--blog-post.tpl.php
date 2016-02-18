@@ -52,7 +52,7 @@ $url = url($path, $options);
 		<?php if(!empty($content['field_video'])): ?>
 			<div class="postmedia">
 				<div class="scalevid">
-					<div class="fluid-width-video-wrapper" style="padding-top: 56.25%;">
+					<div class="fluid-width-video-wrapper" style="padding-top: 60.95%;">
 						<?php print $node->field_video['und'][0]['safe_value']; ?>
 					</div>
 				</div>
