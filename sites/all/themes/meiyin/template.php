@@ -286,7 +286,7 @@
     }
 
     // Baidu share script added here
-    if ($vars['type'] == 'portfolio' || $vars['type'] == 'blog_post' || $vars['type'] == 'webform'){
+    if ($vars['type'] == 'portfolio' || $vars['type'] == 'blog_post' || $vars['type'] == 'webform' || $vars['type'] == 'service' || $vars['node']->nid == '31'){
       $data = 'window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdPic":"","bdStyle":"1"},
               "share":{"bdSize":"24"},
               "image":{"viewList":["weixin","tsina","tqq","sqq","qzone"],"viewText":"分享到：","viewPos":"top","viewSize":"16"},
