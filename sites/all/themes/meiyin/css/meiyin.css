@@ -897,8 +897,8 @@ ul.recentcomments li a:before { float: left; font-size: 13px; line-height: 13px;
 
 .carousel { float: left; position: relative; margin-bottom: 0px; line-height: 1; border: 1px solid #eee; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; }
 .carousel-inner { float: left; position: relative; width: 100%; overflow: hidden;}
-.carousel .item { font-size: 15px; line-height: 26px; position: relative; display: none; -webkit-transition: 0.6s left; -moz-transition: 0.6s left; -o-transition: 0.6s left; transition: 0.6s left; color: #777; height: auto; background: #f3f3f3; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
-.carousel .padded { padding: 35px; }
+.carousel .item { font-size: 14px; line-height: 26px; position: relative; display: none; -webkit-transition: 0.6s left; -moz-transition: 0.6s left; -o-transition: 0.6s left; transition: 0.6s left; color: #777; height: auto; background: #f3f3f3; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
+.carousel .padded { padding: 15px; }
 .carousel .item > img { display: block; line-height: 1; width: 100%;}
 .carousel .active, .carousel .next, .carousel .prev { display: block; }
 .carousel .active { left: 0; }
@@ -919,20 +919,22 @@ ul.recentcomments li a:before { float: left; font-size: 13px; line-height: 13px;
 .carousel .item .image { float: left; margin-right: 15px; margin-bottom: 15px; margin-top: 0px; }
 .carousel .item .image.right { float: right; margin-left: 15px; margin-right: 0; }
 .carousel .item .image.left { float: left; margin-right: 15px; }
-cite { display: block; font-size: 13px; margin-top: 10px; text-transform: uppercase; color: #666; line-height: 18px; }
+cite { display: block; font-size: 13px; text-transform: uppercase; color: #666; line-height: 18px; }
 blockquote { font-size: 15px; line-height: 26px; color: #777; background: #eee; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; padding: 20px; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; border: 0; }
-.carousel img { float: left; border-radius: 5px; height: 45px; }
-.carousel .signature { line-height: 15px; padding-left: 10px; }
-
+.carousel img { float: left; border-radius: 5px; height: 45px; margin-right: 10px; }
+.carousel ul { list-style: none; }
+.carousel ul > li:first-child { height: 45px; }
+.carousel ul > li { height: 15px; }
+.carousel .fa { float: left; color: #f45858; padding-left: 20px; margin-right: 5px; }
 /* PORTFOLIO */
 /* ------------------------------------ */
 
-.portfoliowrap	{ overflow:hidden;position:relative; margin-left: 0; float: left; }
-.portfolio		{ overflow:hidden; position:relative; margin-left: -10px; margin-bottom: -10px; margin-top: -10px; }
-.portfolio img	{ width:100%; max-width:none !important; height:auto; }
-.threecol .entry	{ width:393px; float:left;overflow:hidden;position:relative; }
-.fourcol .entry	{ width:295px; float:left;overflow:hidden;position:relative; }
-.fivecol .entry	{ width:236px; float:left;overflow:hidden;position:relative; }
+.portfoliowrap { overflow: hidden; position: relative; margin-left: 0; float: left; }
+.portfolio { overflow: hidden; position: relative; margin-left: -10px; margin-bottom: -10px; margin-top: -10px; }
+.portfolio img { width: 100%; max-width: none !important; height: auto; }
+.threecol .entry { width: 393px; float: left; overflow: hidden; position: relative; }
+.fourcol .entry { width: 295px; float: left; overflow: hidden; position: relative; }
+.fivecol .entry { width: 236px; float: left; overflow: hidden; position: relative; }
 
 .node-type-portfolio .postinfo,	.page-taxonomy-term .postinfo { padding-left: 0px; }
 .page-taxonomy-term h2 { margin-bottom: 10px; }
@@ -946,7 +948,7 @@ ul.portfoliofilter li { float: left; list-style-type: none; display: inline; mar
 ul.portfoliofilter li a { font-weight: 400; font-size: 13px; float: left; color: #666; line-height: 20px; text-transform: none; padding-bottom: 2px; padding-top: 2px; padding-left: 20px; padding-right: 20px;
 	background: #fff;
 	border: 1px solid #ccc;
-	-webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px;
+	-webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px;
 	-webkit-transition: all 0.1s; -moz-transition: all 0.1s; -o-transition: all 0.1s; -ms-transition: all 0.1s; transition: all 0.1s;
  }
 ul.portfoliofilter li a:hover { color: #ff5165 !important; border: 1px solid #ff5165; }
@@ -1019,6 +1021,7 @@ border-radius: 5px 0px 0px 0px;
 	-moz-transition: all 0.2s;
 	-o-transition: all 0.2s;
 	-ms-transition: all 0.2s;
+	transition: all 0.2s;
 
 	filter: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'><filter id='grayscale'><feColorMatrix type='matrix' values='1 0 0 0 0, 0 1 0 0 0, 0 0 1 0 0, 0 0 0 1 0'/></filter></svg>#grayscale");
 	filter: none;
@@ -1770,7 +1773,8 @@ a.service:hover .serviceicon { color: #fff; background-color: #666; }
 
 /* MISC STYLES */	
 .content .tabs .nav-tabs { margin-bottom: 20px; }
-.fluid-width-video-wrapper { padding-top: 56.25% !important; }
+.fluid-width-video-wrapper { padding-top: 60.95% !important; }
+.smallmedia .fluid-width-video-wrapper { padding-top: 71% !important; }
 
 .prescript,
 .postscript {
