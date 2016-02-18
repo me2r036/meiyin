@@ -40,8 +40,12 @@ $handler->display->display_options['fields']['field_avatar']['label'] = '';
 $handler->display->display_options['fields']['field_avatar']['element_label_colon'] = FALSE;
 $handler->display->display_options['fields']['field_avatar']['element_default_classes'] = FALSE;
 $handler->display->display_options['fields']['field_avatar']['click_sort_column'] = 'fid';
+$handler->display->display_options['fields']['field_avatar']['type'] = 'picture';
 $handler->display->display_options['fields']['field_avatar']['settings'] = array(
-  'image_style' => 'avatar_100x45',
+  'picture_mapping' => 'resp_avatar',
+  'fallback_image_style' => 'avatar_breakpoints_theme_meiyin_mobile_1x',
+  'lazyload' => 0,
+  'lazyload_aspect_ratio' => 0,
   'image_link' => '',
 );
 /* Field: Field collection item: Customer */
