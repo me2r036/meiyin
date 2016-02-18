@@ -855,8 +855,12 @@ $handler->display->display_options['fields']['field_image']['alter']['text'] = '
 $handler->display->display_options['fields']['field_image']['element_label_colon'] = FALSE;
 $handler->display->display_options['fields']['field_image']['element_default_classes'] = FALSE;
 $handler->display->display_options['fields']['field_image']['click_sort_column'] = 'fid';
+$handler->display->display_options['fields']['field_image']['type'] = 'picture';
 $handler->display->display_options['fields']['field_image']['settings'] = array(
-  'image_style' => 'blog_sidebar_small_270x152',
+  'picture_mapping' => 'resp_blog_sidebar_small',
+  'fallback_image_style' => '',
+  'lazyload' => 1,
+  'lazyload_aspect_ratio' => 1,
   'image_link' => 'content',
 );
 /* Field: Content: Video */
