@@ -1773,8 +1773,7 @@ a.service:hover .serviceicon { color: #fff; background-color: #666; }
 
 /* MISC STYLES */	
 .content .tabs .nav-tabs { margin-bottom: 20px; }
-.fluid-width-video-wrapper { padding-top: 60.95% !important; }
-.smallmedia .fluid-width-video-wrapper { padding-top: 71% !important; }
+.fluid-width-video-wrapper { padding-top: 56.25% !important; }
 
 .prescript,
 .postscript {
