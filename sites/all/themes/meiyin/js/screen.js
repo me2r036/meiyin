@@ -30,7 +30,7 @@ jQuery(document).ready(function($) {
 	jQuery('.carousel').carousel({ interval: 5000 });
 
 	/* Fit Videos */
-	jQuery(".scalevid").fitVids();
+  jQuery(".scalevid").fitVids({customSelector: "iframe[src^='http://player.youku.com']"});
 
 	/* Tooltips */
 	jQuery("a[data-rel^='tooltip']").tooltip();
@@ -118,6 +118,9 @@ jQuery(document).ready(function($) {
   if (jQuery('.front').exists()) {
     initSliderFun();
     initSliderHeight();
+
+    /* Init footer logo */
+    initFooterLogo();
   }
 	
   if (jQuery('.messages').exists()) {
@@ -186,9 +189,6 @@ jQuery(document).ready(function($) {
       $item.addClass('webform-focus');
     }
   });
-
-  /* Init footer logo */
-  initFooterLogo();
 
 });
 
@@ -450,7 +450,8 @@ function initStickyHeader() {
 
 /* Init footer logo */
 function initFooterLogo() {
-  if (jQuery('.front').exists()) {
+  // Don't hide the logo if no sticky-header present even on the front page
+  if (jQuery('.sticky-header').exists()) {
     jQuery('.footer-about').addClass('logo-init');
   }
 }

@@ -10,7 +10,7 @@ stylesheets[all][4] = 'type/fontello.css'
 
 scripts[] = 'js/bootstrap.min.js'
 scripts[] = 'js/jquery.easing.1.3.js'
-scripts[] = 'js/jquery.fitvid.js'
+scripts[] = 'js/jquery.fitvids.js'
 scripts[] = 'js/ddsmoothmenu.js'
 scripts[] = 'js/screen.js'
 
