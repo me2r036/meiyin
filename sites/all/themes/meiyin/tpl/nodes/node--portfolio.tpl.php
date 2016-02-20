@@ -82,9 +82,7 @@
       <?php break; case 'video': ?>
         <div class="postmedia">
           <div class="scalevid">
-            <div class="fluid-width-video-wrapper "style="padding-top: 56.25%;">
-              <?php print $node->field_video['und'][0]['safe_value']; ?>
-            </div>
+            <?php print render($content['field_video']); ?>
           </div>
         </div>
         <?php if ($display_submitted): ?>

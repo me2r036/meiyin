@@ -704,7 +704,7 @@ ul.inline .comment-add { padding: 0px; }
 .sidebar .blocktitle h2 {  float: left; color: #111; font-size: 16px; line-height: 20px; font-weight: 300; margin-top: -3px; margin-bottom: 26px; }
 .sidebar .block { float: left; width: 100%; margin-bottom: 50px; }
 .sidebar .block:last-child { margin-bottom: 0; }
-.sidebar .block ul, .footer .widget ul { float: left; }
+.sidebar .block ul, .footer .widget ul { float: left; width: 100%; }
 
 /* FOOTER */
 /* ------------------------------------ */
@@ -783,7 +783,7 @@ ul.inline .comment-add { padding: 0px; }
 .twitter-timeline { margin-bottom: -20px; margin-top: -7px; }
 
 /* Tag Cloud */
-.footer .tagcloud a { -webkit-backface-visibility: hidden; float: left; font-size: 13px; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px;  text-decoration: none; color: #bbb; font-weight: normal; background-color: #353535; padding-bottom: 4px; padding-top: 4px; padding-left: 8px; padding-right: 8px; margin-right: 5px; margin-bottom: 5px; -webkit-transition: background-color 0.2s, color 0.2s; -moz-transition: background-color 0.2s, color 0.2s; -o-transition: background-color 0.2s, color 0.2s; -ms-transition: background-color 0.2s, color 0.2s; transition: background-color 0.2s, color 0.2s; }
+.footer .tagcloud a { float: left; font-size: 13px; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px;  text-decoration: none; color: #bbb; font-weight: normal; background-color: #353535; padding-bottom: 4px; padding-top: 4px; padding-left: 8px; padding-right: 8px; margin-right: 5px; margin-bottom: 5px; -webkit-transition: background-color 0.2s, color 0.2s; -moz-transition: background-color 0.2s, color 0.2s; -o-transition: background-color 0.2s, color 0.2s; -ms-transition: background-color 0.2s, color 0.2s; transition: background-color 0.2s, color 0.2s; }
 .footer .tagcloud a:hover { background-color: #8baa2b; color: #fff; }
 .footer .tagcloud div { float: left; }
 .sidebar .tagcloud a { font-size: 13px; float: left; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; color: #666; text-decoration: none; font-weight: normal; background-color: #fff; border: 1px solid #aaa; padding-bottom: 2px; padding-top: 2px; padding-left: 7px; padding-right: 7px; margin-right: 5px; margin-bottom: 5px; -webkit-transition: background-color 0.2s, color 0.2s, border-color 0.2s; -moz-transition: background-color 0.2s, color 0.2s, border-color 0.2s; -o-transition: background-color 0.2s, color 0.2s, border-color 0.2s; -ms-transition: background-color 0.2s, color 0.2s, border-color 0.2s; transition: background-color 0.2s, color 0.2s, border-color 0.2s; }
@@ -792,18 +792,16 @@ ul.inline .comment-add { padding: 0px; }
 /* Projects */
 .block-projects { float: left; width: 100%; }
 .block-projects ul { float: left; margin: 0; padding: 0; list-style:none; margin-bottom: -10px; margin-right: -10px; }
-.block-projects ul li { float: left; margin-right:10px; margin-bottom: 10px; }
-.block-projects li a { -webkit-backface-visibility: hidden; float: left; z-index: 1; position: relative; -webkit-transition: all 0.2s; -moz-transition: all 0.2s; -o-transition: all 0.2s; -ms-transition: all 0.2s; }
+.block-projects ul li { float: left; margin-right: 10px; margin-bottom: 10px; }
+.block-projects li a { float: left; z-index: 1; position: relative; -webkit-transition: all 0.2s; -moz-transition: all 0.2s; -o-transition: all 0.2s; -ms-transition: all 0.2s; }
 .block-projects li a img { -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; width: 56px; height: 56px; border: 2px solid #353535;
-	-webkit-backface-visibility: hidden;
-	-webkit-transition: all 0.2s;
-	-moz-transition: all 0.2s;
-	-o-transition: all 0.2s;
-	-ms-transition: all 0.2s;
-
-	filter: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'><filter id='grayscale'><feColorMatrix type='matrix' values='1 0 0 0 0, 0 1 0 0 0, 0 0 1 0 0, 0 0 0 1 0'/></filter></svg>#grayscale");
-	filter: none;
-	-webkit-filter: grayscale(0%);
+  -webkit-transition: all 0.2s;
+  -moz-transition: all 0.2s;
+  -o-transition: all 0.2s;
+  -ms-transition: all 0.2s;
+  filter: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'><filter id='grayscale'><feColorMatrix type='matrix' values='1 0 0 0 0, 0 1 0 0 0, 0 0 1 0 0, 0 0 0 1 0'/></filter></svg>#grayscale");
+  filter: none;
+  -webkit-filter: grayscale(0%);
 }
 .block-projects li a img:hover { 
 	filter: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'><filter id='grayscale'><feColorMatrix type='matrix' values='0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0'/></filter></svg>#grayscale"); /* Firefox 10+, Firefox on Android */
@@ -814,6 +812,8 @@ filter: gray; /* IE6-9 */
 
 .sidebar .block-projects li a img { width: 60px; height: 60px; border: 0; }
 .sidebar .view-display-id-randomprojects li a img { width: 130px; height: 60px; border: 0; }
+.sidebar li.views-row-odd { margin-right: 9px; }
+.sidebar li.views-row-even { margin-right: 0; }
 
 /* Posts */
 .footer .widget_text, .sidebar .widget_text { float: left; width: 100%; }
@@ -1773,7 +1773,7 @@ a.service:hover .serviceicon { color: #fff; background-color: #666; }
 
 /* MISC STYLES */	
 .content .tabs .nav-tabs { margin-bottom: 20px; }
-.fluid-width-video-wrapper { padding-top: 56.25% !important; }
+.smallmedia .fluid-width-video-wrapper { padding-top: 71% !important; }
 
 .prescript,
 .postscript {
