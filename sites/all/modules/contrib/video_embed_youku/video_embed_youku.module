@@ -91,8 +91,12 @@ function video_embed_youku_handle_video($url, $settings) {
 
   if ($id) {
     // Our embed code.
-    $embed = '<iframe src="http://player.youku.com/embed/!id" width="!width" height="!height" frameborder=0 allowfullscreen></iframe> ';
-    //$embed = '<embed src="http://player.youku.com/player.php/sid/!id/v.swf" wmode="opaque" allowfullscreen="true" quality="high" width="!width" height="!height" align="middle" allowscriptaccess="always" type="application/x-shockwave-flash">';
+    if ($is_mobile) {
+      $embed = '<iframe src="http://player.youku.com/embed/!id" width="!width" height="!height" frameborder=0 allowfullscreen></iframe> ';
+    }
+    else {
+      $embed = '<embed src="http://player.youku.com/player.php/sid/!id/v.swf" wmode="opaque" allowfullscreen="true" quality="high" width="!width" height="!height" align="middle" allowscriptaccess="always" type="application/x-shockwave-flash">';
+    }
 
     // Use format_string to replace our placeholders with the settings values.
     $embed = format_string($embed, array(

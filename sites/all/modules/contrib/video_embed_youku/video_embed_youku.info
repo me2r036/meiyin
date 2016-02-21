@@ -5,6 +5,7 @@ package = Media
 configure = admin/config/media/vef_video_styles
 
 dependencies[] = "video_embed_field"
+dependencies[] = "mobile_detect"
 
 ; Information added by Drupal.org packaging script on 2016-01-22
 version = "7.x-1.2"
