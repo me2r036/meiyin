@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Default theme implementation to display a region.
+ * Meiyin's customised theme implementation to display a header-top-right region.
  */
 ?>
 

@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Default theme implementation for comments.
+ * Meiyin's default theme implementation for comments.
  *
  * Available variables:
  * - $author: Comment author. Can be link or plain text.

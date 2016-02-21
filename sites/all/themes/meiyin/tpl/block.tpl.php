@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Default theme implementation to display a block.
+ * Meiyin's default implementation to display a block.
  */
 ?>
 <div id="<?php print $block_html_id; ?>" class="<?php print $classes; ?>"<?php print $attributes; ?>>

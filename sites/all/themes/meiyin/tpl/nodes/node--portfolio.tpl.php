@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Default theme implementation to display a node.
+ * Meiyin's default theme implementation to display a portfolio node.
  */
 
   /* Query Portfolio Nodes */

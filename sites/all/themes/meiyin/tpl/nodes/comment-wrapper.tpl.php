@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Default theme implementation to provide an HTML container for comments.
+ * Meiyin's default theme implementation to provide an HTML container for comments.
  *
  * Available variables:
  * - $content: The array of content-related elements for the node. Use

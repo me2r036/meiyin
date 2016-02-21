@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Theme implementation to display a webform node.
+ * Meiyin's default implementation to display a webform node.
  */
 
 $path = "node/".$node->nid;

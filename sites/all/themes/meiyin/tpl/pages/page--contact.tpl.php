@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Default theme implementation to display a single Drupal page.
+ * Meiyin's default theme implementation to display contact page.
  */
 ?>
 

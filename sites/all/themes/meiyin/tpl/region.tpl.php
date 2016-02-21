@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Default theme implementation to display a region.
+ * Meiyin's default theme implementation to display a region.
  */
 ?>
 

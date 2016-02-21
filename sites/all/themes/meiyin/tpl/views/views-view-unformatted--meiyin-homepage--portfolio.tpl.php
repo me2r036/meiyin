@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Default simple view template to display a list of rows.
+ * Meiyin's default simple view template to display a list of rows.
  *
  * @ingroup views_templates
  */

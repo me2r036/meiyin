@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Default simple view template to all the fields as a row.
+ * Meiyin's default simple view template to all the fields as a row.
  *
  * - $view: The view in use.
  * - $fields: an array of $field objects. Each one contains:

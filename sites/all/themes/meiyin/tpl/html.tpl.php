@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Default theme implementation to display the basic html structure of a single
+ * Meiyin's default theme implementation to display the basic html structure of a single
  * Drupal page.
  *
  * Variables:
