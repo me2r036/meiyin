@@ -199,6 +199,24 @@
   }
 
   /**
+   * Implements hook_field().
+   */
+  function meiyin_field__video_embed_field(&$vars) {
+    $output ='';
+
+    // Render the label, if it's not hidden.
+    if (!$vars['label_hidden']) {
+      $output .= '<div class="field-label"' . $variables['title_attributes'] . '>' . $variables['label'] . ':&nbsp;</div>';
+    }
+
+    foreach ($vars['items'] as $delta => $item) {
+      $output .= drupal_render($item);
+    }
+
+    return $output;
+  }
+
+  /**
    * Implements hook_preprocess_html().
    */
   function meiyin_preprocess_html(&$vars) {
