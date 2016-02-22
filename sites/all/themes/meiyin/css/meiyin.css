@@ -739,10 +739,10 @@ ul.inline .comment-add { padding: 0px; }
 /* FOOTER */
 /* ------------------------------------ */
 
-.footerwrap { position: relative; width: 1230px; left: 50%; margin-left: -615px; background: #444; padding: 0px; padding-top: 50px; padding-bottom: 30px; margin-bottom: 0;  }
+.footerwrap { position: relative; width: 1230px; left: 50%; margin-left: -615px; background: #444; padding: 0px; padding-top: 50px; padding-bottom: 30px; margin-bottom: 0;  border-top: 3px solid #bbb; }
 .footer { margin-left: 30px; font-size: 13px; line-height: 22px; }
 .footerwrap.wide .footer { margin: 0 auto; width: 1170px; }
-.footerwrap.wide { width: 100%; left: 0; margin-left: 0; background: #444; padding: 0px; padding-top: 40px; padding-bottom: 0; margin-bottom: 0; }
+.footerwrap.wide { width: 100%; left: 0; margin-left: 0; background: #252525; padding: 0px; padding-top: 40px; padding-bottom: 0; margin-bottom: 0; }
 .footer .block { float: left; color: #888; margin-bottom: 50px;  }
 .footer h1,.footer h2,.footer h3,.footer h4,.footer h5,.footer h6 { color: #fff; }
 .footer a { color: #bbb; }
@@ -770,8 +770,8 @@ ul.inline .comment-add { padding: 0px; }
 /* SUBFOOTER */
 /* ------------------------------------ */
 
-.subfooterwrap { position: relative; width: 1170px;  left: 50%; margin-left: -585px; padding: 0px; padding-top: 4px; padding-bottom: 9px; background: #353535; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; }
-.subfooterwrap.wide { position: relative; width: 100%;  left: 0; margin-left: 0; padding: 0px; padding-top: 4px; padding-bottom: 7px; background: #353535; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; border-top: 1px solid; border-bottom: 1px solid; }
+.subfooterwrap { position: relative; width: 1170px;  left: 50%; margin-left: -585px; padding: 0px; padding-top: 4px; padding-bottom: 9px; background: #151515; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; }
+.subfooterwrap.wide { position: relative; width: 100%;  left: 0; margin-left: 0; padding: 0px; padding-top: 4px; padding-bottom: 7px; background: #151515; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; border-top: 1px solid; border-bottom: 1px solid; }
 .subfooter { margin-left: 30px; color: #999; font-size: 13px; line-height: 22px; margin: 0 auto; width: 1170px;  }
 .subfooterwrap.wide .subfooter { margin: 0 auto; width: 1170px; }
 .subfooter a { color: #999; background: none; }
@@ -813,7 +813,7 @@ ul.inline .comment-add { padding: 0px; }
 .twitter-timeline { margin-bottom: -20px; margin-top: -7px; }
 
 /* Tag Cloud */
-.footer .tagcloud a { float: left; font-size: 13px; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px;  text-decoration: none; color: #bbb; font-weight: normal; background-color: #353535; padding-bottom: 4px; padding-top: 4px; padding-left: 8px; padding-right: 8px; margin-right: 5px; margin-bottom: 5px; -webkit-transition: background-color 0.2s, color 0.2s; -moz-transition: background-color 0.2s, color 0.2s; -o-transition: background-color 0.2s, color 0.2s; -ms-transition: background-color 0.2s, color 0.2s; transition: background-color 0.2s, color 0.2s; }
+.footer .tagcloud a { float: left; font-size: 13px; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px;  text-decoration: none; color: #bbb; font-weight: normal; background-color: #151515; padding-bottom: 4px; padding-top: 4px; padding-left: 8px; padding-right: 8px; margin-right: 5px; margin-bottom: 5px; -webkit-transition: background-color 0.2s, color 0.2s; -moz-transition: background-color 0.2s, color 0.2s; -o-transition: background-color 0.2s, color 0.2s; -ms-transition: background-color 0.2s, color 0.2s; transition: background-color 0.2s, color 0.2s; }
 .footer .tagcloud a:hover { background-color: #8baa2b; color: #fff; }
 .footer .tagcloud div { float: left; }
 .sidebar .tagcloud a { font-size: 13px; float: left; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; color: #666; text-decoration: none; font-weight: normal; background-color: #fff; border: 1px solid #aaa; padding-bottom: 2px; padding-top: 2px; padding-left: 7px; padding-right: 7px; margin-right: 5px; margin-bottom: 5px; -webkit-transition: background-color 0.2s, color 0.2s, border-color 0.2s; -moz-transition: background-color 0.2s, color 0.2s, border-color 0.2s; -o-transition: background-color 0.2s, color 0.2s, border-color 0.2s; -ms-transition: background-color 0.2s, color 0.2s, border-color 0.2s; transition: background-color 0.2s, color 0.2s, border-color 0.2s; }
@@ -1453,7 +1453,7 @@ a.accordion-toggle.collapsed:hover { color: #666;
 
 /* WIDE DESKTOP */
 @media only screen and (min-width: 1200px) {
-	.whitebackground,.footerwrap, .headertopwrap { width: 1230px; margin-left: -615px; left: 50%; }
+	.whitebackground,.footerwrap, .headertopwrap { width: 1230px; margin-left: -615px; left: 50%; border-top: 3px solid #bbb; }
 	.footerwrap.wide .footer, .subfooterwrap, .headertopwrap.wide .headertop { width: 1170px; }
 	.subfooterwrap.wide .subfooter { width: 100%; }
 
@@ -1938,7 +1938,7 @@ ul.retina-icons li i {
   display: none;
   text-indent: -9999px;
   cursor: pointer;
-  bottom: 60px;
+  bottom: 48px;
   z-index: 8051;
 }
 
