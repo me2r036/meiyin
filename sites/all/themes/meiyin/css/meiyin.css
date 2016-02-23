@@ -117,6 +117,7 @@ a.color:hover { color: #353535; text-decoration: none; }
 .breadcrumbwrap { float: right; margin-right: 0px; font-size: 13px; color: #bbb; line-height: 30px; }
 .breadcrumbwrap a { color: #bbb; }
 .breadcrumbwrap a:hover { color: #111; }
+.breadcrumbwrap i { margin-right: 15px; }
 .colored .pagetitlewrap .breadcrumbwrap, .colored .pagetitlewrap .breadcrumbwrap a, .colored .pagetitlewrap .breadcrumbwrap a:hover { color: #fff; }
 
 /* CONTENT CONTAINER */
