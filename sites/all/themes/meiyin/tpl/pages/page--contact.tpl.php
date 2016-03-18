@@ -34,9 +34,8 @@
 		<section class="headerwrap">
 			<div class="header span12">
 				<?php if ($logo): ?>
-				<a href="<?php print $front_page; ?>"
-					title="<?php print t('Home'); ?>" rel="home" class="logo"> <img
-					src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>" />
+				<a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>" rel="home" class="logo">
+				  <img src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>" />
 				</a>
 				<?php endif; ?>
 
@@ -79,8 +78,8 @@
 				</nav><!-- /#navigation -->
 				
 				<div class="row mobilemenu">
-					<div class="icon-menu"></div>
-					<form id="responsive-menu" action="#" method="post">
+					<div class="icon-menu"><i class="fa fa-bars"></i></div>
+					<form id="responsive-menu" action="#" method="post" accept-charset="UTF-8">
 						<select></select>
 					</form>
 				</div>
