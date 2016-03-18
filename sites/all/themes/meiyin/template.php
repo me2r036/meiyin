@@ -8,7 +8,7 @@
 	function meiyin_css_alter(&$css) {
 		unset($css[drupal_get_path('module', 'system') . '/system.menus.css']);
 		unset($css[drupal_get_path('module', 'system') . '/system.theme.css']);
-		drupal_add_css(drupal_get_path('theme', 'meiyin') . '/css/admin.css');
+
 	 	if (isset($css[drupal_get_path('module', 'views_isotope') . '/views_isotope.css'])) {
  			unset($css[drupal_get_path('module', 'views_isotope') . '/views_isotope.css']);
  		}
@@ -28,6 +28,7 @@
   function meiyin_js_alter(&$javascript) {
     // Unset old version of jQuery on non-administration pages
     if (!path_is_admin(current_path())) {
+      //krumo($javascript);
       unset($javascript['misc/jquery.js']);
     }
 
@@ -209,11 +210,37 @@
       $output .= '<div class="field-label"' . $variables['title_attributes'] . '>' . $variables['label'] . ':&nbsp;</div>';
     }
 
+    // Modify video display style to "mobile" if the current display device is mobile or tablet.
+    $detect = mobile_detect_get_object();
+    $is_mobile = $detect->isMobile();
+
     foreach ($vars['items'] as $delta => $item) {
+      // Change video field display style to "mobile"
+      if ($is_mobile) {
+        $item[0]['#style'] = 'mobile';
+      }
       $output .= drupal_render($item);
     }
 
     return $output;
+  }
+
+  /**
+   * Implements hook_views_pre_render().
+   */
+  function meiyin_views_pre_render(&$view) {
+    $detect = mobile_detect_get_object();
+    $is_mobile = $detect->isMobile();
+
+    if ($is_mobile) {
+      if ($view->name == 'meiyin_blog' || $view->name == 'meiyin_portfolio') {
+        foreach ($view->result as $result) {
+          if( $result->field_field_video != NULL ) {
+            $result->field_field_video[0]['rendered'][0]['#style'] = 'mobile';
+          }
+        }
+      }
+    }
   }
 
   /**
@@ -225,8 +252,8 @@
       drupal_add_css($skin, array('group' => CSS_THEME, 'every_page' => TRUE));
     }
 
-    // Load fontawesome from cdn, fallback with globle js.
-    drupal_add_css('//cdn.bootcss.com/font-awesome/4.4.0/css/font-awesome.min.css', 
+    // Load fontawesome from cdn, fallback within globle js.
+    drupal_add_css('//cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css', 
                           array('type' => 'external', 'group' => CSS_THEME, 'every_page' => TRUE));
 
    // $vars['jquery'] = '<script type="text/javascript" src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>';
@@ -367,5 +394,3 @@
 		$vars['action_links'] = $theme->page['action_links'];
 		$vars['feed_icons'] = $theme->page['feed_icons'];
 	}
-
-?>

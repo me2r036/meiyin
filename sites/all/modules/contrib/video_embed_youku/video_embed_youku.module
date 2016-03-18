@@ -88,11 +88,15 @@ function video_embed_field_handler_youku_form_validate($element, &$form_state, $
  */
 function video_embed_youku_handle_video($url, $settings) {
   $id = _video_embed_youku_get_video_id($url);
+  $id = str_replace('.html', '', $id);
 
   if ($id) {
     // Our embed code.
+    // Call Mobile_Detect
+    $detect = mobile_detect_get_object();
+    $is_mobile = $detect->isMobile();
     if ($is_mobile) {
-      $embed = '<iframe src="http://player.youku.com/embed/!id" width="!width" height="!height" frameborder=0 allowfullscreen></iframe> ';
+      $embed = '<iframe src="http://player.youku.com/embed/!id" width="!width" height="!height" frameborder=0 allowfullscreen></iframe>';
     }
     else {
       $embed = '<embed src="http://player.youku.com/player.php/sid/!id/v.swf" wmode="opaque" allowfullscreen="true" quality="high" width="!width" height="!height" align="middle" allowscriptaccess="always" type="application/x-shockwave-flash">';
