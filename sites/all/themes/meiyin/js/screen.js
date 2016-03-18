@@ -50,13 +50,6 @@ jQuery(document).ready(function($) {
     /*menuLineAdjustment();*/
   });
 
-  /* Thumbnail overlay effect on the potfolio page */
-  jQuery('.thumbholder').hover(function() {
-    jQuery(this).find('.thumboverlay').fadeToggle(100);
-  }, function() {
-    jQuery(this).find('.thumboverlay').fadeToggle(100);
-  });
-
   /* GOOGLE MAPS */
   if (jQuery('.map').exists()) {
     var container = jQuery(".map");
@@ -134,7 +127,7 @@ jQuery(document).ready(function($) {
 
     $(window).resize(function() {
       var $top = $('.headertopwrap').height() + 3;   
-      if ($(this).scrollTop() >= $top) {
+      if ($('#mainmenu').width() > 0 && $(this).scrollTop() >= $top) {
         $('.headerwrap').addClass('fixed');
         $('.headerwrap').css('margin-top', -$top+'px');
         $image.attr('src', $image.attr('src').replace('logo.png', 'logo-s.png'));
@@ -148,15 +141,17 @@ jQuery(document).ready(function($) {
     $(document).scroll( function() {
       var $top = $('.headertopwrap').height() + 3;   
       if ($(this).scrollTop() >= $top) {
-        $('.headerwrap').addClass('fixed');
-        $('.headerwrap').css('margin-top', -$top+'px');
-        $image.attr('src', $image.attr('src').replace('logo.png', 'logo-s.png'));
+        if ($('#mainmenu').width() > 0) {
+          $('.headerwrap').addClass('fixed');
+          $('.headerwrap').css('margin-top', -$top+'px');
+          $image.attr('src', $image.attr('src').replace('logo.png', 'logo-s.png'));
 
-        if ($(this).scrollTop() >= $top + $('.region.header').height() + 16) {
-          $('.headerwrap').addClass('bg-white');
-        }
-        else {
-          $('.headerwrap').removeClass('bg-white');
+          if ($(this).scrollTop() >= $top + $('.region.header').height() + 16) {
+            $('.headerwrap').addClass('bg-white');
+          }
+          else {
+            $('.headerwrap').removeClass('bg-white');
+          }
         }
 
         if (($(this).scrollTop() >= $('.allwrapper').height() - document.documentElement.clientHeight + 108) && $('.front').exists() && $('.logo-init').exists()) {
@@ -355,6 +350,7 @@ function menuHandler() {
 
     /* Solve problem caused by Menu Attribute */
     var str = a.html();
+
     str = str.replace(/<i.*><\/i>/g, "");
     str = str.replace(/<span>/g, "");
 
