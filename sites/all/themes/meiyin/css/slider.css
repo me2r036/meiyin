@@ -83,6 +83,7 @@
     width: 40px !important;
     height: 40px !important;
     top: auto !important;
+    line-height: 20px; 
     -webkit-transition: all 0.2s; 
     -moz-transition: all 0.2s;     
     -o-transition: all 0.2s; 
@@ -118,7 +119,7 @@
 .tp-bannertimer {
     width: 100%;
     height: 5px;
-    background: url(../img/tiles/bannertimer.png);
+    background: url(../img/tiles/timer.png);
     position: absolute;
     z-index: 200;
 }

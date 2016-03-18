@@ -18,7 +18,6 @@ function revolution_slider_preprocess_html(&$vars) {
 		drupal_add_css($theme_path = drupal_get_path('theme', variable_get('theme_default', NULL)) . '/css/slider.css');
 	}
 	drupal_add_js(drupal_get_path('module', 'revolution_slider') . '/js/jquery.themepunch.revolution.min.js');
-	drupal_add_js(drupal_get_path('theme', 'meiyin') . '/js/admin/admin.js');
 	drupal_add_css(drupal_get_path('module', 'revolution_slider') . '/css/settings.css');
 }
 

@@ -639,7 +639,7 @@ function revolution_slider_block_view($delta = '') {
 					$blocks['content'] .= '</li>';
 				}
 						
-				$blocks['content'] .= '</ul></div></div>';
+				$blocks['content'] .= '</ul></div></div><div class="tp-bannertimer"></div>';
 				
 			}
 			
