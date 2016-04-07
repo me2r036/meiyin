@@ -6,7 +6,6 @@ stylesheets[all][0] = 'css/bootstrap.min.css'
 stylesheets[all][1] = 'css/bootstrap-responsive.min.css'
 stylesheets[all][2] = 'css/meiyin.css'
 stylesheets[all][3] = 'css/slider.css'
-stylesheets[all][4] = 'type/fontello.css'
 
 scripts[] = 'js/bootstrap.min.js'
 scripts[] = 'js/jquery.easing.1.3.js'
@@ -40,6 +39,17 @@ regions[footer_fourth] = Footer Fourth
 regions[footer_fifth] = Footer Fifth
 regions[footer_sixth] = Footer Sixth
 
+breakpoints[tv] = only screen and (min-width: 3456px)
+breakpoints[wide] = (min-width: 1200px)
+breakpoints[normal] = (min-width: 980px)
+breakpoints[narrow] = (min-width: 768px)
+breakpoints[tablet] = (min-width: 480px)
+breakpoints[mobile] = (min-width: 0px)
+
+multipliers[normal][] = 2x
+multipliers[narrow][] = 2x
+multipliers[tablet][] = 2x
+multipliers[mobile][] = 2x
 
 settings[homeSlider] = '1'
 settings[latitude] = '40.775556'
@@ -53,9 +63,9 @@ settings[responsive] = '1'
 settings[backgroundColor] = 'ffffff'
 settings[backgroundImage] = 'wavegrid'
 settings[backgroundCustom] = '0'
-settings[header_top_left_grid] = '6'
+settings[header_top_left_grid] = '7'
 settings[header_top_left_css] = 'headerlefttext'
-settings[header_top_right_grid] = '6'
+settings[header_top_right_grid] = '5'
 settings[header_top_right_css] = 'headerrighttext'
 settings[header_grid] = '0'
 settings[header_css] = ''
@@ -105,7 +115,7 @@ settings[toggle_slogan] = '0'
 settings[toggle_node_user_picture] = '1'
 settings[toggle_comment_user_picture] = '1'
 settings[toggle_comment_user_verification] = '1'
-settings[toggle_favicon] = '1'
+settings[toggle_favicon] = '0'
 settings[toggle_main_menu] = '1'
 settings[toggle_secondary_menu] = '0'
 settings[meiyin_settings__active_tab] = 'edit-layout'
