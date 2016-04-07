@@ -114,9 +114,14 @@
     <section class="headerwrap">
       <div class="header span12">
         <?php if ($logo): ?>
-        <a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>" rel="home" class="logo">
-          <img src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>" />
-        </a>
+          <a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>" rel="home" id="logo">
+            <picture>
+              <!--[if IE 9]><video style="display: none;"><![endif]-->
+              <source srcset="<?php print ($GLOBALS['base_url'] . '/' . drupal_get_path('theme', 'meiyin') . '/logo.png'); ?> 1x, <?php print ($GLOBALS['base_url'] . '/' . drupal_get_path('theme', 'meiyin') . '/logo@2x.png'); ?> 2x" media="(min-width: 0px)">
+              <!--[if IE 9]></video><![endif]-->
+              <img src="<?php print ($GLOBALS['base_url'] . '/' . drupal_get_path('theme', 'meiyin') . '/logo.png'); ?>" alt="<?php print t('Home'); ?>">
+            </picture>
+          </a>
         <?php endif; ?>
 
         <?php if ($site_name || $site_slogan): ?>
