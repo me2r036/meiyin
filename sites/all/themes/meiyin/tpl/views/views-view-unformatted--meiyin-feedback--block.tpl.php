@@ -19,7 +19,7 @@ $rows_array = $view->style_plugin->rendered_fields;
     <div class="carousel slide" id="testimonials">
       <div class="carousel-inner">
       <?php $item_class = "item active"; ?>
-      <?php foreach($rows_array as $key=>$row_array) : ?>
+      <?php foreach($rows_array as $key => $row_array) : ?>
         <div class="<?php print $item_class; ?>">
           <div class="padded clearfix">
             <?php if(!$sidebar): ?>
@@ -27,9 +27,9 @@ $rows_array = $view->style_plugin->rendered_fields;
               <div class="span3">
                 <cite>
                   <ul>
-                    <li><?php print $row_array['field_image']; ?></li>
+                    <li><?php print $row_array['field_avatar']; ?></li>
                     <li><?php print $row_array['field_customer']; ?></li>
-                    <li><?php print $row_array['field_subtitle']; ?></li>
+                    <li><?php print $row_array['field_date']; ?></li>
                   </ul>
                 </cite>
               </div>
@@ -37,9 +37,9 @@ $rows_array = $view->style_plugin->rendered_fields;
               <i class="fa fa-quote-left fa-lg"></i><?php print $row_array['field_description']; ?>
               <cite>
                 <ul style="margin-top: 15px;">
-                  <li><?php print $row_array['field_image']; ?></li>
+                  <li><?php print $row_array['field_avatar']; ?></li>
                   <li><?php print $row_array['field_customer']; ?></li>
-                  <li><?php print $row_array['field_subtitle']; ?></li>
+                  <li><?php print $row_array['field_date']; ?></li>
                 </ul>
               </cite>          
             <?php endif; ?>
