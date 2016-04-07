@@ -25,7 +25,9 @@
   $path = "node/".$node->nid; 
   $options = array('absolute' => TRUE); 
   $url = url($path, $options);
+
 ?>
+
 <div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?> blogpost singlepost clearfix"<?php print $attributes; ?>>
   <?php if(current_path() != $path): ?>
     <h2 style="padding-left: 0px;"><a href="<?php print $url; ?>"><?php print $node->title; ?></a></h2>
@@ -33,126 +35,134 @@
   <div class="post">
     <div class="post-body">
 
-      <?php switch($node->field_template['und'][0]['value']): case 'image': ?>
+      <?php switch($node->field_template[LANGUAGE_NONE][0]['value']): case 'image': ?>
         <div class="postmedia">
-          <img src="<?php print image_style_url('portfolio_sidebar_870x348', $node->field_image['und'][0]['uri']); ?>" />
+          <?php print render($content['field_image']); ?>
         </div>
-        <?php if ($display_submitted): ?>
-          <div class="postinfo">
-            <div class="author">by <?php print $node->name; ?></div>
-            <?php if(!empty($content['field_portfolio_tags'])): ?>
-              <div class="categories"><span>in</span><?php print render($content['field_portfolio_tags']); ?></div>
-            <?php endif; ?>
-            <?php if(!empty($content['links']['statistics']['#links']['statistics_counter'])): // Print the page view counter ?>
-              <div id="viewcounter"><span class="icon_wrap"><i class="fa fa-eye"></i><?php print $content['links']['statistics']['#links']['statistics_counter']['title']; ?></span></div>
-            <?php endif; ?>
-          </div>
-        <?php endif; ?>
-        <div class="posttext">
-          <?php if(!empty($node->field_project_info['und'][0]['value'])): ?>
-            <div class="one_half"><?php print $node->field_project_info['und'][0]['value']; ?></div>
-          <?php endif; ?>
-          <?php if(!empty($node->body['und'][0]['safe_value'])): ?>
-            <?php print $node->body['und'][0]['safe_value']; ?>
-          <?php endif; ?>
-        </div>
-        
-        <?php // Add gallelry to the portfolio page ?>
-        <div id="gallerywrap">
-          <div id="gallery">
-            <div class="thumbholder">
-              <a class="fancybox" href="<?php print image_style_url('portfolio_markedwhite_1280x615', $node->field_image['und'][0]['uri']); ?>" data-fancybox-group="gallery<?php print $node->nid; ?>" title="<?php print $title; ?>">
-                <img src="<?php print image_style_url('portfolio_fancybox_thumbnail_100x48', $node->field_image['und'][0]['uri']); ?>" />
-                <div class="thumboverlay" style="display: none"></div>
-              </a>
-            </div>
-            <?php if(!empty($node->field_gallery)): ?>
-              <?php foreach ($node->field_gallery['und'] as $imageInfo): ?>
-                <div class="thumbholder">
-                  <a class="fancybox" href="<?php print image_style_url('portfolio_markedwhite_1280x615', $imageInfo['uri']); ?>" data-fancybox-group="gallery<?php print $node->nid; ?>" title="<?php print $title; ?>">
-                    <img src="<?php print image_style_url('portfolio_fancybox_thumbnail_100x48', $imageInfo['uri']); ?>" />
-                    <div class="thumboverlay" style="display: none"></div>
-                  </a>
-                </div>
-              <?php endforeach ?>
-            <?php endif ?>
-          </div>
-        </div>
-
       <?php break; case 'video': ?>
         <div class="postmedia">
           <div class="scalevid">
             <?php print render($content['field_video']); ?>
           </div>
         </div>
-        <?php if ($display_submitted): ?>
-          <div class="postinfo">
-            <div class="author">by <?php print $node->name; ?></div>
-            <?php if(!empty($content['field_portfolio_tags'])): ?>
-              <div class="categories"><span>in</span> <?php print render($content['field_portfolio_tags']); ?></div>
-            <?php endif; ?>
-            <?php if(!empty($content['links']['statistics']['#links']['statistics_counter'])): // Print the page view counter ?>
-              <div id="viewcounter"><span class="icon_wrap"><i class="fa fa-eye"></i><?php print $content['links']['statistics']['#links']['statistics_counter']['title']; ?></span></div>
-            <?php endif; ?>
-          </div>
-        <?php endif; ?>
-        <div class="posttext">
-          <?php if(!empty($node->field_project_info['und'][0]['value'])): ?>
-            <div class="one_half"><?php print $node->field_project_info['und'][0]['value']; ?></div>
-          <?php endif; ?>
-          <?php if(!empty($node->body['und'][0]['safe_value'])): ?>
-            <?php print $node->body['und'][0]['safe_value']; ?>
-          <?php endif; ?>
-        </div>
-
       <?php break; case 'slider': ?>
         <?php if(!empty($content['field_slider_block'])): ?>
           <div class="postmedia-slide"><?php print render($content['field_slider_block']); ?></div>
         <?php endif;?>
-        <?php if ($display_submitted): ?>
-          <div class="postinfo">
-            <div class="author">by <?php print $node->name; ?></div>
-            <?php if(!empty($content['field_portfolio_tags'])): ?>
-              <div class="categories"><span>in</span> <?php print render($content['field_portfolio_tags']); ?></div>
-            <?php endif; ?>
-            <?php if(!empty($content['links']['statistics']['#links']['statistics_counter'])): // Print the page view counter ?>
-              <div id="viewcounter"><span class="icon_wrap"><i class="fa fa-eye"></i><?php print $content['links']['statistics']['#links']['statistics_counter']['title']; ?></span></div>
-            <?php endif; ?>
-          </div>
-        <?php endif; ?>
-        <div class="posttext">
-          <?php if(!empty($node->field_project_info['und'][0]['value'])): ?>
-            <div class="one_half"><?php print $node->field_project_info['und'][0]['value']; ?></div>
-          <?php endif; ?>
-          <?php if(!empty($node->body['und'][0]['safe_value'])): ?>
-            <?php print $node->body['und'][0]['safe_value']; ?>
-          <?php endif; ?>
-        </div>
-
       <?php break; default: ?>
+      <?php break; endswitch; ?>
+
+      <!-- Portfolio info starts here -->
+      <div class="postinfo">
         <?php if ($display_submitted): ?>
-          <div class="postinfo">
-            <div class="author">by <?php print $node->name; ?></div>
-            <?php if(!empty($content['field_portfolio_tags'])): ?>
-              <div class="categories"><span>in</span> <?php print render($content['field_portfolio_tags']); ?></div>
-            <?php endif; ?>
-            <?php if(!empty($content['links']['statistics']['#links']['statistics_counter'])): // Print the page view counter ?>
-              <div id="viewcounter"><span class="icon_wrap"><i class="fa fa-eye"></i><?php print $content['links']['statistics']['#links']['statistics_counter']['title']; ?></span></div>
-            <?php endif; ?>
+          <div class="author">by <?php print $node->name; ?></div>
+        <?php endif; ?>
+
+        <?php if(!empty($content['field_portfolio_tags'])): ?>
+          <div class="tags"><span>in</span><?php print render($content['field_portfolio_tags']); ?></div>
+        <?php endif; ?>
+        <?php if(!empty($content['field_tags'])): ?>
+          <div class="tags"><span>of</span><?php print render($content['field_tags']); ?></div>
+        <?php endif; ?>
+        <?php if(!empty($content['links']['statistics']['#links']['statistics_counter'])): // Print the page view counter ?>
+          <div id="viewcounter"><span class="icon_wrap"><i class="fa fa-eye"></i><?php print $content['links']['statistics']['#links']['statistics_counter']['title']; ?></span></div>
+        <?php endif; ?>
+      </div>
+
+      <div class="posttext">
+        <?php if(!empty($node->field_project_info[LANGUAGE_NONE][0]['value'])): ?>
+          <div class="one_half">
+            <div class="contenttable">
+              <table>
+                <tbody>
+                  <tr><td class="partner-subject"><h5>Flower Art / 花艺:</h5></td><td><?php print $node->field_flower_art[LANGUAGE_NONE][0]['entity']->title; ?></td></tr>
+                  <tr><td class="partner-subject"><h5>Makeup / 跟妆:</h5></td><td><?php print $node->field_makeup[LANGUAGE_NONE][0]['entity']->title; ?></td></tr>
+                  <tr><td class="partner-subject"><h5>Photography / 摄影:</h5></td><td><?php print $node->field_photography[LANGUAGE_NONE][0]['entity']->title; ?></td></tr>
+                  <tr><td class="partner-subject"><h5>Camera Shooting / 摄像:</h5></td><td><?php print $node->field_camera_shooting[LANGUAGE_NONE][0]['entity']->title; ?></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Show involved parners' logo -->
+          <div class="contenttable-logo one_half lastcolumn">
+            <table>
+              <tbody>
+                <tr>
+                  <td><?php print $partner_flower_art; ?></td>
+                  <td><?php print $partner_makeup; ?></td>
+                  <td><?php print $partner_photography; ?></td>
+                  <td><?php print $partner_camera_shooting; ?></td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         <?php endif; ?>
 
-        <div class="content"<?php print $content_attributes; ?>>
-          <?php
-            // We hide the comments and links now so that we can render them later.
-            hide($content['comments']);
-            hide($content['links']);
-            print render($content);
-          ?>
+        <?php if(!empty($node->body[LANGUAGE_NONE][0]['safe_value'])): ?>
+          <?php print $node->body[LANGUAGE_NONE][0]['safe_value']; ?>
+        <?php endif; ?>
+      </div>
+
+      <!-- Add fancybox gallery to the portfolio page, regardless of the template is image, video or slider. -->
+      <div id="gallerywrap">
+        <div id="gallery">
+          <div class="thumbholder">
+            <a class="fancybox" href="<?php print image_style_url('portfolio_markedwhite_breakpoints_theme_meiyin_wide_1x', $node->field_image[LANGUAGE_NONE][0]['uri']); ?>" data-href-wide_1x="<?php print image_style_url('portfolio_markedwhite_breakpoints_theme_meiyin_wide_1x', $node->field_image[LANGUAGE_NONE][0]['uri']); ?>" data-href-normal_1x="<?php print image_style_url('portfolio_markedwhite_breakpoints_theme_meiyin_normal_1x', $node->field_image[LANGUAGE_NONE][0]['uri']); ?>" data-href-normal_2x="<?php print image_style_url('portfolio_markedwhite_breakpoints_theme_meiyin_normal_2x', $node->field_image[LANGUAGE_NONE][0]['uri']); ?>" data-href-narrow_1x="<?php print image_style_url('portfolio_markedwhite_breakpoints_theme_meiyin_narrow_1x', $node->field_image[LANGUAGE_NONE][0]['uri']); ?>" data-href-narrow_2x="<?php print image_style_url('portfolio_markedwhite_breakpoints_theme_meiyin_narrow_2x', $node->field_image[LANGUAGE_NONE][0]['uri']); ?>" data-href-tablet_1x="<?php print image_style_url('portfolio_markedwhite_breakpoints_theme_meiyin_tablet_1x', $node->field_image[LANGUAGE_NONE][0]['uri']); ?>" data-href-tablet_2x="<?php print image_style_url('portfolio_markedwhite_breakpoints_theme_meiyin_tablet_2x', $node->field_image[LANGUAGE_NONE][0]['uri']); ?>" data-href-mobile_1x="<?php print image_style_url('portfolio_markedwhite_breakpoints_theme_meiyin_mobile_1x', $node->field_image[LANGUAGE_NONE][0]['uri']); ?>" data-href-mobile_2x="<?php print image_style_url('portfolio_markedwhite_breakpoints_theme_meiyin_mobile_2x', $node->field_image[LANGUAGE_NONE][0]['uri']); ?>" data-fancybox-group="gallery<?php print $node->nid; ?>" title="<?php print $title; ?>">
+              <picture>
+                <!--[if IE 9]><video style="display: none;"><![endif]-->
+                <source srcset="<?php print image_style_url('portfolio_gallery_thumbnail_breakpoints_theme_meiyin_wide_1x', $node->field_image[LANGUAGE_NONE][0]['uri']); ?> 1x" media="(min-width: 1200px)">
+                <source srcset="<?php print image_style_url('portfolio_gallery_thumbnail_breakpoints_theme_meiyin_normal_1x', $node->field_image[LANGUAGE_NONE][0]['uri']); ?> 1x, <?php print image_style_url('portfolio_gallery_thumbnail_breakpoints_theme_meiyin_normal_2x', $node->field_image[LANGUAGE_NONE][0]['uri']); ?> 2x" media="(min-width: 980px)">
+                <source srcset="<?php print image_style_url('portfolio_gallery_thumbnail_breakpoints_theme_meiyin_narrow_1x', $node->field_image[LANGUAGE_NONE][0]['uri']); ?> 1x, <?php print image_style_url('portfolio_gallery_thumbnail_breakpoints_theme_meiyin_narrow_2x', $node->field_image[LANGUAGE_NONE][0]['uri']); ?> 2x" media="(min-width: 768px)">
+                <source srcset="<?php print image_style_url('portfolio_gallery_thumbnail_breakpoints_theme_meiyin_tablet_1x', $node->field_image[LANGUAGE_NONE][0]['uri']); ?> 1x, <?php print image_style_url('portfolio_gallery_thumbnail_breakpoints_theme_meiyin_tablet_2x', $node->field_image[LANGUAGE_NONE][0]['uri']); ?> 2x" media="(min-width: 480px)">
+                <source srcset="<?php print image_style_url('portfolio_gallery_thumbnail_breakpoints_theme_meiyin_mobile_1x', $node->field_image[LANGUAGE_NONE][0]['uri']); ?> 1x, <?php print image_style_url('portfolio_gallery_thumbnail_breakpoints_theme_meiyin_mobile_2x', $node->field_image[LANGUAGE_NONE][0]['uri']); ?> 2x" media="(min-width: 0px)">
+                <!--[if IE 9]></video><![endif]-->
+                <img src="<?php print image_style_url('portfolio_gallery_thumbnail_breakpoints_theme_meiyin_wide_1x', $node->field_image[LANGUAGE_NONE][0]['uri']); ?>" name="gallery-cover" />
+              </picture>
+              <div class="thumboverlay"></div>
+            </a>
+          </div>
+          <?php if (!empty($node->field_gallery)): ?>
+            <?php $i = 0; $holder_class = 'thumbholder'; ?>
+            <?php foreach ($node->field_gallery[LANGUAGE_NONE] as $imageInfo): ?>
+              <?php if ( $i > 6): ?>
+                <?php $holder_class = 'thumbholder hide'; ?>
+              <?php endif; ?>
+              <div class="<?php print $holder_class; ?>">
+                <a class="fancybox" href="<?php print image_style_url('portfolio_markedwhite_breakpoints_theme_meiyin_wide_1x', $imageInfo['uri']); ?>" data-href-wide_1x="<?php print image_style_url('portfolio_markedwhite_breakpoints_theme_meiyin_wide_1x', $imageInfo['uri']); ?>" data-href-normal_1x="<?php print image_style_url('portfolio_markedwhite_breakpoints_theme_meiyin_normal_1x', $imageInfo['uri']); ?>" data-href-normal_2x="<?php print image_style_url('portfolio_markedwhite_breakpoints_theme_meiyin_normal_2x', $imageInfo['uri']); ?>" data-href-narrow_1x="<?php print image_style_url('portfolio_markedwhite_breakpoints_theme_meiyin_narrow_1x', $imageInfo['uri']); ?>" data-href-narrow_2x="<?php print image_style_url('portfolio_markedwhite_breakpoints_theme_meiyin_narrow_2x', $imageInfo['uri']); ?>" data-href-tablet_1x="<?php print image_style_url('portfolio_markedwhite_breakpoints_theme_meiyin_tablet_1x', $imageInfo['uri']); ?>" data-href-tablet_2x="<?php print image_style_url('portfolio_markedwhite_breakpoints_theme_meiyin_tablet_2x', $imageInfo['uri']); ?>" data-href-mobile_1x="<?php print image_style_url('portfolio_markedwhite_breakpoints_theme_meiyin_mobile_1x', $imageInfo['uri']); ?>" data-href-mobile_2x="<?php print image_style_url('portfolio_markedwhite_breakpoints_theme_meiyin_mobile_2x', $imageInfo['uri']); ?>" data-fancybox-group="gallery<?php print $node->nid; ?>" title="<?php print $title; ?>">
+                  <picture>
+                    <!--[if IE 9]><video style="display: none;"><![endif]-->
+                    <source srcset="<?php print image_style_url('portfolio_gallery_thumbnail_breakpoints_theme_meiyin_wide_1x', $imageInfo['uri']); ?> 1x" media="(min-width: 1200px)">
+                    <source srcset="<?php print image_style_url('portfolio_gallery_thumbnail_breakpoints_theme_meiyin_normal_1x', $imageInfo['uri']); ?> 1x, <?php print image_style_url('portfolio_gallery_thumbnail_breakpoints_theme_meiyin_normal_2x', $imageInfo['uri']); ?> 2x" media="(min-width: 980px)">
+                    <source srcset="<?php print image_style_url('portfolio_gallery_thumbnail_breakpoints_theme_meiyin_narrow_1x', $imageInfo['uri']); ?> 1x, <?php print image_style_url('portfolio_gallery_thumbnail_breakpoints_theme_meiyin_narrow_2x', $imageInfo['uri']); ?> 2x" media="(min-width: 768px)">
+                    <source srcset="<?php print image_style_url('portfolio_gallery_thumbnail_breakpoints_theme_meiyin_tablet_1x', $imageInfo['uri']); ?> 1x, <?php print image_style_url('portfolio_gallery_thumbnail_breakpoints_theme_meiyin_tablet_2x', $imageInfo['uri']); ?> 2x" media="(min-width: 480px)">
+                    <source srcset="<?php print image_style_url('portfolio_gallery_thumbnail_breakpoints_theme_meiyin_mobile_1x', $imageInfo['uri']); ?> 1x, <?php print image_style_url('portfolio_gallery_thumbnail_breakpoints_theme_meiyin_mobile_2x', $imageInfo['uri']); ?> 2x" media="(min-width: 0px)">
+                    <!--[if IE 9]></video><![endif]-->
+                    <img src="<?php print image_style_url('portfolio_gallery_thumbnail_breakpoints_theme_meiyin_wide_1x', $imageInfo['uri']); ?>" />
+                  </picture>
+                  <div class="thumboverlay"></div>
+                </a>
+              </div>
+              <?php $i++; ?>
+            <?php endforeach ?>
+          <?php endif ?>
+          <div class="thumbholder hide">
+            <a class="fancybox" href="<?php print image_style_url('portfolio_breakpoints_theme_meiyin_wide_1x', $node->field_back_cover[LANGUAGE_NONE][0]['uri']); ?>" data-href-wide_1x="<?php print image_style_url('portfolio_breakpoints_theme_meiyin_wide_1x', $node->field_back_cover[LANGUAGE_NONE][0]['uri']); ?>" data-href-normal_1x="<?php print image_style_url('portfolio_breakpoints_theme_meiyin_normal_1x', $node->field_back_cover[LANGUAGE_NONE][0]['uri']); ?>" data-href-normal_2x="<?php print image_style_url('portfolio_breakpoints_theme_meiyin_normal_2x', $node->field_back_cover[LANGUAGE_NONE][0]['uri']); ?>" data-href-narrow_1x="<?php print image_style_url('portfolio_breakpoints_theme_meiyin_narrow_1x', $node->field_back_cover[LANGUAGE_NONE][0]['uri']); ?>" data-href-narrow_2x="<?php print image_style_url('portfolio_breakpoints_theme_meiyin_narrow_2x', $node->field_back_cover[LANGUAGE_NONE][0]['uri']); ?>" data-href-tablet_1x="<?php print image_style_url('portfolio_breakpoints_theme_meiyin_tablet_1x', $node->field_back_cover[LANGUAGE_NONE][0]['uri']); ?>" data-href-tablet_2x="<?php print image_style_url('portfolio_breakpoints_theme_meiyin_tablet_2x', $node->field_back_cover[LANGUAGE_NONE][0]['uri']); ?>" data-href-mobile_1x="<?php print image_style_url('portfolio_breakpoints_theme_meiyin_mobile_1x', $node->field_back_cover[LANGUAGE_NONE][0]['uri']); ?>" data-href-mobile_2x="<?php print image_style_url('portfolio_breakpoints_theme_meiyin_mobile_2x', $node->field_back_cover[LANGUAGE_NONE][0]['uri']); ?>" data-fancybox-group="gallery<?php print $node->nid; ?>" title="<?php print $title; ?>">
+              <picture>
+                <!--[if IE 9]><video style="display: none;"><![endif]-->
+                <source srcset="<?php print image_style_url('portfolio_gallery_thumbnail_breakpoints_theme_meiyin_wide_1x', $node->field_back_cover[LANGUAGE_NONE][0]['uri']); ?> 1x" media="(min-width: 1200px)">
+                <source srcset="<?php print image_style_url('portfolio_gallery_thumbnail_breakpoints_theme_meiyin_normal_1x', $node->field_back_cover[LANGUAGE_NONE][0]['uri']); ?> 1x, <?php print image_style_url('portfolio_gallery_thumbnail_breakpoints_theme_meiyin_normal_2x', $node->field_back_cover[LANGUAGE_NONE][0]['uri']); ?> 2x" media="(min-width: 980px)">
+                <source srcset="<?php print image_style_url('portfolio_gallery_thumbnail_breakpoints_theme_meiyin_narrow_1x', $node->field_back_cover[LANGUAGE_NONE][0]['uri']); ?> 1x, <?php print image_style_url('portfolio_gallery_thumbnail_breakpoints_theme_meiyin_narrow_2x', $node->field_back_cover[LANGUAGE_NONE][0]['uri']); ?> 2x" media="(min-width: 768px)">
+                <source srcset="<?php print image_style_url('portfolio_gallery_thumbnail_breakpoints_theme_meiyin_tablet_1x', $node->field_back_cover[LANGUAGE_NONE][0]['uri']); ?> 1x, <?php print image_style_url('portfolio_gallery_thumbnail_breakpoints_theme_meiyin_tablet_2x', $node->field_back_cover[LANGUAGE_NONE][0]['uri']); ?> 2x" media="(min-width: 480px)">
+                <source srcset="<?php print image_style_url('portfolio_gallery_thumbnail_breakpoints_theme_meiyin_mobile_1x', $node->field_back_cover[LANGUAGE_NONE][0]['uri']); ?> 1x, <?php print image_style_url('portfolio_gallery_thumbnail_breakpoints_theme_meiyin_mobile_2x', $node->field_back_cover[LANGUAGE_NONE][0]['uri']); ?> 2x" media="(min-width: 0px)">
+                <!--[if IE 9]></video><![endif]-->
+                <img src="<?php print image_style_url('portfolio_gallery_thumbnail_breakpoints_theme_meiyin_wide_1x', $node->field_back_cover[LANGUAGE_NONE][0]['uri']); ?>" />
+              </picture>
+              <div class="thumboverlay"></div>
+            </a>
+          </div>
         </div>
-        <?php print render($content['links']); ?>
-        <?php print render($content['comments']); ?>
-      <?php break; endswitch; ?>
+      </div>
 
       <?php if(current_path() == $path): ?>
         <div class="projectnavwrapper">

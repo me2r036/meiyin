@@ -309,11 +309,12 @@
 		} else {
 			$vars['content_settings'] = (theme_get_setting('content_grid') !== '0') ? 'span'. theme_get_setting('content_grid') : 'span12';
 		}
-		
+
 		if (drupal_is_front_page()) { 
 			unset($vars['page']['content']['system_main']);
 			drupal_add_js(drupal_get_path('theme', 'meiyin') . '/js/TweenMax.min.js');
 		}
+
 	}
 
   /**
@@ -330,6 +331,42 @@
       } 
     }
 
+    /* To check if the current user has a single role or any of multiple roles, a great way is to do:
+    // can be used in access callback too
+    function user_has_role($roles) {
+      //checks if user has role/roles
+      return !!count(array_intersect(is_array($roles)? $roles : array($roles), array_values($GLOBALS['user']->roles)));
+    };
+
+    if (user_has_role(array('moderator', 'administrator'))) {
+      // $user is admin or moderator
+    } else if(user_has_role('tester')){
+      // $user is tester
+    } else{
+      // $user is not admin and not moderator
+    }*/
+
+    // Add rounded class to the container of field_image; add dotted overlay effect if is set.
+    if ($vars['type'] == 'service') {
+      $vars['content']['container'] = array(
+        '#type' => 'container',
+        '#attributes' => array('class' => 'service-banner rounded'),
+      );
+      $vars['content']['container']['field_image'] = $vars['content']['field_image'];
+      unset($vars['content']['field_image']);
+
+      if($vars['field_dotted_overlay'][LANGUAGE_NONE][0]['value']) {
+        $vars['content']['container']['#attributes']['class'] .= ' dot-overlay';
+      }
+    }
+
+    if ($vars['type'] == 'portfolio') {
+      $vars['partner_flower_art'] = get_partner_involved_picture($vars['field_flower_art']['0']['entity']->field_image[LANGUAGE_NONE]['0']);
+      $vars['partner_makeup'] = get_partner_involved_picture($vars['field_makeup']['0']['entity']->field_image[LANGUAGE_NONE]['0']);
+      $vars['partner_photography'] = get_partner_involved_picture($vars['field_photography']['0']['entity']->field_image[LANGUAGE_NONE]['0']);
+      $vars['partner_camera_shooting'] = get_partner_involved_picture($vars['field_camera_shooting']['0']['entity']->field_image[LANGUAGE_NONE]['0']);
+    }
+
     // Baidu share script added here
     if ($vars['type'] == 'portfolio' || $vars['type'] == 'blog_post' || $vars['type'] == 'webform' || $vars['type'] == 'service' || $vars['node']->nid == '31'){
       $data = 'window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdPic":"","bdStyle":"1"},
@@ -341,23 +378,6 @@
       drupal_add_js($data, array('type' => 'inline', 'group' => JS_THEME));
     }
 
-    //print_r($vars);
-
-  /* To check if the current user has a single role or any of multiple roles, a great way is to do:
-  // can be used in access callback too
-  function user_has_role($roles) {
-    //checks if user has role/roles
-    return !!count(array_intersect(is_array($roles)? $roles : array($roles), array_values($GLOBALS['user']->roles)));
-  };
-
-  if (user_has_role(array('moderator', 'administrator'))) {
-    // $user is admin or moderator
-  } else if(user_has_role('tester')){
-    // $user is tester
-  } else{
-    // $user is not admin and not moderator
-  }
-  */
   }
 
 	function meiyin_preprocess_region(&$vars) {		
@@ -394,3 +414,19 @@
 		$vars['action_links'] = $theme->page['action_links'];
 		$vars['feed_icons'] = $theme->page['feed_icons'];
 	}
+
+  /* Helper function */
+  function get_partner_involved_picture($picture) {
+    $fallback_image_style = 'partner_involved_breakpoints_theme_meiyin_wide_1x';
+    $picture_mapping = picture_mapping_load('resp_partner_involved');
+    $breakpoints = picture_get_mapping_breakpoints($picture_mapping, $fallback_image_style);
+    $picture_info = array(
+      '#theme' => 'picture',
+      '#uri' => $picture['uri'],
+      '#breakpoints' => $breakpoints,
+      '#style-name' => $$fallback_image_style,
+      '#alt' => isset($picture['alt']) ? $picture['alt'] : '',
+      '#timestamp' => $picture['timestamp'],
+    );
+    return render($picture_info);
+  }
