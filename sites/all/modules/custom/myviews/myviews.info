@@ -1,0 +1,6 @@
+name = Meiyin Views
+description = Views that used with meiyin.co
+core = 7.x
+package = Views
+
+dependencies[] = views
