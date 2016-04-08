@@ -73,6 +73,13 @@ $handler->display->display_options['defaults']['row_plugin'] = FALSE;
 $handler->display->display_options['row_plugin'] = 'fields';
 $handler->display->display_options['row_options']['default_field_elements'] = FALSE;
 $handler->display->display_options['defaults']['row_options'] = FALSE;
+$handler->display->display_options['defaults']['footer'] = FALSE;
+/* Footer: Global: Unfiltered text */
+$handler->display->display_options['footer']['area_text_custom']['id'] = 'area_text_custom';
+$handler->display->display_options['footer']['area_text_custom']['table'] = 'views';
+$handler->display->display_options['footer']['area_text_custom']['field'] = 'area_text_custom';
+$handler->display->display_options['footer']['area_text_custom']['label'] = 'Divider';
+$handler->display->display_options['footer']['area_text_custom']['content'] = '<div class="divider"></div>';
 $handler->display->display_options['defaults']['fields'] = FALSE;
 /* Field: Content: Title */
 $handler->display->display_options['fields']['title']['id'] = 'title';
@@ -183,6 +190,8 @@ $translatables['meiyin_partner'] = array(
   t('Block: Partners'),
   t('美音汇™'),
   t('Partners page and block used with the Meiyin theme.'),
+  t('Divider'),
+  t('<div class="divider"></div>'),
   t('<a href="#" data-rel="tooltip" target="_self" data-original-title=[title]><div class="partner-logo">[field_image]</div></a>'),
   t('Entity Reference: Partner: Type'),
   t('Display partners of the specified partner type'),

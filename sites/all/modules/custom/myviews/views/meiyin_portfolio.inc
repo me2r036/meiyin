@@ -127,6 +127,22 @@ $handler->display->display_options['defaults']['title'] = FALSE;
 $handler->display->display_options['title'] = 'Portfolio 5 Columns';
 $handler->display->display_options['defaults']['css_class'] = FALSE;
 $handler->display->display_options['css_class'] = 'fivecol';
+$handler->display->display_options['defaults']['header'] = FALSE;
+/* Header: Global: Text area */
+$handler->display->display_options['header']['area']['id'] = 'area';
+$handler->display->display_options['header']['area']['table'] = 'views';
+$handler->display->display_options['header']['area']['field'] = 'area';
+$handler->display->display_options['header']['area']['label'] = 'Introductory Text';
+$handler->display->display_options['header']['area']['content'] = '<div class="span12" style="margin-bottom: 14px;">
+  <h3>美音婚礼™以你的期望，预算和实际的场地规划设计最适合你的创意婚礼。</h3><p>美音汇™汇集了行业内最高素质的服务团队，从前期的沟通、设计、统筹到后期的创意实现，从主持人、影像、督导，到婚礼的每一个流程步骤，从婚礼现场的布置搭建到完成婚礼的气氛营造，美音婚礼全程贴心服务，精致于微处，为你呈现高品质的婚礼盛典，与你共同喜悦。</p>
+</div>';
+$handler->display->display_options['header']['area']['format'] = 'full_html';
+/* Header: Global: View area */
+$handler->display->display_options['header']['view']['id'] = 'view';
+$handler->display->display_options['header']['view']['table'] = 'views';
+$handler->display->display_options['header']['view']['field'] = 'view';
+$handler->display->display_options['header']['view']['label'] = 'Portfolio Filter';
+$handler->display->display_options['header']['view']['view_to_insert'] = 'meiyin_taxonomy:block_portfolio_filter';
 $handler->display->display_options['defaults']['fields'] = FALSE;
 /* Field: Content: Path */
 $handler->display->display_options['fields']['path']['id'] = 'path';
@@ -215,6 +231,22 @@ $handler->display->display_options['path'] = 'portfolio-5col';
 $handler = $view->new_display('page', 'Portfolio - 4 Columns', 'page_1');
 $handler->display->display_options['defaults']['css_class'] = FALSE;
 $handler->display->display_options['css_class'] = 'fourcol';
+$handler->display->display_options['defaults']['header'] = FALSE;
+/* Header: Global: Text area */
+$handler->display->display_options['header']['area']['id'] = 'area';
+$handler->display->display_options['header']['area']['table'] = 'views';
+$handler->display->display_options['header']['area']['field'] = 'area';
+$handler->display->display_options['header']['area']['label'] = 'Introductory Text';
+$handler->display->display_options['header']['area']['content'] = '<div class="span12" style="margin-bottom: 14px;">
+  <h3>美音婚礼™以你的期望，预算和实际的场地规划设计最适合你的创意婚礼。</h3><p>美音汇™汇集了行业内最高素质的服务团队，从前期的沟通、设计、统筹到后期的创意实现，从主持人、影像、督导，到婚礼的每一个流程步骤，从婚礼现场的布置搭建到完成婚礼的气氛营造，美音婚礼全程贴心服务，精致于微处，为你呈现高品质的婚礼盛典，与你共同喜悦。</p>
+</div>';
+$handler->display->display_options['header']['area']['format'] = 'full_html';
+/* Header: Global: View area */
+$handler->display->display_options['header']['view']['id'] = 'view';
+$handler->display->display_options['header']['view']['table'] = 'views';
+$handler->display->display_options['header']['view']['field'] = 'view';
+$handler->display->display_options['header']['view']['label'] = 'Portfolio Filter';
+$handler->display->display_options['header']['view']['view_to_insert'] = 'meiyin_taxonomy:block_portfolio_filter';
 $handler->display->display_options['defaults']['fields'] = FALSE;
 /* Field: Content: Path */
 $handler->display->display_options['fields']['path']['id'] = 'path';
@@ -305,6 +337,22 @@ $handler->display->display_options['defaults']['title'] = FALSE;
 $handler->display->display_options['title'] = 'Portfolio 3 Columns';
 $handler->display->display_options['defaults']['css_class'] = FALSE;
 $handler->display->display_options['css_class'] = 'threecol';
+$handler->display->display_options['defaults']['header'] = FALSE;
+/* Header: Global: Text area */
+$handler->display->display_options['header']['area']['id'] = 'area';
+$handler->display->display_options['header']['area']['table'] = 'views';
+$handler->display->display_options['header']['area']['field'] = 'area';
+$handler->display->display_options['header']['area']['label'] = 'Introductory Text';
+$handler->display->display_options['header']['area']['content'] = '<div class="span12" style="margin-bottom: 14px;">
+  <h3>美音婚礼™以你的期望，预算和实际的场地规划设计最适合你的创意婚礼。</h3><p>美音汇™汇集了行业内最高素质的服务团队，从前期的沟通、设计、统筹到后期的创意实现，从主持人、影像、督导，到婚礼的每一个流程步骤，从婚礼现场的布置搭建到完成婚礼的气氛营造，美音婚礼全程贴心服务，精致于微处，为你呈现高品质的婚礼盛典，与你共同喜悦。</p>
+</div>';
+$handler->display->display_options['header']['area']['format'] = 'full_html';
+/* Header: Global: View area */
+$handler->display->display_options['header']['view']['id'] = 'view';
+$handler->display->display_options['header']['view']['table'] = 'views';
+$handler->display->display_options['header']['view']['field'] = 'view';
+$handler->display->display_options['header']['view']['label'] = 'Portfolio Filter';
+$handler->display->display_options['header']['view']['view_to_insert'] = 'meiyin_taxonomy:block_portfolio_filter';
 $handler->display->display_options['defaults']['fields'] = FALSE;
 /* Field: Content: Path */
 $handler->display->display_options['fields']['path']['id'] = 'path';
@@ -388,7 +436,6 @@ $handler = $view->new_display('block', 'Block: Portfolio (5 col)', 'proj5col');
 $handler->display->display_options['defaults']['css_class'] = FALSE;
 $handler->display->display_options['css_class'] = 'fivecol';
 $handler->display->display_options['defaults']['use_more'] = FALSE;
-$handler->display->display_options['use_more'] = TRUE;
 $handler->display->display_options['defaults']['use_more_always'] = FALSE;
 $handler->display->display_options['defaults']['use_more_always'] = FALSE;
 $handler->display->display_options['use_more_always'] = FALSE;
@@ -494,7 +541,6 @@ $handler = $view->new_display('block', 'Block: Portfolio (4 col)', 'proj4col');
 $handler->display->display_options['defaults']['css_class'] = FALSE;
 $handler->display->display_options['css_class'] = 'fourcol';
 $handler->display->display_options['defaults']['use_more'] = FALSE;
-$handler->display->display_options['use_more'] = TRUE;
 $handler->display->display_options['defaults']['use_more_always'] = FALSE;
 $handler->display->display_options['defaults']['use_more_always'] = FALSE;
 $handler->display->display_options['use_more_always'] = FALSE;
@@ -602,7 +648,6 @@ $handler = $view->new_display('block', 'Block: Portfolio (3 col)', 'proj3col');
 $handler->display->display_options['defaults']['css_class'] = FALSE;
 $handler->display->display_options['css_class'] = 'threecol';
 $handler->display->display_options['defaults']['use_more'] = FALSE;
-$handler->display->display_options['use_more'] = TRUE;
 $handler->display->display_options['defaults']['use_more_always'] = FALSE;
 $handler->display->display_options['defaults']['use_more_always'] = FALSE;
 $handler->display->display_options['use_more_always'] = FALSE;
@@ -1025,6 +1070,7 @@ $translatables['meiyin_portfolio'] = array(
   t('Toggle Fancybox'),
   t('Portfolio - 5 Columns'),
   t('Portfolio 5 Columns'),
+  t('Portfolio Filter'),
   t('<div class="foliotextholder">
 <div class="foliotextwrapper">
 <h5 class="itemtitle"><a href="[path]">[title]</a></h5>
@@ -1052,12 +1098,6 @@ $translatables['meiyin_portfolio'] = array(
   t('Block: Portfolio (3 col)'),
   t('Block: Related Projects'),
   t('更多婚礼'),
-  t('<div class="foliotextholder">
-<div class="foliotextwrapper">
-<h5 class="itemtitle"><a href="[path]">[title]</a></h5>
-<span class="itemcategories">[field_portfolio_tags]</span>
-</div>
-</div>'),
   t('All'),
   t('Block: Latest Projects'),
   t('最新选集'),

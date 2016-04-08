@@ -43,7 +43,7 @@ $handler->display->display_options['filters']['vid']['value'] = array(
 );
 
 /* Display: Block: Portfolio Filter */
-$handler = $view->new_display('block', 'Block: Portfolio Filter', 'block');
+$handler = $view->new_display('block', 'Block: Portfolio Filter', 'block_portfolio_filter');
 $handler->display->display_options['defaults']['fields'] = FALSE;
 /* Field: Taxonomy term: Name */
 $handler->display->display_options['fields']['name']['id'] = 'name';
@@ -73,7 +73,7 @@ $handler->display->display_options['filters']['vid']['value'] = array(
 );
 
 /* Display: Block: Categories */
-$handler = $view->new_display('block', 'Block: Categories', 'block_1');
+$handler = $view->new_display('block', 'Block: Categories', 'block_categories');
 $handler->display->display_options['defaults']['title'] = FALSE;
 $handler->display->display_options['title'] = 'Categories';
 $handler->display->display_options['defaults']['css_class'] = FALSE;

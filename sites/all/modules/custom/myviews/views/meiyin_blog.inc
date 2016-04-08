@@ -1076,6 +1076,13 @@ $handler->display->display_options['row_plugin'] = 'fields';
 $handler->display->display_options['row_options']['default_field_elements'] = FALSE;
 $handler->display->display_options['defaults']['row_options'] = FALSE;
 $handler->display->display_options['defaults']['header'] = FALSE;
+$handler->display->display_options['defaults']['footer'] = FALSE;
+/* Footer: Global: Unfiltered text */
+$handler->display->display_options['footer']['area_text_custom']['id'] = 'area_text_custom';
+$handler->display->display_options['footer']['area_text_custom']['table'] = 'views';
+$handler->display->display_options['footer']['area_text_custom']['field'] = 'area_text_custom';
+$handler->display->display_options['footer']['area_text_custom']['label'] = 'Divider';
+$handler->display->display_options['footer']['area_text_custom']['content'] = '<div class="divider"></div>';
 $handler->display->display_options['defaults']['relationships'] = FALSE;
 $handler->display->display_options['defaults']['fields'] = FALSE;
 /* Field: Content: Post date (Day) */
@@ -1407,9 +1414,6 @@ $translatables['meiyin_blog'] = array(
 <div class="comments">[comment_count]</div>
 <div class="tags">of [field_tags]</div>
 </div>'),
-  t('<div class="postmedia">
-[field_slider_block]
-</div>'),
   t('<section class="post">
 [field_slider_block]
 <section class="postbody[field_template]">
@@ -1440,6 +1444,8 @@ $translatables['meiyin_blog'] = array(
   t('流行资讯'),
   t('Block: Related Posts'),
   t('相关资讯'),
+  t('Divider'),
+  t('<div class="divider"></div>'),
   t('[field_categories]'),
   t('<div class="comments">No comments</div>'),
   t('<div class="postbody">
