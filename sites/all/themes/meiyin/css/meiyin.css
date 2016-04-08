@@ -124,7 +124,6 @@ a.color:hover { color: #353535; text-decoration: none; }
 /* CONTENT CONTAINER */
 /* ------------------------------------ */
 
-.container { margin-top: 40px; }
 .front .container { margin-top: 0px; }
 
 .allwrapper { background: #FFF; width: 1170px; padding: 0px 30px; margin: auto; border-bottom: 3px solid #bbb; }
@@ -339,15 +338,14 @@ a.color:hover { color: #353535; text-decoration: none; }
 .front #firstcontentcontainer .row.partners { border: none; }
 .front span.partner { display: block; }
 .front .portfolio-block{ border-bottom: 1px solid #ccc; margin-bottom: 30px; padding-bottom: 20px; }
-.front .postscript-third { margin-top: 20px; padding-top: 20px; border-top: 1px solid #ccc; }
+.front .postscript-third { margin-top: 30px; padding-top: 30px; border-top: 1px solid #ccc; }
 .front .block-views { float: left; width: 100%; }
 .front .region.content { padding-top: 5px; }
-.front .divider { margin-top: 30px; }
 .front .pagetitlewrap { display: none; }
 .front .prescript-first, .front .prescript-second, .front .prescript-third { margin-top: 30px; margin-bottom: 30px; }
 .front .servicemodifier, .front .prescript-third, .front a.service  { margin-bottom: 0; }
 
-.divider { border-top: 1px solid #ccc; padding-top: 30px; }
+.divider { margin-top: 30px; border-top: 1px solid #ccc; padding-top: 30px; }
 
 /* START HEIGHT OF REVOLUTION SLIDER */
 /*.homeslider {	height:450px; }*/
@@ -1444,7 +1442,7 @@ a.accordion-toggle.collapsed:hover { color: #666;
 	
 	/* GOOGLE MAPS */
 /* ------------------------------------ */
-.map { width: 100%; height: 400px; margin-top: 10px; margin-bottom: 35px; background: #eee; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px;
+.map { width: 100%; height: 400px; margin-top: 10px; margin-bottom: 20px; background: #eee; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px;
   -webkit-mask-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA5JREFUeNpiYGBgAAgwAAAEAAGbA+oJAAAAAElFTkSuQmCC);
      -moz-mask-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA5JREFUeNpiYGBgAAgwAAAEAAGbA+oJAAAAAElFTkSuQmCC);
       -ms-mask-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA5JREFUeNpiYGBgAAgwAAAEAAGbA+oJAAAAAElFTkSuQmCC);
@@ -1457,7 +1455,6 @@ a.accordion-toggle.collapsed:hover { color: #666;
 /* CONTACT PAGE  */
 /* ------------------------------------ */
 
-.page-contact .divider { margin-top: 10px; }
 .contact-form { margin-bottom: 0; }
 .contact-form .form-item.form-type-textfield { width: 30%; margin-left: 4.4%; float: left; }
 .contact-form .form-item input[type="text"] { width: 100%; }
