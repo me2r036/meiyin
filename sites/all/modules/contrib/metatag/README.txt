@@ -143,7 +143,7 @@ Configuration
       admin/config/search/metatags/settings
 
  4. In order to provide a specific configuration per entity bundle (content
-    type, vocabulary, etc), click "Add a Metatag default".
+    type, vocabulary, etc), click "Add default meta tags".
 
  5. Each supported entity object (nodes, terms, users) will have a set of meta
     tag fields available for customization on their respective edit page, these
@@ -209,7 +209,7 @@ For further details see the module's project page:
   https://www.drupal.org/project/smartling
 
 
-Fine Tuning & Suggestions
+Fine tuning & suggestions
 --------------------------------------------------------------------------------
 * There are many options available on the settings page to control how Metatag
   works:
@@ -261,7 +261,7 @@ The result will be a nested array of meta tag structures ready for either output
 via drupal_render(), or examining to identify the actual text values.
 
 
-Troubleshooting / Known Issues
+Troubleshooting / known issues
 --------------------------------------------------------------------------------
 * When using custom page template files, e.g., page--front.tpl.php, it is
   important to ensure that the following code is present in the template file:
@@ -298,7 +298,8 @@ Troubleshooting / Known Issues
 
 Related modules
 --------------------------------------------------------------------------------
-Some modules are available that extend Metatag with additional functionality:
+Some modules are available that extend Metatag with additional or complimentary
+functionality:
 
 * Transliteration
   https://drupal.org/project/transliteration
@@ -341,8 +342,16 @@ Some modules are available that extend Metatag with additional functionality:
   with meta tags that only allow for one item but which are assigned from fields
   which accept multiple items, e.g. og:audio and og:video.
 
+* Yoast SEO
+  https://www.drupal.org/project/yoast_seo
+  Adds integration with the Yoast service (https://yoast.com/).
+ 
+* Parse.ly Publishing Analytics
+  https://www.drupal.org/project/parsely
+  Automatically generates meta tags for the Parse.ly service.
 
-Credits / Contact
+
+Credits / contact
 --------------------------------------------------------------------------------
 Currently maintained by Damien McKenna [1] and Dave Reid [2]; all initial
 development was by Dave Reid.
