@@ -420,7 +420,7 @@
     $fallback_image_style = 'partner_involved_breakpoints_theme_meiyin_wide_1x';
     $picture_mapping = picture_mapping_load('resp_partner_involved');
     $breakpoints = picture_get_mapping_breakpoints($picture_mapping, $fallback_image_style);
-    $picture_info = array(
+    $image_render_array = array(
       '#theme' => 'picture',
       '#uri' => $picture['uri'],
       '#breakpoints' => $breakpoints,
@@ -428,5 +428,5 @@
       '#alt' => isset($picture['alt']) ? $picture['alt'] : '',
       '#timestamp' => $picture['timestamp'],
     );
-    return render($picture_info);
+    return render($image_render_array);
   }
