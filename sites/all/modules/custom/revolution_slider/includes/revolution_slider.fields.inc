@@ -15,10 +15,8 @@ function revolution_slider_preprocess_html(&$vars) {
 	if (path_is_admin(current_path())) {
 		drupal_add_library('system', 'ui.draggable');
 		drupal_add_js(drupal_get_path('module', 'revolution_slider') . '/js/admin.js');
-		drupal_add_css($theme_path = drupal_get_path('theme', variable_get('theme_default', NULL)) . '/css/slider.css');
+		drupal_add_css(drupal_get_path('theme', variable_get('theme_default', NULL)) . '/css/slider.css');
 	}
-	drupal_add_js(drupal_get_path('module', 'revolution_slider') . '/js/jquery.themepunch.revolution.min.js');
-	drupal_add_css(drupal_get_path('module', 'revolution_slider') . '/css/settings.css');
 }
 
 /**

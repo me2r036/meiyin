@@ -6,7 +6,7 @@ require_once dirname(__FILE__) . '/includes/revolution_slider.fields.inc';
  * @file
  * Module for the RevolutionSlider Entity - a starting point to create your own Entity
  * and associated administration interface
- */  
+ */
 
 /**
  * Implement hook_entity_info().
@@ -352,7 +352,7 @@ function revolution_slider_theme() {
 
 
   );
-}  
+}
 
 
 /**
@@ -527,6 +527,10 @@ function revolution_slider_block_info() {
  * Implements hook_block_view().
  */
 function revolution_slider_block_view($delta = '') {
+  // Load required js and css.
+  drupal_add_js(drupal_get_path('module', 'revolution_slider') . '/js/jquery.themepunch.revolution.min.js');
+  drupal_add_css(drupal_get_path('module', 'revolution_slider') . '/css/settings.css');
+
 	$query = new EntityFieldQuery();
 	$query->entityCondition('entity_type', 'revolution_slider');
 	$result = $query->execute();	
