@@ -46,7 +46,17 @@
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php print $language->language; ?>" version="XHTML+RDFa 1.0" dir="<?php print $language->dir; ?>"<?php print $rdf_namespaces; ?>>
-
+<!--西安婚庆 西安婚庆公司 西安婚礼策划 西安婚庆网 婚庆网站
+                         _         _                     
+       ____ ___   ___   (_)__  __ (_)____     _____ ____ 
+      / __ `__ \ / _ \ / // / / // // __ \   / ___// __ \
+     / / / / / //  __// // /_/ // // / / /_ / /__ / /_/ /
+    /_/ /_/ /_/ \___//_/ \__, //_//_/ /_/(_)\___/ \____/ 
+                        /____/                           
+    =====================================================
+                                    美音婚礼 | meiyin.co - tell the differences
+                                    Technical support: http://meiyin.co/contact
+-->
 <head profile="<?php print $grddl_profile; ?>">
   <?php print $head; ?>
   <title><?php print $head_title; ?></title>

@@ -467,6 +467,8 @@ function initFooterLogo() {
   var showPicSrc = function() {
     oldSrc     = currentSrc;
     imgEl      = document.getElementsByName('gallery-cover')[0];
+
+    if (imgEl == null) return; // Do nothing if it is not a gallery page, by me2 R, 2016.06.03
     currentSrc = imgEl.currentSrc || imgEl.src;
     
     if (typeof oldSrc === 'undefined' || oldSrc !== currentSrc) {
@@ -477,7 +479,7 @@ function initFooterLogo() {
       //console.log("style is: " + style_array[1]);
       var items = document.getElementsByClassName("fancybox");
       for (var i = 0; i < items.length; i++){
-        if(items[i].getAttribute('data-href-' + style_array[1]) != null ) {
+        if (items[i].getAttribute('data-href-' + style_array[1]) != null) {
           items[i].setAttribute('href', items[i].getAttribute('data-href-' + style_array[1]));
         }
         //console.log(items[i].getAttribute('data-href-' + style_array[1]));
@@ -522,3 +524,12 @@ function initFooterLogo() {
     }
   };
 })(jQuery);
+
+try {
+  if (window.console && window.console.log){
+    console.log("%c美音婚礼 | meiyin.co - tell the differences", "color:green");
+    console.log("%cTechnical support: http://meiyin.co", "color:green");
+    console.log("%cComments or suggestions? Please leave us a message by ATT. webmaster at: http://meiyin.co/contact\n", "color:green");
+  }
+}
+catch(e){};
