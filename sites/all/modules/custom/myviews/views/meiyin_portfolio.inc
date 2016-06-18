@@ -870,7 +870,7 @@ $handler->display->display_options['arguments']['nid']['not'] = TRUE;
 /* Display: Block: Latest Projects */
 $handler = $view->new_display('block', 'Block: Latest Projects', 'latestprojects');
 $handler->display->display_options['defaults']['title'] = FALSE;
-$handler->display->display_options['title'] = '最新选集';
+$handler->display->display_options['title'] = '最新案例';
 $handler->display->display_options['defaults']['css_class'] = FALSE;
 $handler->display->display_options['css_class'] = 'block-projects';
 $handler->display->display_options['defaults']['link_display'] = FALSE;
@@ -963,7 +963,7 @@ $handler->display->display_options['fields']['field_image']['element_label_colon
 $handler->display->display_options['fields']['field_image']['element_default_classes'] = FALSE;
 $handler->display->display_options['fields']['field_image']['click_sort_column'] = 'fid';
 $handler->display->display_options['fields']['field_image']['settings'] = array(
-  'image_style' => 'portfolio_small_130x60',
+  'image_style' => 'portfolio_random_small_130x62',
   'image_link' => 'content',
 );
 $handler->display->display_options['defaults']['sorts'] = FALSE;
@@ -1100,7 +1100,7 @@ $translatables['meiyin_portfolio'] = array(
   t('更多婚礼'),
   t('All'),
   t('Block: Latest Projects'),
-  t('最新选集'),
+  t('最新案例'),
   t('<a href="[path]" data-rel="tooltip" data-original-title="[title]">[field_image]</a>'),
   t('Block: Random Projects'),
   t('Portfolio w/Sidebar'),

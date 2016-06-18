@@ -529,7 +529,7 @@ try {
   if (window.console && window.console.log){
     console.log("%c美音婚礼 | meiyin.co - tell the differences", "color:green");
     console.log("%cTechnical support: http://meiyin.co", "color:green");
-    console.log("%cComments or suggestions? Please leave us a message by ATT. webmaster at: http://meiyin.co/contact\n", "color:green");
+    console.log("%cComments or suggestions? Please leave us a message by Attn. J Ren at: http://meiyin.co/contact\n", "color:green");
   }
 }
 catch(e){};

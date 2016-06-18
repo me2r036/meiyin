@@ -1602,6 +1602,21 @@ a.accordion-toggle.collapsed:hover { color: #666;
   .headerwrap.fixed #logo img { width: 200px !important; }
 }
 
+/* Footer for small screens */
+@media only screen and (max-width: 1199px) {
+  .footer .widget { margin-bottom: 50px; }
+
+  .subfooter .textwidget { float: left; margin: 0; margin-bottom: 0px; width: 100%; }
+  .subfooter .span8.lefttext { float: left; margin: 0; padding: 0; text-align: center; margin-bottom: 5px; width: 100%; }
+  .subfooter .span4.righttext { float: left; margin: 0; padding: 0; text-align: center; margin-bottom: 0px; width: 100%; }
+  .subfooter .righttext .first { float: left; }
+
+  .subfooter .widget_nav_menu { float: left !important; }
+
+  .subfooterwrap.wide, .subfooterwrap { width: 100%; left: 0; margin-left: 0; box-sizing: border-box; -moz-box-sizing:  border-box; -webkit-box-sizing: border-box; padding-left: 20px; padding-right: 20px; }
+  .subfooterwrap.wide .subfooter, .subfooterwrap .subfooter { margin: 0; width: 100%; }
+}
+
 /* ALL MOBILE SIZES */
 @media only screen and (max-width: 767px) {
 	.portfoliowrap { float: none; }
@@ -1693,18 +1708,6 @@ a.accordion-toggle.collapsed:hover { color: #666;
   .blogpost.nodate h2 { padding-left: 0px; }
   .blogpost.nodate .postinfo { padding-left: 0px; }
   .blogpost.singlepost .posttext  { padding-right: 0px; }
-
-  .footer .widget { margin-bottom: 50px; }
-
-  .subfooter .textwidget { float: left; margin: 0; margin-bottom: 0px; width: 100%; }
-  .subfooter .span8.lefttext { float: left; margin: 0; padding: 0; text-align: center; margin-bottom: 5px; width: 100%; }
-  .subfooter .span4.righttext { float: left; margin: 0; padding: 0; text-align: center; margin-bottom: 0px; width: 100%;  }
-  .subfooter .righttext .first { float: left; }
-
-  .subfooter .widget_nav_menu { float: left !important; }
-
-  .subfooterwrap.wide, .subfooterwrap { width: 100%; left: 0; margin-left: 0; box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box; padding-left: 20px; padding-right: 20px; }
-  .subfooterwrap.wide .subfooter, .subfooterwrap .subfooter { margin: 0; width: 100%; }
 
   .pagetitle h1 { text-align: center; }
 
