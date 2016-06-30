@@ -41,6 +41,7 @@ td img { width: 100%; } /* Specified for IE */
 .top-25 { margin-top: -25px !important; }
 .bottom0 { margin-bottom: 0 !important; }
 .margin5 { margin: 5px; }
+.left30 { margin-left: 30px; }
 .dividerline { float: left; height: 3px; width: 100%; background: #ccc; margin-top: 30px; }
 .clear { clear: both; display: block; overflow: hidden; visibility: hidden; width: 0; height: 0; }
 .left { float: left; }
@@ -48,6 +49,7 @@ td img { width: 100%; } /* Specified for IE */
 .mr { margin-right: 15px; margin-bottom: 15px; }
 .ml { margin-left: 15px; margin-bottom: 15px; }
 .centered { text-align: center; }
+.highlight  { font-family: "Helvetica Neue", Helvetica, "Microsoft YaHei", Arial, sans-serif; font-weight: 400; line-height: 1.5; color: #333; text-shadow: rgba(50, 50, 50, .292969) 1px 1px 3px; }
 img.imgleft { display: inline; float: left; margin-right: 25px; margin-top: 0px; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; }
 img.imgright { display: inline; float: right; margin-left: 25px; margin-top: 0px; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; }
 .rounded, .rounded img, .rounded iframe { -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px;
@@ -393,7 +395,7 @@ a.color:hover { color: #353535; text-decoration: none; }
 /* ------------------------------------ */
 
 .textcontent { margin-bottom: 0px; }
-p { margin-bottom: 20px; }
+p { margin-bottom: 20px; text-indent: 2em; }
 
 /* HOME SERVICES */
 /* ------------------------------------ */

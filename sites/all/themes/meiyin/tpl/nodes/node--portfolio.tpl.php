@@ -70,37 +70,38 @@
       </div>
 
       <div class="posttext">
-        <?php if(!empty($node->field_project_info[LANGUAGE_NONE][0]['value'])): ?>
-          <div class="one_half">
-            <div class="contenttable">
-              <table>
-                <tbody>
-                  <tr><td class="partner-subject"><h5>Flower Art / 花艺:</h5></td><td><?php print $node->field_flower_art[LANGUAGE_NONE][0]['entity']->title; ?></td></tr>
-                  <tr><td class="partner-subject"><h5>Makeup / 跟妆:</h5></td><td><?php print $node->field_makeup[LANGUAGE_NONE][0]['entity']->title; ?></td></tr>
-                  <tr><td class="partner-subject"><h5>Photography / 摄影:</h5></td><td><?php print $node->field_photography[LANGUAGE_NONE][0]['entity']->title; ?></td></tr>
-                  <tr><td class="partner-subject"><h5>Camera Shooting / 摄像:</h5></td><td><?php print $node->field_camera_shooting[LANGUAGE_NONE][0]['entity']->title; ?></td></tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          <!-- Show involved parners' logo -->
-          <div class="contenttable-logo one_half lastcolumn">
+        <div class="one_half">
+          <div class="contenttable">
             <table>
               <tbody>
-                <tr>
-                  <td><?php print $partner_flower_art; ?></td>
-                  <td><?php print $partner_makeup; ?></td>
-                  <td><?php print $partner_photography; ?></td>
-                  <td><?php print $partner_camera_shooting; ?></td>
-                </tr>
+                <tr><td class="partner-subject"><h5>Flower Art / 花艺:</h5></td><td><?php print $node->field_flower_art[LANGUAGE_NONE][0]['entity']->title; ?></td></tr>
+                <tr><td class="partner-subject"><h5>Makeup / 跟妆:</h5></td><td><?php print $node->field_makeup[LANGUAGE_NONE][0]['entity']->title; ?></td></tr>
+                <tr><td class="partner-subject"><h5>Photography / 摄影:</h5></td><td><?php print $node->field_photography[LANGUAGE_NONE][0]['entity']->title; ?></td></tr>
+                <tr><td class="partner-subject"><h5>Camera Shooting / 摄像:</h5></td><td><?php print $node->field_camera_shooting[LANGUAGE_NONE][0]['entity']->title; ?></td></tr>
               </tbody>
             </table>
           </div>
-        <?php endif; ?>
+        </div>
 
-        <?php if(!empty($node->body[LANGUAGE_NONE][0]['safe_value'])): ?>
-          <?php print $node->body[LANGUAGE_NONE][0]['safe_value']; ?>
+        <!-- Show involved parners' logo -->
+        <div class="contenttable-logo one_half lastcolumn">
+          <table>
+            <tbody>
+              <tr>
+                <td><?php print $partner_flower_art; ?></td>
+                <td><?php print $partner_makeup; ?></td>
+                <td><?php print $partner_photography; ?></td>
+                <td><?php print $partner_camera_shooting; ?></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <?php if(!empty($content['body'])): ?>
+          <?php print render($content['body']); ?>
+        <?php endif; ?>
+        <?php if(!empty($content['field_company_info'])): ?>
+          <?php print render($content['field_company_info']); ?>
         <?php endif; ?>
       </div>
 
