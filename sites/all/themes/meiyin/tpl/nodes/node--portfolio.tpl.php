@@ -8,24 +8,39 @@
   /* Query Portfolio Nodes */
   $query = new EntityFieldQuery();
   $query->entityCondition('entity_type', 'node')
-        ->entityCondition('bundle', 'portfolio');
+        ->entityCondition('bundle', 'portfolio')
+        ->propertyOrderBy('created', 'DESC');
   $result = $query->execute();
 
   /* Generate Paginator */
   $nid = $node->nid;
-  $first = reset($result['node']);
   $last = end($result['node']);
+  $first = reset($result['node']);
 
   switch($nid) {
-    case $first->nid: $prev = $last->nid; $next = $nid + 1;	break;
-    case $last->nid: $prev = $nid - 1; $next = $first->nid;	break;
-    default: $prev = $nid - 1; $next = $nid + 1; break;
+    case $first->nid:
+      $prev = $last->nid;
+      $next = next($result['node'])->nid;
+      break;
+    case $last->nid:
+      end($result['node']);
+      $prev = prev($result['node'])->nid;
+      $next = $first->nid;
+      break;
+    default:
+      while(list($key, ) = each($result['node'])){
+        if($key == $nid){
+          $next = current($result['node'])->nid;
+          prev($result['node']);
+          $prev = prev($result['node'])->nid;
+          break;
+        }
+      }
   }
 
   $path = "node/".$node->nid; 
   $options = array('absolute' => TRUE); 
   $url = url($path, $options);
-
 ?>
 
 <div id="node-<?php print $node->nid; ?>" class="<?php print $classes; ?> blogpost singlepost clearfix"<?php print $attributes; ?>>
@@ -191,6 +206,7 @@
           </div>
         </div>
       <?php endif; ?>
+      <div class="divider"></div>
     </div>
   </div>
 </div>
