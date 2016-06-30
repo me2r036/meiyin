@@ -1,0 +1,17 @@
+<?php
+/**
+ * @file
+ * This is the main module file.
+ */
+
+/**
+ * Implements hook_help().
+ */
+function shownodes_help($path, $arg) {
+  if ($path == 'admin/help#shownodes') {
+    $output = '<h3>' . t('About') . '</h3>';
+    $output .= '<p>' . t('The shownodes module allows the Administrator to 
+      display various types of nodes as a block on your Drupal site.') . '</p>';
+    return $output;
+  }
+}
