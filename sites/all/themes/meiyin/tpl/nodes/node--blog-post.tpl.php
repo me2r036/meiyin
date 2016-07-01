@@ -105,11 +105,6 @@
 
   <div class="projectnavwrapper">
     <div id="projectnavwrap">
-      <?php if(!empty($content['field_project_link'])): ?>
-        <a href="<?php print $content['field_project_link']['#items'][0]['safe_value']; ?>" target="_blank" class="btn btn-primary btn-normal launchbtn">
-          <span class="icon_wrap"><i class="fa fa-camera"></i><?php print (t("Launch Project")); ?></span>
-        </a>
-      <?php endif; ?>
       <div class="projectnav previousproject" data-rel="tooltip" data-original-title="<?php print(t("Previous Blog")); ?>">
         <a href="<?php print url('node/' . $prev, array('absolute' => TRUE)); ?>" rel="prev" rev="next"></a>
       </div>
