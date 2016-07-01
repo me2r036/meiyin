@@ -5,9 +5,42 @@
  * Meiyin's default theme implementation to display a blog-post node.
  */
 
-$path = "node/".$node->nid;
-$options = array('absolute' => TRUE);
-$url = url($path, $options);
+  /* Query Blog Post Nodes */
+  $query = new EntityFieldQuery();
+  $query->entityCondition('entity_type', 'node')
+        ->entityCondition('bundle', 'blog_post')
+        ->propertyOrderBy('created', 'DESC');
+  $result = $query->execute();
+
+  /* Generate Paginator */
+  $nid = $node->nid;
+  $last = end($result['node']);
+  $first = reset($result['node']);
+
+  switch($nid) {
+    case $first->nid:
+      $prev = $last->nid;
+      $next = next($result['node'])->nid;
+      break;
+    case $last->nid:
+      end($result['node']);
+      $prev = prev($result['node'])->nid;
+      $next = $first->nid;
+      break;
+    default:
+      while(list($key, ) = each($result['node'])){
+        if($key == $nid){
+          $next = current($result['node'])->nid;
+          prev($result['node']);
+          $prev = prev($result['node'])->nid;
+          break;
+        }
+      }
+  }
+
+  $path = "node/".$node->nid;
+  $options = array('absolute' => TRUE);
+  $url = url($path, $options);
 ?>
 
 <div id="node-<?php print $node->nid; ?>" class="blogpost singlepost nodate <?php print $classes; ?> clearfix" <?php print $attributes; ?>>
@@ -70,14 +103,28 @@ $url = url($path, $options);
     <?php print $node->body[LANGUAGE_NONE][0]['safe_value']; ?>
   </div>
 
-  <div class="bdsharebuttonbox">
-    <h6>分享到：</h6>
-    <a href="#" class="bds_weixin" data-cmd="weixin"></a>
-    <a href="#" class="bds_tsina" data-cmd="tsina"></a>
-    <a href="#" class="bds_tqq" data-cmd="tqq"></a>
-    <a href="#" class="bds_sqq" data-cmd="sqq"></a>
-    <a href="#" class="bds_qzone" data-cmd="qzone"></a>
-    <a href="#" class="bds_more" data-cmd="more"></a>
+  <div class="projectnavwrapper">
+    <div id="projectnavwrap">
+      <?php if(!empty($content['field_project_link'])): ?>
+        <a href="<?php print $content['field_project_link']['#items'][0]['safe_value']; ?>" target="_blank" class="btn btn-primary btn-normal launchbtn">
+          <span class="icon_wrap"><i class="fa fa-camera"></i><?php print (t("Launch Project")); ?></span>
+        </a>
+      <?php endif; ?>
+      <div class="projectnav previousproject" data-rel="tooltip" data-original-title="<?php print(t("Previous Blog")); ?>">
+        <a href="<?php print url('node/' . $prev, array('absolute' => TRUE)); ?>" rel="prev" rev="next"></a>
+      </div>
+      <div class="projectnav nextproject" data-rel="tooltip" data-original-title="<?php print (t("Next Blog")); ?>">
+        <a href="<?php print url('node/' . $next, array('absolute' => TRUE)); ?>" rel="next" rev="prev"></a>
+      </div>
+    </div>
+    <div class="bdsharebuttonbox">
+      <h6>分享到：</h6>
+      <a href="#" class="bds_weixin" data-cmd="weixin"></a>
+      <a href="#" class="bds_tsina" data-cmd="tsina"></a>
+      <a href="#" class="bds_tqq" data-cmd="tqq"></a>
+      <a href="#" class="bds_sqq" data-cmd="sqq"></a>
+      <a href="#" class="bds_qzone" data-cmd="qzone"></a>
+      <a href="#" class="bds_more" data-cmd="more"></a>
+    </div>
   </div>
-
 </div>
