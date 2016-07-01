@@ -5,42 +5,6 @@
  * Meiyin's default theme implementation to display a blog-post node.
  */
 
-  /* Query Blog Post Nodes */
-  $query = new EntityFieldQuery();
-  $query->entityCondition('entity_type', 'node')
-        ->entityCondition('bundle', 'blog_post')
-        ->propertyOrderBy('created', 'DESC');
-  $result = $query->execute();
-
-  /* Generate Paginator */
-  $nid = $node->nid;
-  $last = end($result['node']);
-  $first = reset($result['node']);
-
-  switch($nid) {
-    case $first->nid:
-      $prev = $last->nid;
-      $next = next($result['node'])->nid;
-      break;
-    case $last->nid:
-      end($result['node']);
-      $prev = prev($result['node'])->nid;
-      $next = $first->nid;
-      break;
-    default:
-      while(list($key, ) = each($result['node'])){
-        if($key == $nid){
-          $next = current($result['node'])->nid;
-          prev($result['node']);
-          $prev = prev($result['node'])->nid;
-          break;
-        }
-      }
-  }
-
-  $path = "node/".$node->nid;
-  $options = array('absolute' => TRUE);
-  $url = url($path, $options);
 ?>
 
 <div id="node-<?php print $node->nid; ?>" class="blogpost singlepost nodate <?php print $classes; ?> clearfix" <?php print $attributes; ?>>

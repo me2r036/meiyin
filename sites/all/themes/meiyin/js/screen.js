@@ -67,7 +67,7 @@ jQuery(document).ready(function($) {
     var map = new google.maps.Map(mapInner.get(0), mapOptions);
 
     var image = 'http://maps.gstatic.cn/mapfiles/marker.png';
-    var title = '美音婚礼 | meiyin.co - feel the differences ~\n';
+    var title = '美音婚礼 | meiyin.co - tell the differences ~\n';
         title += '陕西省 西安市 科技路1号 秦融酒店1018\n';
         title += '029 8754 7720 / 186 8181 6517 / info@meiyin.co';
 

@@ -361,10 +361,59 @@
     }
 
     if ($vars['type'] == 'portfolio') {
+      // Generate partner variables used in the theme layer.
       $vars['partner_flower_art'] = get_partner_involved_picture($vars['field_flower_art']['0']['entity']->field_image[LANGUAGE_NONE]['0']);
       $vars['partner_makeup'] = get_partner_involved_picture($vars['field_makeup']['0']['entity']->field_image[LANGUAGE_NONE]['0']);
       $vars['partner_photography'] = get_partner_involved_picture($vars['field_photography']['0']['entity']->field_image[LANGUAGE_NONE]['0']);
       $vars['partner_camera_shooting'] = get_partner_involved_picture($vars['field_camera_shooting']['0']['entity']->field_image[LANGUAGE_NONE]['0']);
+    }
+
+    //Generate paginator variables for Portfolio and Blog Post nodes.
+    if($vars['type'] == 'portfolio' || $vars['type'] == 'blog_post') {
+      $node_type = $vars['type'];
+
+      /* Query Portfolio or Blog Post Nodes */
+      $query = new EntityFieldQuery();
+      $query->entityCondition('entity_type', 'node')
+            ->entityCondition('bundle', $node_type)
+            ->propertyOrderBy('created', 'DESC');
+      $result = $query->execute();
+
+      /* Generate Paginator */
+      $nid = $vars['nid'];
+      $last = end($result['node']);
+      $first = reset($result['node']);
+
+      switch($nid) {
+        case $first->nid:
+        $prev = $last->nid;
+        $next = next($result['node'])->nid;
+        break;
+        case $last->nid:
+        end($result['node']);
+        $prev = prev($result['node'])->nid;
+        $next = $first->nid;
+        break;
+        default:
+        while(list($key, ) = each($result['node'])){
+          if($key == $nid){
+            $next = current($result['node'])->nid;
+            prev($result['node']);
+            $prev = prev($result['node'])->nid;
+            break;
+          }
+        }
+      }
+
+      $path = "node/".$nid;
+      $options = array('absolute' => TRUE);
+      $url = url($path, $options);
+
+      // Generate variables used in the theme layer.
+      $vars['prev'] = $prev;
+      $vars['next'] = $next;
+      $vars['path'] = $path;
+      $vars['url'] = $url;
     }
 
     // Baidu share script added here
