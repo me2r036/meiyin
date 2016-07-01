@@ -768,7 +768,7 @@ ul.inline .comment-add { padding: 0px; }
 .footer a { color: #bbb; }
 .footer a:hover { color: #fff; }
 .footer .widgettitlebg { float: left;  }
-.footer .blocktitle h2 { float: left; color: #fff; font-size: 16px; line-height: 20px; font-weight: 400; margin-top: -3px; margin-bottom: 26px; }	
+.footer .blocktitle h2 { float: left; color: #fff; font-size: 16px; line-height: 20px; font-weight: 400; margin-top: -3px; margin-bottom: 26px; margin-left: 0; }	
 .footer .widget .widget { margin-bottom:0px; }
 .footer article:first-child { margin-left:0; }
 .footer .widget .widget { margin-top:40px }
@@ -816,6 +816,10 @@ ul.inline .comment-add { padding: 0px; }
 /* ------------------------------------ */
 
 .widgetclass { float: left; width: 100%; }
+
+/* Block title style */
+.container .blocktitle { border-left:1px solid #ff5165; margin-bottom: 15px; height: 22px; }
+.container .blocktitle .title { margin-left: 1px; border-left: 5px solid #ff5165; height: 22px; }
 .blocktitle { float: left; width: 100%; }
 .blocktitle h2 { margin-left: 12px; font-size: 20px; line-height: 22px; }
 
@@ -2036,18 +2040,14 @@ form.webform-client-form { width: 65%; background-color: #f3f3f3; border: 1px da
 .description { padding: 0 6px; border-top: 1px dashed #ccc; }
 .form-item label { font-size: 14px; color: #111; text-shadow: rgba(50, 50, 50, .292969) 1px 1px 3px; }
 .form-item label.option { display: inline-block; font-size: 14px; color: #777; text-shadow: none; }
-.form-type-radio { display: inline-block; width: 48%; margin-top: 3px;}
+.form-type-radio { display: inline-block; width: 48%; margin-top: 3px; }
 .form-type-radio input.form-radio { margin: 0 0 5px 0; }
 .form-type-radio label.option {margin-bottom: 0; }
 .webform-background-wrapper { width: 100%; float: left; }
 .webform-description h4 { margin-bottom: 10px; }
 .webform-body {margin-bottom: 30px; }
 .form-actions input[type="submit"] { font-family: 'FontAwesome'; }
-.webform-client-form input[type="submit"] { margin: 0 0 20px 30px;}
+.webform-client-form input[type="submit"] { margin: 0 0 20px 30px; }
 
 /* Contact form */
 .contact-form #edit-submit { margin: 20px 0 0 0; }
-
-/* Block title style */
-.container .blocktitle { border-left:1px solid #ff5165; margin-bottom: 15px; height: 22px; }
-.container .blocktitle .title { margin-left: 1px; border-left: 5px solid #ff5165; height: 22px; }
