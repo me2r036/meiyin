@@ -751,8 +751,7 @@ ul.inline .comment-add { padding: 0px; }
 .pagewrapleft { padding-left: 20px; }
 .sidebar { font-size: 14px; line-height: 22px; margin-top: 0px; }
 .sidebar.sidebar-first { margin-top: 0; }
-.sidebar .blocktitle { float: left; width: 100%; }
-.sidebar .blocktitle h2 {  float: left; color: #111; font-size: 16px; line-height: 20px; font-weight: 300; margin-top: -3px; margin-bottom: 26px; }
+.sidebar .blocktitle h2 { float: left; color: #111; font-size: 16px; line-height: 22px; font-weight: 400; }
 .sidebar .block { float: left; width: 100%; margin-bottom: 30px; }
 .sidebar .block:last-child { margin-bottom: 0; }
 .sidebar .block ul, .footer .widget ul { float: left; width: 100%; }
@@ -768,7 +767,6 @@ ul.inline .comment-add { padding: 0px; }
 .footer h1,.footer h2,.footer h3,.footer h4,.footer h5,.footer h6 { color: #fff; }
 .footer a { color: #bbb; }
 .footer a:hover { color: #fff; }
-.footer .blocktitle { float: left; width: 100%; }
 .footer .widgettitlebg { float: left;  }
 .footer .blocktitle h2 { float: left; color: #fff; font-size: 16px; line-height: 20px; font-weight: 400; margin-top: -3px; margin-bottom: 26px; }	
 .footer .widget .widget { margin-bottom:0px; }
@@ -819,6 +817,7 @@ ul.inline .comment-add { padding: 0px; }
 
 .widgetclass { float: left; width: 100%; }
 .blocktitle { float: left; width: 100%; }
+.blocktitle h2 { margin-left: 12px; font-size: 20px; line-height: 22px; }
 
 /* Posts */
 .footer .block-posts { float: left; margin-top: -1px; width: 100%; }
@@ -2050,6 +2049,5 @@ form.webform-client-form { width: 65%; background-color: #f3f3f3; border: 1px da
 .contact-form #edit-submit { margin: 20px 0 0 0; }
 
 /* Block title style */
-.container .blocktitle { border-left:1px solid #ff5165; margin-bottom: 15px; height: 23px; }
-.container .blocktitle .title { margin-left: 1px; border-left: 5px solid #ff5165; padding-top: 3px; height: 20px; }
-.container .blocktitle .title h2 { margin-left: 12px; }
+.container .blocktitle { border-left:1px solid #ff5165; margin-bottom: 15px; height: 22px; }
+.container .blocktitle .title { margin-left: 1px; border-left: 5px solid #ff5165; height: 22px; }
