@@ -196,6 +196,15 @@ jQuery(document).ready(function($) {
     }
   });
 
+  /* Display Wechat QR code */
+  jQuery("a.so_wechat").fancybox({
+    fitToView: false,
+    beforeShow: function(){
+      this.width = 260;
+      this.height = 260;
+    }
+  });
+
 });
 
     /******************************
