@@ -753,7 +753,7 @@ $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
 /* Display: Block: Related Projects */
 $handler = $view->new_display('block', 'Block: Related Projects', 'relatedprojects');
 $handler->display->display_options['defaults']['title'] = FALSE;
-$handler->display->display_options['title'] = '更多婚礼';
+$handler->display->display_options['title'] = '相关婚礼';
 $handler->display->display_options['defaults']['css_class'] = FALSE;
 $handler->display->display_options['css_class'] = 'row-fluid fourcol';
 $handler->display->display_options['defaults']['link_display'] = FALSE;
@@ -1097,7 +1097,7 @@ $translatables['meiyin_portfolio'] = array(
   t('<div class="linktext"><a href="<?php print $GLOBALS[\'base_url\'].\'/portfolio\'; ?>">更多婚礼</a></div>'),
   t('Block: Portfolio (3 col)'),
   t('Block: Related Projects'),
-  t('更多婚礼'),
+  t('相关婚礼'),
   t('All'),
   t('Block: Latest Projects'),
   t('最新案例'),
