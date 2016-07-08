@@ -695,7 +695,6 @@ ul.inline .comment-add { padding: 0px; }
 .sidebar.sidebar-first { margin-top: 0; }
 .sidebar .blocktitle h2 { float: left; color: #111; font-size: 16px; line-height: 22px; font-weight: 400; }
 .sidebar .block { float: left; width: 100%; margin-bottom: 30px; }
-.sidebar .block:last-child { margin-bottom: 0; }
 .sidebar .block ul, .footer .widget ul { float: left; width: 100%; }
 
 /* FOOTER */
@@ -816,7 +815,7 @@ ul.inline .comment-add { padding: 0px; }
 
 /* Sidebar */
 .sidebar .view-display-id-latestprojects li a img { width: 60px; border: 0; }
-.sidebar .view-display-id-randomprojects li a img { width: 130px; border: 0; }
+.sidebar .view-display-id-randomprojects li a img { width: 130px; height: auto; border: 0; }
 .sidebar li.views-row-odd { margin-right: 9px; }
 .sidebar li.views-row-even { margin-right: 0; clear: right; }
 
@@ -932,7 +931,7 @@ blockquote { font-size: 15px; line-height: 26px; color: #777; background: #eee; 
 
 /* PORTFOLIO */
 /* ------------------------------------ */
-.portfoliowrap { overflow: hidden; position: relative; margin-left: 0; float: left; }
+.portfoliowrap { overflow: hidden; position: relative; margin-left: 0; float: left; padding-top: 5px; width: 100%; }
 .portfolio { overflow: hidden; position: relative; margin-left: -10px; margin-bottom: -10px; margin-top: -10px; }
 .portfolio img { width: 100%; max-width: none !important; height: auto; }
 .threecol .entry { width: 393px; float: left; overflow: hidden; position: relative; }
@@ -1392,7 +1391,7 @@ a.accordion-toggle.collapsed:hover { color: #666;
 .contact-form .form-type-checkbox { float: left; width: 100%; margin: 10px 0 0; }
 .contact-form .form-type-checkbox label { float: left; margin-left: 5px; }
 .contact-form .form-type-checkbox input { float: left; }
-.contact-subject { width: 22%; vertical-align: top; color: #333; text-shadow: rgba(50, 50, 50, .292969) 1px 1px 3px; }
+.contact-subject { width: 24%; vertical-align: top; color: #333; text-shadow: rgba(50, 50, 50, .292969) 1px 1px 3px; }
 .contact-subject h5 { font-weight: 600; display: inline; }
 .not-logged-in .form-item-form-type-textarea { margin-bottom: 20px; }
 
@@ -1551,6 +1550,11 @@ a.accordion-toggle.collapsed:hover { color: #666;
   .span3 { width: 335px; margin-left: 35px; }
   .headerwrap #logo img { width: 230px !important; }
   .headerwrap.fixed #logo img { width: 200px !important; }
+  #block-views-meiyin-feedback-feedbacksidebar { display: none; }
+}
+
+@media only screen and (min-width: 768px) {
+  .sidebar .block:last-child { margin-bottom: 0; }
 }
 
 /* ALL MOBILE SIZES */
@@ -1575,8 +1579,11 @@ a.accordion-toggle.collapsed:hover { color: #666;
   .pagetitlewrap.boxed .pagetitle h1 { margin-top: 33px; padding-left: 0; text-align: center; width: 100%; }
   .breadcrumbwrap, .pagetitlewrap.boxed .breadcrumbwrap { margin-right: 0; width: 100%; text-align: center; margin-bottom: 28px; }
   .boxedspacer { margin: 0 !important; }
-  .region.sidebar { float: left; margin-top: 30px; }
-  .sidebar li.views-row-odd, .sidebar li.views-row-even { margin-right: 10px; }
+  .sidebar .view-display-id-randomprojects li a img { width: 100%; border: 0; }
+  .sidebar li.views-row-odd, .sidebar li.views-row-even { margin-right: 1%; }
+  .sidebar li.views-row-last {margin-right: 0; }
+  .sidebar .block-projects ul li { float: left; width: 24%; }
+  .sidebar .block-projects li a img { height: auto; }
   .pagetitlewrap.boxed { margin-top: 0; }
   .notitleboxedtop { margin-top: 0px; }
 
@@ -1737,6 +1744,7 @@ a.accordion-toggle.collapsed:hover { color: #666;
   /* ------------------------------------ */
   .allwrapper, .allwrapper.boxed, .allwrapper.wide { width:100%; padding:0px 20px; margin-left: -20px; }
   form.webform-client-form { width: 100% !important; }
+  .contenttable { padding: 18px 24px 18px; }
 
   /* START HEIGHT OF REVOLUTION SLIDER */
   .homeslider { height:150px; }
