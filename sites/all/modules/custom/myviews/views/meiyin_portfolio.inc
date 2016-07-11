@@ -20,7 +20,14 @@ $handler->display->display_options['query']['type'] = 'views_query';
 $handler->display->display_options['exposed_form']['type'] = 'basic';
 $handler->display->display_options['pager']['type'] = 'none';
 $handler->display->display_options['pager']['options']['offset'] = '0';
-$handler->display->display_options['style_plugin'] = 'isotope';
+$handler->display->display_options['style_plugin'] = 'isotope_grid';
+$handler->display->display_options['style_options']['data_fields'] = array(
+  'field_portfolio_tags' => 'field_portfolio_tags',
+  'field_image' => 0,
+  'field_fancybox' => 0,
+  'field_back_cover' => 0,
+  'title' => 0,
+);
 $handler->display->display_options['row_plugin'] = 'fields';
 $handler->display->display_options['row_options']['default_field_elements'] = FALSE;
 /* Header: Global: Text area */
@@ -126,7 +133,22 @@ $handler = $view->new_display('page', 'Portfolio - 5 Columns', 'page');
 $handler->display->display_options['defaults']['title'] = FALSE;
 $handler->display->display_options['title'] = 'Portfolio 5 Columns';
 $handler->display->display_options['defaults']['css_class'] = FALSE;
-$handler->display->display_options['css_class'] = 'fivecol';
+$handler->display->display_options['css_class'] = 'portfolio fivecol';
+$handler->display->display_options['defaults']['style_plugin'] = FALSE;
+$handler->display->display_options['style_plugin'] = 'isotope_grid';
+$handler->display->display_options['style_options']['data_fields'] = array(
+  'field_portfolio_tags' => 'field_portfolio_tags',
+  'path' => 0,
+  'field_image' => 0,
+  'field_fancybox' => 0,
+  'field_back_cover' => 0,
+  'title' => 0,
+);
+$handler->display->display_options['defaults']['style_options'] = FALSE;
+$handler->display->display_options['defaults']['row_plugin'] = FALSE;
+$handler->display->display_options['row_plugin'] = 'fields';
+$handler->display->display_options['row_options']['default_field_elements'] = FALSE;
+$handler->display->display_options['defaults']['row_options'] = FALSE;
 $handler->display->display_options['defaults']['header'] = FALSE;
 /* Header: Global: Text area */
 $handler->display->display_options['header']['area']['id'] = 'area';
@@ -187,15 +209,20 @@ $handler->display->display_options['fields']['field_back_cover']['settings'] = a
   'image_style' => '',
   'image_link' => '',
 );
-/* Field: Content: Tags */
-$handler->display->display_options['fields']['field_portfolio_tags_1']['id'] = 'field_portfolio_tags_1';
-$handler->display->display_options['fields']['field_portfolio_tags_1']['table'] = 'field_data_field_portfolio_tags';
-$handler->display->display_options['fields']['field_portfolio_tags_1']['field'] = 'field_portfolio_tags';
-$handler->display->display_options['fields']['field_portfolio_tags_1']['label'] = '';
-$handler->display->display_options['fields']['field_portfolio_tags_1']['exclude'] = TRUE;
-$handler->display->display_options['fields']['field_portfolio_tags_1']['element_label_colon'] = FALSE;
-$handler->display->display_options['fields']['field_portfolio_tags_1']['element_default_classes'] = FALSE;
-$handler->display->display_options['fields']['field_portfolio_tags_1']['delta_offset'] = '0';
+/* Field: Content: Isotope Tags */
+$handler->display->display_options['fields']['field_portfolio_tags']['id'] = 'field_portfolio_tags';
+$handler->display->display_options['fields']['field_portfolio_tags']['table'] = 'field_data_field_portfolio_tags';
+$handler->display->display_options['fields']['field_portfolio_tags']['field'] = 'field_portfolio_tags';
+$handler->display->display_options['fields']['field_portfolio_tags']['ui_name'] = 'Content: Isotope Tags';
+$handler->display->display_options['fields']['field_portfolio_tags']['label'] = '';
+$handler->display->display_options['fields']['field_portfolio_tags']['exclude'] = TRUE;
+$handler->display->display_options['fields']['field_portfolio_tags']['element_type'] = 'div';
+$handler->display->display_options['fields']['field_portfolio_tags']['element_class'] = 'isotope-filter';
+$handler->display->display_options['fields']['field_portfolio_tags']['element_label_type'] = '0';
+$handler->display->display_options['fields']['field_portfolio_tags']['element_label_colon'] = FALSE;
+$handler->display->display_options['fields']['field_portfolio_tags']['element_wrapper_type'] = '0';
+$handler->display->display_options['fields']['field_portfolio_tags']['element_default_classes'] = FALSE;
+$handler->display->display_options['fields']['field_portfolio_tags']['delta_offset'] = '0';
 /* Field: Content: Title */
 $handler->display->display_options['fields']['title']['id'] = 'title';
 $handler->display->display_options['fields']['title']['table'] = 'node';
@@ -205,32 +232,34 @@ $handler->display->display_options['fields']['title']['alter']['alter_text'] = T
 $handler->display->display_options['fields']['title']['alter']['text'] = '<div class="foliotextholder">
 <div class="foliotextwrapper">
 <h5 class="itemtitle"><a href="[path]">[title]</a></h5>
-<span class="itemcategories">[field_portfolio_tags_1]</span>
+<span class="itemcategories">[field_portfolio_tags]</span>
 </div>
 </div>';
 $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
 $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
 $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
 $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
-/* Field: Content: Isotope Tags */
-$handler->display->display_options['fields']['field_portfolio_tags']['id'] = 'field_portfolio_tags';
-$handler->display->display_options['fields']['field_portfolio_tags']['table'] = 'field_data_field_portfolio_tags';
-$handler->display->display_options['fields']['field_portfolio_tags']['field'] = 'field_portfolio_tags';
-$handler->display->display_options['fields']['field_portfolio_tags']['ui_name'] = 'Content: Isotope Tags';
-$handler->display->display_options['fields']['field_portfolio_tags']['label'] = '';
-$handler->display->display_options['fields']['field_portfolio_tags']['element_type'] = 'div';
-$handler->display->display_options['fields']['field_portfolio_tags']['element_class'] = 'isotope-filter';
-$handler->display->display_options['fields']['field_portfolio_tags']['element_label_type'] = '0';
-$handler->display->display_options['fields']['field_portfolio_tags']['element_label_colon'] = FALSE;
-$handler->display->display_options['fields']['field_portfolio_tags']['element_wrapper_type'] = '0';
-$handler->display->display_options['fields']['field_portfolio_tags']['element_default_classes'] = FALSE;
-$handler->display->display_options['fields']['field_portfolio_tags']['delta_offset'] = '0';
 $handler->display->display_options['path'] = 'portfolio-5col';
 
 /* Display: Portfolio - 4 Columns */
 $handler = $view->new_display('page', 'Portfolio - 4 Columns', 'page_1');
 $handler->display->display_options['defaults']['css_class'] = FALSE;
-$handler->display->display_options['css_class'] = 'fourcol';
+$handler->display->display_options['css_class'] = 'portfolio fourcol';
+$handler->display->display_options['defaults']['style_plugin'] = FALSE;
+$handler->display->display_options['style_plugin'] = 'isotope_grid';
+$handler->display->display_options['style_options']['data_fields'] = array(
+  'field_portfolio_tags' => 'field_portfolio_tags',
+  'path' => 0,
+  'field_image' => 0,
+  'field_fancybox' => 0,
+  'field_back_cover' => 0,
+  'title' => 0,
+);
+$handler->display->display_options['defaults']['style_options'] = FALSE;
+$handler->display->display_options['defaults']['row_plugin'] = FALSE;
+$handler->display->display_options['row_plugin'] = 'fields';
+$handler->display->display_options['row_options']['default_field_elements'] = FALSE;
+$handler->display->display_options['defaults']['row_options'] = FALSE;
 $handler->display->display_options['defaults']['header'] = FALSE;
 /* Header: Global: Text area */
 $handler->display->display_options['header']['area']['id'] = 'area';
@@ -261,11 +290,13 @@ $handler->display->display_options['fields']['field_image']['id'] = 'field_image
 $handler->display->display_options['fields']['field_image']['table'] = 'field_data_field_image';
 $handler->display->display_options['fields']['field_image']['field'] = 'field_image';
 $handler->display->display_options['fields']['field_image']['label'] = '';
+$handler->display->display_options['fields']['field_image']['element_type'] = 'div';
+$handler->display->display_options['fields']['field_image']['element_class'] = 'holderwrap';
 $handler->display->display_options['fields']['field_image']['element_label_colon'] = FALSE;
 $handler->display->display_options['fields']['field_image']['element_default_classes'] = FALSE;
 $handler->display->display_options['fields']['field_image']['click_sort_column'] = 'fid';
 $handler->display->display_options['fields']['field_image']['settings'] = array(
-  'image_style' => 'portfolio_isotope_small_400x192',
+  'image_style' => '',
   'image_link' => 'content',
 );
 /* Field: Content: Toggle Fancybox */
@@ -287,15 +318,18 @@ $handler->display->display_options['fields']['field_back_cover']['settings'] = a
   'image_style' => '',
   'image_link' => '',
 );
-/* Field: Content: Tags */
-$handler->display->display_options['fields']['field_portfolio_tags_1']['id'] = 'field_portfolio_tags_1';
-$handler->display->display_options['fields']['field_portfolio_tags_1']['table'] = 'field_data_field_portfolio_tags';
-$handler->display->display_options['fields']['field_portfolio_tags_1']['field'] = 'field_portfolio_tags';
-$handler->display->display_options['fields']['field_portfolio_tags_1']['label'] = '';
-$handler->display->display_options['fields']['field_portfolio_tags_1']['exclude'] = TRUE;
-$handler->display->display_options['fields']['field_portfolio_tags_1']['element_label_colon'] = FALSE;
-$handler->display->display_options['fields']['field_portfolio_tags_1']['element_default_classes'] = FALSE;
-$handler->display->display_options['fields']['field_portfolio_tags_1']['delta_offset'] = '0';
+/* Field: Content: Isotope Tags */
+$handler->display->display_options['fields']['field_portfolio_tags']['id'] = 'field_portfolio_tags';
+$handler->display->display_options['fields']['field_portfolio_tags']['table'] = 'field_data_field_portfolio_tags';
+$handler->display->display_options['fields']['field_portfolio_tags']['field'] = 'field_portfolio_tags';
+$handler->display->display_options['fields']['field_portfolio_tags']['ui_name'] = 'Content: Isotope Tags';
+$handler->display->display_options['fields']['field_portfolio_tags']['label'] = '';
+$handler->display->display_options['fields']['field_portfolio_tags']['exclude'] = TRUE;
+$handler->display->display_options['fields']['field_portfolio_tags']['element_type'] = 'div';
+$handler->display->display_options['fields']['field_portfolio_tags']['element_class'] = 'isotope-filter';
+$handler->display->display_options['fields']['field_portfolio_tags']['element_label_colon'] = FALSE;
+$handler->display->display_options['fields']['field_portfolio_tags']['element_default_classes'] = FALSE;
+$handler->display->display_options['fields']['field_portfolio_tags']['delta_offset'] = '0';
 /* Field: Content: Title */
 $handler->display->display_options['fields']['title']['id'] = 'title';
 $handler->display->display_options['fields']['title']['table'] = 'node';
@@ -305,24 +339,13 @@ $handler->display->display_options['fields']['title']['alter']['alter_text'] = T
 $handler->display->display_options['fields']['title']['alter']['text'] = '<div class="foliotextholder">
 <div class="foliotextwrapper">
 <h5 class="itemtitle"><a href="[path]">[title]</a></h5>
-<span class="itemcategories">[field_portfolio_tags_1]</span>
+<span class="itemcategories">[field_portfolio_tags]</span>
 </div>
 </div>';
 $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
 $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
 $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
 $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
-/* Field: Content: Isotope Tags */
-$handler->display->display_options['fields']['field_portfolio_tags']['id'] = 'field_portfolio_tags';
-$handler->display->display_options['fields']['field_portfolio_tags']['table'] = 'field_data_field_portfolio_tags';
-$handler->display->display_options['fields']['field_portfolio_tags']['field'] = 'field_portfolio_tags';
-$handler->display->display_options['fields']['field_portfolio_tags']['ui_name'] = 'Content: Isotope Tags';
-$handler->display->display_options['fields']['field_portfolio_tags']['label'] = '';
-$handler->display->display_options['fields']['field_portfolio_tags']['element_type'] = 'div';
-$handler->display->display_options['fields']['field_portfolio_tags']['element_class'] = 'isotope-filter';
-$handler->display->display_options['fields']['field_portfolio_tags']['element_label_colon'] = FALSE;
-$handler->display->display_options['fields']['field_portfolio_tags']['element_default_classes'] = FALSE;
-$handler->display->display_options['fields']['field_portfolio_tags']['delta_offset'] = '0';
 $handler->display->display_options['path'] = 'portfolio';
 $handler->display->display_options['menu']['type'] = 'normal';
 $handler->display->display_options['menu']['title'] = '案例';
@@ -336,7 +359,22 @@ $handler = $view->new_display('page', 'Portfolio - 3 Columns', 'page_2');
 $handler->display->display_options['defaults']['title'] = FALSE;
 $handler->display->display_options['title'] = 'Portfolio 3 Columns';
 $handler->display->display_options['defaults']['css_class'] = FALSE;
-$handler->display->display_options['css_class'] = 'threecol';
+$handler->display->display_options['css_class'] = 'portfolio threecol';
+$handler->display->display_options['defaults']['style_plugin'] = FALSE;
+$handler->display->display_options['style_plugin'] = 'isotope_grid';
+$handler->display->display_options['style_options']['data_fields'] = array(
+  'field_portfolio_tags' => 'field_portfolio_tags',
+  'path' => 0,
+  'field_image' => 0,
+  'field_fancybox' => 0,
+  'field_back_cover' => 0,
+  'title' => 0,
+);
+$handler->display->display_options['defaults']['style_options'] = FALSE;
+$handler->display->display_options['defaults']['row_plugin'] = FALSE;
+$handler->display->display_options['row_plugin'] = 'fields';
+$handler->display->display_options['row_options']['default_field_elements'] = FALSE;
+$handler->display->display_options['defaults']['row_options'] = FALSE;
 $handler->display->display_options['defaults']['header'] = FALSE;
 /* Header: Global: Text area */
 $handler->display->display_options['header']['area']['id'] = 'area';
@@ -393,15 +431,18 @@ $handler->display->display_options['fields']['field_back_cover']['settings'] = a
   'image_style' => '',
   'image_link' => '',
 );
-/* Field: Content: Tags */
-$handler->display->display_options['fields']['field_portfolio_tags_1']['id'] = 'field_portfolio_tags_1';
-$handler->display->display_options['fields']['field_portfolio_tags_1']['table'] = 'field_data_field_portfolio_tags';
-$handler->display->display_options['fields']['field_portfolio_tags_1']['field'] = 'field_portfolio_tags';
-$handler->display->display_options['fields']['field_portfolio_tags_1']['label'] = '';
-$handler->display->display_options['fields']['field_portfolio_tags_1']['exclude'] = TRUE;
-$handler->display->display_options['fields']['field_portfolio_tags_1']['element_label_colon'] = FALSE;
-$handler->display->display_options['fields']['field_portfolio_tags_1']['element_default_classes'] = FALSE;
-$handler->display->display_options['fields']['field_portfolio_tags_1']['delta_offset'] = '0';
+/* Field: Content: Isotope Tags */
+$handler->display->display_options['fields']['field_portfolio_tags']['id'] = 'field_portfolio_tags';
+$handler->display->display_options['fields']['field_portfolio_tags']['table'] = 'field_data_field_portfolio_tags';
+$handler->display->display_options['fields']['field_portfolio_tags']['field'] = 'field_portfolio_tags';
+$handler->display->display_options['fields']['field_portfolio_tags']['ui_name'] = 'Content: Isotope Tags';
+$handler->display->display_options['fields']['field_portfolio_tags']['label'] = '';
+$handler->display->display_options['fields']['field_portfolio_tags']['exclude'] = TRUE;
+$handler->display->display_options['fields']['field_portfolio_tags']['element_type'] = 'div';
+$handler->display->display_options['fields']['field_portfolio_tags']['element_class'] = 'isotope-filter';
+$handler->display->display_options['fields']['field_portfolio_tags']['element_label_colon'] = FALSE;
+$handler->display->display_options['fields']['field_portfolio_tags']['element_default_classes'] = FALSE;
+$handler->display->display_options['fields']['field_portfolio_tags']['delta_offset'] = '0';
 /* Field: Content: Title */
 $handler->display->display_options['fields']['title']['id'] = 'title';
 $handler->display->display_options['fields']['title']['table'] = 'node';
@@ -411,30 +452,19 @@ $handler->display->display_options['fields']['title']['alter']['alter_text'] = T
 $handler->display->display_options['fields']['title']['alter']['text'] = '<div class="foliotextholder">
 <div class="foliotextwrapper">
 <h5 class="itemtitle"><a href="[path]">[title]</a></h5>
-<span class="itemcategories">[field_portfolio_tags_1]</span>
+<span class="itemcategories">[field_portfolio_tags]</span>
 </div>
 </div>';
 $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
 $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
 $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
 $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
-/* Field: Content: Isotope Tags */
-$handler->display->display_options['fields']['field_portfolio_tags']['id'] = 'field_portfolio_tags';
-$handler->display->display_options['fields']['field_portfolio_tags']['table'] = 'field_data_field_portfolio_tags';
-$handler->display->display_options['fields']['field_portfolio_tags']['field'] = 'field_portfolio_tags';
-$handler->display->display_options['fields']['field_portfolio_tags']['ui_name'] = 'Content: Isotope Tags';
-$handler->display->display_options['fields']['field_portfolio_tags']['label'] = '';
-$handler->display->display_options['fields']['field_portfolio_tags']['element_type'] = 'div';
-$handler->display->display_options['fields']['field_portfolio_tags']['element_class'] = 'isotope-filter';
-$handler->display->display_options['fields']['field_portfolio_tags']['element_label_colon'] = FALSE;
-$handler->display->display_options['fields']['field_portfolio_tags']['element_default_classes'] = FALSE;
-$handler->display->display_options['fields']['field_portfolio_tags']['delta_offset'] = '0';
 $handler->display->display_options['path'] = 'portfolio-3col';
 
 /* Display: Block: Portfolio (5 col) */
 $handler = $view->new_display('block', 'Block: Portfolio (5 col)', 'proj5col');
 $handler->display->display_options['defaults']['css_class'] = FALSE;
-$handler->display->display_options['css_class'] = 'fivecol';
+$handler->display->display_options['css_class'] = 'portfolio fivecol';
 $handler->display->display_options['defaults']['use_more'] = FALSE;
 $handler->display->display_options['defaults']['use_more_always'] = FALSE;
 $handler->display->display_options['defaults']['use_more_always'] = FALSE;
@@ -445,8 +475,11 @@ $handler->display->display_options['pager']['type'] = 'some';
 $handler->display->display_options['pager']['options']['items_per_page'] = '10';
 $handler->display->display_options['pager']['options']['offset'] = '0';
 $handler->display->display_options['defaults']['style_plugin'] = FALSE;
-$handler->display->display_options['style_plugin'] = 'isotope';
-$handler->display->display_options['style_options']['wrapper_class'] = '';
+$handler->display->display_options['style_plugin'] = 'list';
+$handler->display->display_options['style_options']['row_class'] = 'isotope-element';
+$handler->display->display_options['style_options']['default_row_class'] = FALSE;
+$handler->display->display_options['style_options']['row_class_special'] = FALSE;
+$handler->display->display_options['style_options']['class'] = 'isotope-container';
 $handler->display->display_options['defaults']['style_options'] = FALSE;
 $handler->display->display_options['defaults']['row_plugin'] = FALSE;
 $handler->display->display_options['row_plugin'] = 'fields';
@@ -539,7 +572,7 @@ $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
 /* Display: Block: Portfolio (4 col) */
 $handler = $view->new_display('block', 'Block: Portfolio (4 col)', 'proj4col');
 $handler->display->display_options['defaults']['css_class'] = FALSE;
-$handler->display->display_options['css_class'] = 'fourcol';
+$handler->display->display_options['css_class'] = 'portfolio fourcol';
 $handler->display->display_options['defaults']['use_more'] = FALSE;
 $handler->display->display_options['defaults']['use_more_always'] = FALSE;
 $handler->display->display_options['defaults']['use_more_always'] = FALSE;
@@ -552,8 +585,11 @@ $handler->display->display_options['pager']['type'] = 'some';
 $handler->display->display_options['pager']['options']['items_per_page'] = '8';
 $handler->display->display_options['pager']['options']['offset'] = '0';
 $handler->display->display_options['defaults']['style_plugin'] = FALSE;
-$handler->display->display_options['style_plugin'] = 'isotope';
-$handler->display->display_options['style_options']['wrapper_class'] = '';
+$handler->display->display_options['style_plugin'] = 'list';
+$handler->display->display_options['style_options']['row_class'] = 'isotope-element';
+$handler->display->display_options['style_options']['default_row_class'] = FALSE;
+$handler->display->display_options['style_options']['row_class_special'] = FALSE;
+$handler->display->display_options['style_options']['class'] = 'isotope-container';
 $handler->display->display_options['defaults']['style_options'] = FALSE;
 $handler->display->display_options['defaults']['row_plugin'] = FALSE;
 $handler->display->display_options['row_plugin'] = 'fields';
@@ -646,7 +682,7 @@ $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
 /* Display: Block: Portfolio (3 col) */
 $handler = $view->new_display('block', 'Block: Portfolio (3 col)', 'proj3col');
 $handler->display->display_options['defaults']['css_class'] = FALSE;
-$handler->display->display_options['css_class'] = 'threecol';
+$handler->display->display_options['css_class'] = 'portfolio threecol';
 $handler->display->display_options['defaults']['use_more'] = FALSE;
 $handler->display->display_options['defaults']['use_more_always'] = FALSE;
 $handler->display->display_options['defaults']['use_more_always'] = FALSE;
@@ -659,8 +695,11 @@ $handler->display->display_options['pager']['type'] = 'some';
 $handler->display->display_options['pager']['options']['items_per_page'] = '6';
 $handler->display->display_options['pager']['options']['offset'] = '0';
 $handler->display->display_options['defaults']['style_plugin'] = FALSE;
-$handler->display->display_options['style_plugin'] = 'isotope';
-$handler->display->display_options['style_options']['wrapper_class'] = '';
+$handler->display->display_options['style_plugin'] = 'list';
+$handler->display->display_options['style_options']['row_class'] = 'isotope-element';
+$handler->display->display_options['style_options']['default_row_class'] = FALSE;
+$handler->display->display_options['style_options']['row_class_special'] = FALSE;
+$handler->display->display_options['style_options']['class'] = 'isotope-container';
 $handler->display->display_options['defaults']['style_options'] = FALSE;
 $handler->display->display_options['defaults']['row_plugin'] = FALSE;
 $handler->display->display_options['row_plugin'] = 'fields';
@@ -755,7 +794,7 @@ $handler = $view->new_display('block', 'Block: Related Projects', 'relatedprojec
 $handler->display->display_options['defaults']['title'] = FALSE;
 $handler->display->display_options['title'] = '相关婚礼';
 $handler->display->display_options['defaults']['css_class'] = FALSE;
-$handler->display->display_options['css_class'] = 'row-fluid fourcol';
+$handler->display->display_options['css_class'] = 'portfolio fourcol';
 $handler->display->display_options['defaults']['link_display'] = FALSE;
 $handler->display->display_options['link_display'] = 'page_1';
 $handler->display->display_options['defaults']['pager'] = FALSE;
@@ -763,8 +802,11 @@ $handler->display->display_options['pager']['type'] = 'some';
 $handler->display->display_options['pager']['options']['items_per_page'] = '4';
 $handler->display->display_options['pager']['options']['offset'] = '0';
 $handler->display->display_options['defaults']['style_plugin'] = FALSE;
-$handler->display->display_options['style_plugin'] = 'isotope';
-$handler->display->display_options['style_options']['wrapper_class'] = '';
+$handler->display->display_options['style_plugin'] = 'list';
+$handler->display->display_options['style_options']['row_class'] = 'isotope-element';
+$handler->display->display_options['style_options']['default_row_class'] = FALSE;
+$handler->display->display_options['style_options']['row_class_special'] = FALSE;
+$handler->display->display_options['style_options']['class'] = 'isotope-container';
 $handler->display->display_options['defaults']['style_options'] = FALSE;
 $handler->display->display_options['defaults']['row_plugin'] = FALSE;
 $handler->display->display_options['row_plugin'] = 'fields';
@@ -978,7 +1020,37 @@ $handler = $view->new_display('page', 'Portfolio w/Sidebar', 'withsidebar');
 $handler->display->display_options['defaults']['title'] = FALSE;
 $handler->display->display_options['title'] = 'Portfolio With Sidebar';
 $handler->display->display_options['defaults']['css_class'] = FALSE;
-$handler->display->display_options['css_class'] = 'threecol';
+$handler->display->display_options['css_class'] = 'portfolio threecol';
+$handler->display->display_options['defaults']['style_plugin'] = FALSE;
+$handler->display->display_options['style_plugin'] = 'isotope_grid';
+$handler->display->display_options['style_options']['data_fields'] = array(
+  'field_portfolio_tags' => 'field_portfolio_tags',
+  'field_image' => 0,
+  'field_fancybox' => 0,
+  'field_back_cover' => 0,
+  'title' => 0,
+);
+$handler->display->display_options['defaults']['style_options'] = FALSE;
+$handler->display->display_options['defaults']['row_plugin'] = FALSE;
+$handler->display->display_options['row_plugin'] = 'fields';
+$handler->display->display_options['row_options']['default_field_elements'] = FALSE;
+$handler->display->display_options['defaults']['row_options'] = FALSE;
+$handler->display->display_options['defaults']['header'] = FALSE;
+/* Header: Global: Text area */
+$handler->display->display_options['header']['area']['id'] = 'area';
+$handler->display->display_options['header']['area']['table'] = 'views';
+$handler->display->display_options['header']['area']['field'] = 'area';
+$handler->display->display_options['header']['area']['label'] = 'Introductory Text';
+$handler->display->display_options['header']['area']['content'] = '<div class="span12" style="margin-bottom: 14px;">
+  <h3>美音婚礼™以你的期望，预算和实际的场地规划设计最适合你的创意婚礼。</h3><p>美音汇™汇集了行业内最高素质的服务团队，从前期的沟通、设计、统筹到后期的创意实现，从主持人、影像、督导，到婚礼的每一个流程步骤，从婚礼现场的布置搭建到完成婚礼的气氛营造，美音婚礼全程贴心服务，精致于微处，为你呈现高品质的婚礼盛典，与你共同喜悦。</p>
+</div>';
+$handler->display->display_options['header']['area']['format'] = 'full_html';
+/* Header: Global: View area */
+$handler->display->display_options['header']['view']['id'] = 'view';
+$handler->display->display_options['header']['view']['table'] = 'views';
+$handler->display->display_options['header']['view']['field'] = 'view';
+$handler->display->display_options['header']['view']['label'] = 'Portfolio Filter';
+$handler->display->display_options['header']['view']['view_to_insert'] = 'meiyin_taxonomy:block_portfolio_filter';
 $handler->display->display_options['defaults']['fields'] = FALSE;
 /* Field: Field: Image */
 $handler->display->display_options['fields']['field_image']['id'] = 'field_image';
@@ -1014,6 +1086,17 @@ $handler->display->display_options['fields']['field_back_cover']['settings'] = a
   'image_style' => '',
   'image_link' => '',
 );
+/* Field: Content: Tags */
+$handler->display->display_options['fields']['field_portfolio_tags']['id'] = 'field_portfolio_tags';
+$handler->display->display_options['fields']['field_portfolio_tags']['table'] = 'field_data_field_portfolio_tags';
+$handler->display->display_options['fields']['field_portfolio_tags']['field'] = 'field_portfolio_tags';
+$handler->display->display_options['fields']['field_portfolio_tags']['label'] = '';
+$handler->display->display_options['fields']['field_portfolio_tags']['exclude'] = TRUE;
+$handler->display->display_options['fields']['field_portfolio_tags']['element_type'] = 'div';
+$handler->display->display_options['fields']['field_portfolio_tags']['element_class'] = 'isotope-filter';
+$handler->display->display_options['fields']['field_portfolio_tags']['element_label_colon'] = FALSE;
+$handler->display->display_options['fields']['field_portfolio_tags']['element_default_classes'] = FALSE;
+$handler->display->display_options['fields']['field_portfolio_tags']['delta_offset'] = '0';
 /* Field: Content: Title */
 $handler->display->display_options['fields']['title']['id'] = 'title';
 $handler->display->display_options['fields']['title']['table'] = 'node';
@@ -1023,26 +1106,13 @@ $handler->display->display_options['fields']['title']['alter']['alter_text'] = T
 $handler->display->display_options['fields']['title']['alter']['text'] = '<div class="foliotextholder">
 <div class="foliotextwrapper">
 <h5 class="itemtitle">[title]</h5>
-<span class="itemcategories">[field_portfolio_tags_1]</span>
+<span class="itemcategories">[field_portfolio_tags]</span>
 </div>
 </div>';
 $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
 $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
 $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
 $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
-/* Field: Content: Isotope Tags */
-$handler->display->display_options['fields']['field_portfolio_tags']['id'] = 'field_portfolio_tags';
-$handler->display->display_options['fields']['field_portfolio_tags']['table'] = 'field_data_field_portfolio_tags';
-$handler->display->display_options['fields']['field_portfolio_tags']['field'] = 'field_portfolio_tags';
-$handler->display->display_options['fields']['field_portfolio_tags']['ui_name'] = 'Content: Isotope Tags';
-$handler->display->display_options['fields']['field_portfolio_tags']['label'] = '';
-$handler->display->display_options['fields']['field_portfolio_tags']['element_type'] = 'div';
-$handler->display->display_options['fields']['field_portfolio_tags']['element_class'] = 'isotope-filter';
-$handler->display->display_options['fields']['field_portfolio_tags']['element_label_type'] = '0';
-$handler->display->display_options['fields']['field_portfolio_tags']['element_label_colon'] = FALSE;
-$handler->display->display_options['fields']['field_portfolio_tags']['element_wrapper_type'] = '0';
-$handler->display->display_options['fields']['field_portfolio_tags']['element_default_classes'] = FALSE;
-$handler->display->display_options['fields']['field_portfolio_tags']['delta_offset'] = '0';
 $handler->display->display_options['path'] = 'portfolio-sidebar';
 $translatables['meiyin_portfolio'] = array(
   t('Master'),
@@ -1074,7 +1144,7 @@ $translatables['meiyin_portfolio'] = array(
   t('<div class="foliotextholder">
 <div class="foliotextwrapper">
 <h5 class="itemtitle"><a href="[path]">[title]</a></h5>
-<span class="itemcategories">[field_portfolio_tags_1]</span>
+<span class="itemcategories">[field_portfolio_tags]</span>
 </div>
 </div>'),
   t('Portfolio - 4 Columns'),
@@ -1086,12 +1156,6 @@ $translatables['meiyin_portfolio'] = array(
   t('Divider'),
   t('<div class="divider"></div>'),
   t('<div class="mediaholder">[field_image]</div>'),
-  t('<div class="foliotextholder">
-<div class="foliotextwrapper">
-<h5 class="itemtitle"><a href="[path]">[title]</a></h5>
-<span class="itemcategories">[field_portfolio_tags]</span>
-</div>
-</div>'),
   t('Block: Portfolio (4 col)'),
   t('See Full Portfolio (link)'),
   t('<div class="linktext"><a href="<?php print $GLOBALS[\'base_url\'].\'/portfolio\'; ?>">更多婚礼</a></div>'),
@@ -1105,6 +1169,12 @@ $translatables['meiyin_portfolio'] = array(
   t('Block: Random Projects'),
   t('Portfolio w/Sidebar'),
   t('Portfolio With Sidebar'),
+  t('<div class="foliotextholder">
+<div class="foliotextwrapper">
+<h5 class="itemtitle">[title]</h5>
+<span class="itemcategories">[field_portfolio_tags]</span>
+</div>
+</div>'),
 );
 
 $views[$view->name] = $view;

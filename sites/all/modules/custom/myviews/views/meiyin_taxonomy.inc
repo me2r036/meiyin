@@ -2,7 +2,7 @@
 //put export code here
 $view = new view();
 $view->name = 'meiyin_taxonomy';
-$view->description = 'Isotope filter, categories, and tag blocks used with the ThemeTastic theme.';
+$view->description = 'Isotope filter, categories, and tag blocks used with the Meiyin theme.';
 $view->tag = 'meiyin';
 $view->base_table = 'taxonomy_term_data';
 $view->human_name = 'Meiyin: Taxonomy';
@@ -19,7 +19,8 @@ $handler->display->display_options['cache']['type'] = 'none';
 $handler->display->display_options['query']['type'] = 'views_query';
 $handler->display->display_options['exposed_form']['type'] = 'basic';
 $handler->display->display_options['pager']['type'] = 'none';
-$handler->display->display_options['style_plugin'] = 'isotope_filter_block';
+$handler->display->display_options['style_plugin'] = 'isotope_filter';
+$handler->display->display_options['style_options']['data_fields'] = 'name';
 $handler->display->display_options['row_plugin'] = 'fields';
 /* Field: Taxonomy term: Name */
 $handler->display->display_options['fields']['name']['id'] = 'name';
@@ -44,6 +45,7 @@ $handler->display->display_options['filters']['vid']['value'] = array(
 
 /* Display: Block: Portfolio Filter */
 $handler = $view->new_display('block', 'Block: Portfolio Filter', 'block_portfolio_filter');
+$handler->display->display_options['defaults']['css_class'] = FALSE;
 $handler->display->display_options['defaults']['fields'] = FALSE;
 /* Field: Taxonomy term: Name */
 $handler->display->display_options['fields']['name']['id'] = 'name';

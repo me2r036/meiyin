@@ -8,10 +8,6 @@
 	function meiyin_css_alter(&$css) {
 		unset($css[drupal_get_path('module', 'system') . '/system.menus.css']);
 		unset($css[drupal_get_path('module', 'system') . '/system.theme.css']);
-
-	 	if (isset($css[drupal_get_path('module', 'views_isotope') . '/views_isotope.css'])) {
- 			unset($css[drupal_get_path('module', 'views_isotope') . '/views_isotope.css']);
- 		}
  		
  		global $language;
  			

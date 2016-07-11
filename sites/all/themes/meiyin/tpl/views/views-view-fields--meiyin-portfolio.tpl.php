@@ -24,8 +24,12 @@
  * @ingroup views_templates
  */
 
-$fancybox = array_key_exists('field_fancybox', $fields);
+  $fancybox = array_key_exists('field_fancybox', $fields);
 ?>
+
+<?php if($fancybox): ?>
+    <div class="holderwrap">
+<?php endif; ?>
 
 <?php foreach($fields as $id => $field): ?>
   <?php if (!empty($field->separator)): ?>
@@ -67,6 +71,7 @@ $fancybox = array_key_exists('field_fancybox', $fields);
         </a>
       <?php endif; ?>
     </div>
+
   <?php elseif (($fancybox && $id != 'field_image') || !$fancybox): ?>
     <?php print $field->wrapper_prefix; ?>
     <?php print $field->label_html; ?>
@@ -74,3 +79,7 @@ $fancybox = array_key_exists('field_fancybox', $fields);
     <?php print $field->wrapper_suffix; ?>
   <?php endif; ?>
 <?php endforeach; ?>
+
+<?php if($fancybox): ?>
+  </div>
+<?php endif; ?>
