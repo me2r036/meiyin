@@ -71,6 +71,7 @@ function drush_registry_rebuild() {
     $include_dir . '/actions.inc',
     $include_dir . '/entity.inc',
     $module_dir  . '/system/system.module',
+    $include_dir . '/database/database.inc',
     $include_dir . '/database/query.inc',
     $include_dir . '/database/select.inc',
     $include_dir . '/registry.inc',
@@ -78,6 +79,7 @@ function drush_registry_rebuild() {
     $include_dir . '/menu.inc',
     $include_dir . '/file.inc',
     $include_dir . '/theme.inc',
+    $include_dir . '/unicode.inc',
   );
 
   if (drush_drupal_major_version() == 7) {
@@ -125,6 +127,15 @@ function drush_registry_rebuild() {
     drush_log(dt('Internal Drush cache cleared with drush_cache_clear_drush (1).'));
   }
 
+  if (!function_exists('module_list')) {
+    drush_log(dt('ERROR! Registry Rebuild requires a working Drupal site to operate on.'), 'warning');
+    drush_log(dt('Please either cd to a directory containing a Drupal settings.php file,'), 'warning');
+    drush_log(dt('or use a working site @alias outside of Drupal root directory tree.'), 'warning');
+    drush_log(dt('Example for forced mode: drush @sitename rr --fire-bazooka'), 'warning');
+    drush_log(dt('BYE!'), 'warning');
+    exit;
+  }
+
   // This section is not functionally important. It's just using the
   // registry_get_parsed_files() so that it can report the change. Drupal 7 only.
   if (drush_drupal_major_version() == 7) {
@@ -159,6 +170,9 @@ function drush_registry_rebuild() {
   if (drush_drupal_major_version() == 7) {
     registry_rebuild(); // D7 only
     drush_log(dt('The registry has been rebuilt via registry_rebuild (A).'), 'success');
+    bootstrap_invoke_all('registry_rebuild');
+    registry_rebuild();
+    drush_log(dt('The registry has been rebuilt via registry_rebuild (A2).'), 'success');
   }
   elseif (drush_drupal_major_version() > 7) {
     system_rebuild_module_data(); // D8+
@@ -257,6 +271,7 @@ function drush_registry_rebuild() {
  * by default in the PHP script variant.
  */
 function drush_registry_rebuild_cc_all() {
+  module_invoke_all('pre_flush_all_caches');
   if (!drush_get_option('no-cache-clear') || $force_all_cache_clear) {
     if (function_exists('cache_clear_all') || drush_drupal_major_version() < 8) {
       cache_clear_all('*', 'cache', TRUE);

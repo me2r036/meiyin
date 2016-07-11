@@ -1,7 +1,0 @@
-<?php
-/**
- * @file
- * Code for the ThemeTastic: Features feature.
- */
-
-include_once 'themetastic_features.features.inc';
