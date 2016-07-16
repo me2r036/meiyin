@@ -257,7 +257,7 @@
 
     // Add jquery-migrate with fallback if the cdn unavailable
     drupal_add_js('//cdn.bootcss.com/jquery-migrate/1.2.1/jquery-migrate.min.js', array('type' => 'external', 'group' => JS_LIBRARY, 'weight' => -16));
-    $data = 'window.jQuery || document.write("<script src=\'' . base_path() . drupal_get_path('theme', 'meiyin') . '/js/jquery-migrate.min.js\'>\x3C/script>")';
+    $data = 'jQuery.migrateWarnings || document.write("<script src=\'' . base_path() . drupal_get_path('theme', 'meiyin') . '/js/jquery-migrate.min.js\'>\x3C/script>")';
     drupal_add_js($data, array('type' => 'inline', 'group' => JS_LIBRARY, 'weight' => -15.999999999));
 
     $vars['classes_array'][] = 'colored';
