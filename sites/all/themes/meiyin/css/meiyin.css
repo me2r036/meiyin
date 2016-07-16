@@ -953,7 +953,7 @@ ul.isotope-options li a { font-weight: 400; font-size: 13px; float: left; color:
 	-webkit-transition: all 0.1s; -moz-transition: all 0.1s; -o-transition: all 0.1s; -ms-transition: all 0.1s; transition: all 0.1s;
   text-shadow: rgba(50, 50, 50, .292969) 1px 1px 3px;
  }
-ul.isotope-options li a:hover { color: #ff5165 !important; border: 1px solid #ff5165; }
+ul.isotope-options li a:hover { color: #ff5165 !important; border: 1px solid #ff5165; text-shadow: rgba(244, 140, 183, .292969) 1px 1px 3px !important; }
 ul.isotope-options li a.selected { color: #fff !important; border: 1px solid #ff5165; background: #ff5165;}
 
 .isotope-item { z-index: 2; }

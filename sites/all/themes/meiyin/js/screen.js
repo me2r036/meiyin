@@ -50,6 +50,16 @@ jQuery(document).ready(function($) {
     /*menuLineAdjustment();*/
   });
 
+  /* CDN fallback function for font-awesome. */
+  (function ($) {
+    var $span = $('<span class="fa" style="display:none"></span>').appendTo('body');
+    if($span.css('fontFamily') !== 'FontAwesome' ) {
+      // Fallback Link
+      $('head').append('<link type="text/css" rel="stylesheet" href="/sites/all/themes/meiyin/font/font-awesome/css/font-awesome.min.css" />');
+    }
+    $span.remove();
+  })(jQuery);
+
   /* GOOGLE MAPS */
   if (jQuery('.map').exists()) {
     var container = jQuery(".map");
@@ -89,20 +99,21 @@ jQuery(document).ready(function($) {
   }
 
   /* MODIFY PAGINATOR */
-  if ($('.pager').exists()) {
-    var $pages = 0,
-    $current = $('.pager-current').text(),
-    $parent = $('.pager').parent();
-    
-    $('.pager-item, .pager-current').each(function() {
-      $pages++;
-    });
+  (function ($){
+    if ($('.pager').exists()) {
+      var $pages = 0,
+      $current = $('.pager-current').text(),
+      $parent = $('.pager').parent();
 
-    $parent.addClass('pagination').before('<div class="pagenumbers">Page '+$current+ ' of '+$pages+'</div>');
-    $('.pager').removeClass('pager');
-    $('.pager-current').wrapInner('<span />');
+      $('.pager-item, .pager-current').each(function() {
+        $pages++;
+      });
 
-  }
+      $parent.addClass('pagination').before('<div class="pagenumbers">Page '+$current+ ' of '+$pages+'</div>');
+      $('.pager').removeClass('pager');
+      $('.pager-current').wrapInner('<span />');
+    }
+  })(jQuery);
 
   /* CARE ABOUT THE INPUT FIELDS */
   initInputFields();
@@ -177,16 +188,6 @@ jQuery(document).ready(function($) {
     }
   })(jQuery);
 
-  /* CDN fallback function for font-awesome. */
-  (function ($) {
-    var $span = $('<span class="fa" style="display:none"></span>').appendTo('body');
-    if($span.css('fontFamily') !== 'FontAwesome' ) {
-      // Fallback Link
-      $('head').append('<link type="text/css" rel="stylesheet" href="/sites/all/themes/meiyin/font/font-awesome/css/font-awesome.min.css" />');
-    }
-    $span.remove();
-  })(jQuery);
-
   /* Webform component background color. */
   jQuery('.webform-component').click(function() {
     var $item = $(this);
@@ -196,7 +197,7 @@ jQuery(document).ready(function($) {
     }
   });
 
-  /* Display Wechat QR code */
+  /* Display Wechat QR code with customised fancybox */
   jQuery("a.so_wechat").fancybox({
     fitToView: false,
     beforeShow: function(){
@@ -207,69 +208,68 @@ jQuery(document).ready(function($) {
 
 });
 
-    /******************************
-      - SLIDER FUN ;-)  -
-    ********************************/
-    function initSliderFun() {
-      // CHANGE HEIGHT OF DEF CONTAINER
-      if(!is_mobile()){
-        jQuery('.region.header.parallax').css({height:'auto'});
-        jQuery('.parallax #revolution_slider_1 ul li').each(function() {
-          jQuery(this).find('.caption').each(function(){
-            if(jQuery(this).html().lastIndexOf("vimeo")>-1 || jQuery(this).html().lastIndexOf("vimeo")>-1 || jQuery(this).html().lastIndexOf("href")>-1)
-              zindex = "50001";
-            else
-              zindex = "1";
-            jQuery(this).wrap('<div class="tp-parallax" style="position:absolute;width:100%;height:100%;top:0px;left:0px;z-index:'+zindex+';"></div>');
-          });
+  /******************************
+    - SLIDER FUN ;-)  -
+  ********************************/
+  function initSliderFun() {
+    // CHANGE HEIGHT OF DEF CONTAINER
+    if(!is_mobile()){
+      jQuery('.region.header.parallax').css({height:'auto'});
+      jQuery('.parallax #revolution_slider_1 ul li').each(function() {
+        jQuery(this).find('.caption').each(function(){
+          if(jQuery(this).html().lastIndexOf("vimeo")>-1 || jQuery(this).html().lastIndexOf("vimeo")>-1 || jQuery(this).html().lastIndexOf("href")>-1)
+            zindex = "50001";
+          else
+            zindex = "1";
+          jQuery(this).wrap('<div class="tp-parallax" style="position:absolute;width:100%;height:100%;top:0px;left:0px;z-index:'+zindex+';"></div>');
         });
-      
-        jQuery(window).scroll(function() {      
-          var offset = jQuery(window).scrollTop();
-          jQuery('#revolution_slider_1 .tp-parallax').each(function() {
-            var tp=jQuery(this);
-            TweenLite.to(tp,0.3,{z:1000,scale:1, rotationX:offset/10,z:0.01,transformOrigin:"center bottom",opacity:1-Math.abs(offset/1000),transformPerspective:1000,top:offset/2,ease:Linear.easeNone});  
-            if(navigator.userAgent.indexOf('Chrome') > -1){
-              tp.css("-webkit-transform-origin",'none');
-              tp.css("-webkit-transform",'none');     
-            }
-          });
-        });
-      }
-    }
+      });
     
-    function initSliderHeight(){
-      jQuery('.region.header').css({height:'auto'});
+      jQuery(window).scroll(function() {
+        var offset = jQuery(window).scrollTop();
+        jQuery('#revolution_slider_1 .tp-parallax').each(function() {
+          var tp=jQuery(this);
+          TweenLite.to(tp,0.3,{z:1000,scale:1, rotationX:offset/10,z:0.01,transformOrigin:"center bottom",opacity:1-Math.abs(offset/1000),transformPerspective:1000,top:offset/2,ease:Linear.easeNone});  
+          if(navigator.userAgent.indexOf('Chrome') > -1){
+            tp.css("-webkit-transform-origin",'none');
+            tp.css("-webkit-transform",'none');
+          }
+        });
+      });
     }
+  }
 
-    ///////////////////////
-    // INIT INPUT FIELDS //
-    //////////////////////
+  function initSliderHeight(){
+    jQuery('.region.header').css({height:'auto'});
+  }
 
-    function initInputFields() {
+  ///////////////////////
+  // INIT INPUT FIELDS //
+  //////////////////////
 
-      // Check the Search value on Standard
-        jQuery(".prepared-input, .searchinput").each(function() {
-          var field=jQuery(this);
-          field.data('standard',field.val());
-        });
+  function initInputFields() {
+    // Check the Search value on Standard
+    jQuery(".prepared-input, .searchinput").each(function() {
+      var field=jQuery(this);
+      field.data('standard',field.val());
+    });
+
+    jQuery(".prepared-input, .searchinput").focus(function(){
+      var $this = jQuery(this);
+
+      $this.val($this.val()== $this.data('standard') ? "" : $this.val());
+    });
+
+    jQuery(".prepared-input, .searchinput").blur(function(){
+      var $this = jQuery(this);
+      $this.val($this.val()== "" ? $this.data('standard') : $this.val());
+    });
+  }
 
 
-        jQuery(".prepared-input, .searchinput").focus(function(){
-          var $this = jQuery(this);
-
-          $this.val($this.val()== $this.data('standard') ? "" : $this.val());
-        });
-        jQuery(".prepared-input, .searchinput").blur(function(){
-          var $this = jQuery(this);
-          $this.val($this.val()== "" ? $this.data('standard') : $this.val());
-        });
-    }
-
-
-/*************************************
+  /*************************************
   - MENU WIDTH ADJUSTMENT   -
-**************************************/
+  **************************************/
   function menuWidthAdjustment() {
     /*jQuery('.ddsmoothmenu ul li').each(function() {
       var li=jQuery(this);
@@ -331,8 +331,7 @@ function initCollapseExtras() {
   })
 }
 
-/* #Fancy Box
-================================================== */
+/* #Fancy Box  */
 function addFancyBox() {
 
   /*jQuery(".fancybox").fancybox({
@@ -350,7 +349,7 @@ function addFancyBox() {
   });
 }
 
-// Callback function for the fancybox module.
+/* Callback function for the fancybox module. */
 function showCount() {
   this.title = (this.title ?  this.title + ' ' : '') + (this.index + 1) + '/' + this.group.length;
 }
@@ -501,6 +500,17 @@ function initFooterLogo() {
   window.addEventListener('load', showPicSrc);
 })(window);
 
+(function() {
+  try {
+    if (window.console && window.console.log){
+      console.log("%c美音婚礼 | meiyin.co - tell the differences", "color:green");
+      console.log("%cTechnical support: http://meiyin.co", "color:green");
+      console.log("%cComments or suggestions? Please leave us a message by Attn. J Ren at: http://meiyin.co/contact\n", "color:green");
+    }
+  }
+  catch(e){};
+})(window);
+
 /* Back to top */
 (function ($) {
   Drupal.behaviors.backtotop = {
@@ -533,12 +543,3 @@ function initFooterLogo() {
     }
   };
 })(jQuery);
-
-try {
-  if (window.console && window.console.log){
-    console.log("%c美音婚礼 | meiyin.co - tell the differences", "color:green");
-    console.log("%cTechnical support: http://meiyin.co", "color:green");
-    console.log("%cComments or suggestions? Please leave us a message by Attn. J Ren at: http://meiyin.co/contact\n", "color:green");
-  }
-}
-catch(e){};
