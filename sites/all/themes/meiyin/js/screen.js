@@ -198,7 +198,7 @@ jQuery(document).ready(function($) {
   });
 
   /* Display Wechat QR code with customised fancybox */
-  jQuery("a.so_wechat").fancybox({
+  jQuery('a.so_wechat').fancybox({
     fitToView: false,
     beforeShow: function(){
       this.width = 260;
