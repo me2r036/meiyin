@@ -4,7 +4,9 @@
  * Load the isotope library and provide configuration and theme options.
  */
 
-define('ISOTOPE_CDN_PATH', 'http://cdn.bootcss.com/jquery.isotope/2.2.2/isotope.pkgd.min.js');
+define('ISOTOPE_CDN_CDNJS', '//cdnjs.cloudflare.com/ajax/libs/jquery.isotope/2.2.2/isotope.pkgd.min.js');
+define('ISOTOPE_CDN_BOOTCSS', '//cdn.bootcss.com/jquery.isotope/2.2.2/isotope.pkgd.min.js');
+define('ISOTOPE_CDN_STATICFILE', '//cdn.staticfile.org/jquery.isotope/2.2.2/isotope.pkgd.min.js');
 define('ISOTOPE_FILENAME', 'isotope.pkgd.min.js');
 
 /**
@@ -160,23 +162,6 @@ function isotope_get_config_json($config, array $additional_attributes) {
 }
 
 /**
- * Check for the library and return the appropriate scope.
- */
-function isotope_check_library() {
-  // @TODO: Cache the result.
-  if (function_exists('libraries_get_path') && file_exists(libraries_get_path('isotope') . '/' . ISOTOPE_FILENAME) === TRUE) {
-    // Library has been installed correctly, so use it.
-    return 'library';
-  }
-  if (isotope_check_url(ISOTOPE_CDN_PATH)) {
-    // Library has not been installed correctly, but the cdn is available.
-    return 'cdn';
-  }
-  // Neither option is available. Throw an error.
-  return FALSE;
-}
-
-/**
  * Return a list of accepted plugins.
  *
  * @return array
@@ -267,12 +252,16 @@ function isotope_check_additional_libraries($libname = FALSE) {
  * Function to add the right version of the js file.
  */
 function isotope_addjs($config_name) {
-  $isotope_scope = isotope_check_library();
-  if ($isotope_scope == 'library') {
+  $cdn = variable_get('isotope_selected_cdn');
+  if($cdn == NULL) {
+    //Load local version.
     drupal_add_js(libraries_get_path('isotope') . '/' . ISOTOPE_FILENAME);
   }
-  elseif ($isotope_scope == 'cdn') {
-    drupal_add_js(ISOTOPE_CDN_PATH, 'external');
+  else {
+  // Load js file from CDN, with fallback to local version.
+    drupal_add_js($cdn, array('type' => 'external', 'group' => JS_LIBRARY, 'weight' => 12));
+    $data = 'window.Isotope || document.write("<script src=\'' . base_path() . libraries_get_path('isotope') . '/' . ISOTOPE_FILENAME . '\'>\x3C/script>")';
+    drupal_add_js($data, array('type' => 'inline', 'group' => JS_LIBRARY, 'weight' => 12.000000001));
   }
 
   ctools_include('export');
@@ -295,10 +284,46 @@ function isotope_addjs($config_name) {
 }
 
 /**
+ * Check for the library and return the appropriate scope.
+ */
+function isotope_check_library() {
+  $cdn = variable_get('isotope_selected_cdn');
+  $local_library = isotope_check_local_library();
+
+  if ($cdn != NULL && isotope_check_url($cdn)) {
+    // The cdn is available.
+    // Then look at local version.
+    if ($local_library)
+      return 'cdn_with_fallback';
+    else
+      return 'cdn_only';
+  }
+
+  if ($local_library) {
+    // Local library has been installed correctly.
+    return 'library';
+  }
+
+  // Neither option is available. Throw an error.
+  return FALSE;
+}
+
+/**
+ * Helper function to check if local version exists.
+ */
+function isotope_check_local_library() {
+  if (function_exists('libraries_get_path') && file_exists(libraries_get_path('isotope') . '/' . ISOTOPE_FILENAME) === TRUE) {
+    // Library has been installed correctly.
+    return TRUE;
+  }
+  return FALSE;
+}
+
+/**
  * Helper function to check if a url exists.
  */
 function isotope_check_url($url) {
-  $header_response = get_headers($url, 1);
+  $header_response = get_headers('http:' . $url, 1);
   if (strpos($header_response[0], "200") === FALSE) {
     return FALSE;
   }
@@ -580,4 +605,100 @@ function theme_isotope_sorter(array $vars) {
   );
 
   return drupal_render($return);
+}
+
+/**
+ * Implements hook_menu().
+ */
+function isotope_menu() {
+  $items['admin/config/user-interface/isotope'] = array(
+    'title' => 'Isotope',
+    'description' => 'Isotope configuration',
+    'page callback' => 'system_admin_menu_block_page',
+    'access arguments' => array('administer isotope configuration'),
+    'file' => 'system.admin.inc',
+    'file path' => drupal_get_path('module', 'system'),
+  );
+
+  $items['admin/config/user-interface/isotope/isotope_cdn'] = array(
+    'title' => 'Isotope CDN',
+    'description' => 'Configure CDN.',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('isotope_settings_form'),
+    'access arguments' => array('administer isotope configuration'),
+  );
+
+  return $items;
+}
+
+/**
+ * Admin settings menu callback.
+ *
+ * @see isotope_menu()
+ */
+function isotope_settings_form() {
+  $form['isotope_cdn'] = array(
+    '#type' => 'select',
+    '#title' => t('Isotope CDN'),
+    '#options' => array(
+      'cdnjs' => t('CDNJS'),
+      'bootcss' => t('Bootcss'),
+      'staticfile' => t('Staticfile'),
+      'none' => t('None'),
+    ),
+    '#description' => t('If the CDN selected is not available the local version will be used (make sure Library enabled and Isotope in correct location, i.e.: /sites/all/library/isotope/%file).', 
+        array(
+          '%file' => ISOTOPE_FILENAME,
+        )
+      ),
+    '#default_value' => variable_get('isotope_cdn', 'cdnjs'),
+  );
+
+  // Attach callback validator to upper level to run it *after* the system_settings_form() submit handler.
+  $form = system_settings_form($form);
+  $form['#submit'][] = 'isotope_cdn_validator_submit';
+
+  return $form;
+}
+
+function isotope_cdn_validator_submit() {
+  $cdn = variable_get('isotope_cdn', 'cdnjs');
+
+  // Check for CDN support.
+  switch ($cdn) {
+    case 'cdnjs':
+      $cdn = ISOTOPE_CDN_CDNJS;
+      break;
+
+    case 'bootcss':
+      $cdn = ISOTOPE_CDN_BOOTCSS;
+      break;
+
+    case 'staticfile':
+      $cdn = ISOTOPE_CDN_STATICFILE;
+      break;
+
+    case 'none':
+    default:
+      $cdn = NULL;
+      break;
+  }
+
+  // Set selected CDN url as isotope_selected_cdn
+  variable_set('isotope_selected_cdn', $cdn);
+
+  $isotope_scope = isotope_check_library();
+  if($isotope_scope == 'cdn_with_fallback') {
+    drupal_set_message(t('CDN configured successfully, using "%url", will fall back automatically to local version if the CND is not available.', array('%url' => $cdn)), 'status', FALSE);
+  }
+  else if ($isotope_scope == 'cdn_only') {
+    drupal_set_message(t('CDN configured successfully, using "%url" with no local fallback. Local version is not installed correctly.', array('%url' => $cdn)), 'warning', FALSE);    
+  }
+  else if ($isotope_scope == 'library') {
+    drupal_set_message(t('You choose not to use CDN, will use local version.'), 'status', FALSE);
+  }
+  else {
+    drupal_set_message(t('Isotope is not correctly installed locally, the module will not work.'), 'error', FALSE);
+  }
+
 }

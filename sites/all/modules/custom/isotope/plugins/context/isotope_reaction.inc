@@ -34,7 +34,7 @@ class isotope_reaction extends context_reaction {
       'pre' => array(
         '#type' => 'item',
         '#title' => t('Isotope Configuration'),
-        '#description' => t('You can manage these configurations at !link.', array('!link' => l(t('Configure Isotope'), 'admin/config/user-interface/isotope'))
+        '#description' => t('You can manage these configurations at !link.', array('!link' => l(t('Configure Isotope'), 'admin/config/user-interface/isotope/isotope_configurations'))
         ),
       ),
       // Choose the config here.

@@ -106,6 +106,22 @@ function isotope_schema() {
 }
 
 /**
+ * Implements hook_install().
+ */
+function isotope_install() {
+  variable_set('isotope_cdn', 'cdnjs');
+  variable_set('isotope_selected_cdn', ISOTOPE_CDN_CDNJS);
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function isotope_uninstall() {
+  variable_del('isotope_cdn');
+  variable_del('isotope_selected_cdn');
+}
+
+/**
  * Implements hook_requirements().
  */
 function isotope_requirements($phase) {
@@ -118,27 +134,26 @@ function isotope_requirements($phase) {
 
     $isotope_scope = isotope_check_library();
 
-    // If Libraries API is enabled but the .js is not found within the
-    // sites/all/libraries folder report a warning. The module will fall back to
-    // its included copy so this isn't a showstopper.
-    if (function_exists('libraries_get_path') && $isotope_scope == 'cdn') {
+    // If Libraries API is enabled and the .js is found within the
+    // sites/all/libraries folder report a cdn warning. The module has fallen back to
+    // local copy so this isn't a showstopper.
+    if (function_exists('libraries_get_path') && $isotope_scope == 'library') {
       $path = libraries_get_path('isotope');
-      $path = !empty($path) ? $path : 'libraries/isotope';
-      $requirements['isotope']['value'] = t('Isotope is not correctly using Libraries API');
+      $requirements['isotope']['value'] = t('Isotope is not correctly using CDN');
       $requirements['isotope']['severity'] = REQUIREMENT_WARNING;
-      $requirements['isotope']['description'] = t('Please install <a href="http://isotope.metafizzy.co/">Isotope</a> in <strong>%path</strong>. The module is using an external copy from %cdn',
+      $requirements['isotope']['description'] = t('CDN %cdn is not working. The module is using local copy in <strong>%path</strong>',
         array(
           '%path' => $path . '/' . ISOTOPE_FILENAME,
-          '%cdn' => ISOTOPE_CDN_PATH,
+          '%cdn' => ISOTOPE_CDN_CDNJS,
         )
       );
     }
-    // If the external copy has been removed or renamed report an error. At this
+    // If the external copy has been removed or renamed and local copy is not available, report an error. At this
     // point the module cannot function properly.
     if ($isotope_scope == FALSE) {
-      $requirements['isotope']['value'] = t('Isotope is not correctly installed');
+      $requirements['isotope']['value'] = t('CDN is not working and Isotope is not correctly installed locally');
       $requirements['isotope']['severity'] = REQUIREMENT_ERROR;
-      $requirements['isotope']['description'] = t('The external script is not available.  Please enable the Libraries API module AND install <a href="http://isotope.metafizzy.co/">Isotope</a> in the isotope directory in libraries (sites/all/libraries/isotope/%file).',
+      $requirements['isotope']['description'] = t('The default external script is not available currently. Please choose another one and / or enable the Libraries API module AND install <a href="http://isotope.metafizzy.co/">Isotope</a> in the isotope directory in libraries (sites/all/libraries/isotope/%file) as a fallback.',
         array(
           '%file' => ISOTOPE_FILENAME,
         )

@@ -101,15 +101,27 @@
   Drupal.behaviors.isotope = {
     attach:function(context, settings)
     {
+      var $container = $('.isotope-container', context);
+
+      // Check for an AJAX call; context including no body element.
       if ($('body', context).length == 0) {
-        // This is an ajax call, likely a prepend.
         var $new_items = $(context).filter('.isotope-element');
+        // Check for new items; e.g. from views_infinite_scroll.
         if ($new_items.length) {
+          // Append new items.
           $('.isotope-container').isotope('appended', $new_items);
-        };
+        }
+        // Check DOM for uninitialised container via AJAX views request.
+        else if($container.length
+            && !$container.data('isotope')
+            && settings.views.ajax_path === '/views/ajax') {
+          // Get the isotope module JSON options data.
+          var $data = $container.data('isotope-options');
+          // Init new container with options data.
+          $container.isotope($data);
+        }
       }
 
-      var $container = $('.isotope-container', context);
       if ($container.length) {
         // Pre-select first option in option sets.
         $('.isotope-options > li:first-child > a', context).addClass('selected');

@@ -11,8 +11,8 @@ $plugin = array(
   'access' => 'administer isotope',
   // Define the menu item.
   'menu' => array(
-    'menu prefix' => 'admin/config/user-interface',
-    'menu item' => 'isotope',
+    'menu prefix' => 'admin/config/user-interface/isotope',
+    'menu item' => 'isotope_configurations',
     'menu title' => 'Isotope Configurations',
     'menu description' => 'Administer Isotope configurations.',
   ),
