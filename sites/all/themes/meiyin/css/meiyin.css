@@ -1550,6 +1550,7 @@ a.accordion-toggle.collapsed:hover { color: #666;
   .headerwrap #logo img { width: 230px !important; }
   .headerwrap.fixed #logo img { width: 200px !important; }
   #block-views-meiyin-feedback-feedbacksidebar { display: none; }
+  .contact-subject { width: 30%; }
 }
 
 @media only screen and (min-width: 768px) {
