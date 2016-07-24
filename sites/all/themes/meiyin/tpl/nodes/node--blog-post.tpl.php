@@ -50,9 +50,12 @@
   <div class="postinfo">
     <?php if ($display_submitted): ?>
       <div class="time"><?php print format_date($created, 'custom', 'Y年Md日'); ?></div>
+      <div class="author">by <?php print $name; ?></div>
     <?php endif; ?>
 
-    <div class="categories"><span>in</span><?php print render($content['field_categories']); ?></div>
+    <?php if(!empty($content['field_categories'])): ?>
+      <div class="categories"><span>in</span><?php print render($content['field_categories']); ?></div>
+    <?php endif; ?>
     <div class="comments"><?php print $comment_count; $comment_count < 2 ? print ' comment' : print 'comments';?></div>    
     <?php if(!empty($content['field_tags'])): ?>
       <div class="tags"><span>of</span> <?php print render($content['field_tags']); ?></div>
