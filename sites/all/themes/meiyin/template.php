@@ -210,9 +210,9 @@
     $detect = mobile_detect_get_object();
     $is_mobile = $detect->isMobile();
 
-    foreach ($vars['items'] as $delta => $item) {
+    if ($is_mobile) {
       // Change video field display style to "mobile"
-      if ($is_mobile) {
+      foreach ($vars['items'] as $delta => $item) {
         $item[0]['#style'] = 'mobile';
       }
       $output .= drupal_render($item);
