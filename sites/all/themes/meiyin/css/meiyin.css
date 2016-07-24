@@ -495,7 +495,7 @@ border-top-right-radius: 5px; }
 .homepost h4 { float: left; line-height: 30px; margin-top: -5px; margin-bottom: 0px; width: 100%; }
 .homepost .post { float: right; width: 100%; }
 .homepost .postbody  { float: left; padding-left: 66px; }
-.homepost .posttext  { float: left; }
+.homepost .posttext  { float: left; text-indent: 2em; }
 .homepost .posttext .excutive { margin-top: -10px; }
 .contentarea { float: left;  }
 
@@ -535,6 +535,7 @@ border-top-right-radius: 5px; }
 .blogpost.singlepost .posttext { padding-right: 0px; margin-bottom: 0px; }
 .blogpost.singlepost .posttext p { margin-bottom: 20px; }
 .blogpost.singlepost .posttext h4:before, .blogpost.smallmedia .posttext h4:before { font-family: 'FontAwesome'; content: '\f046'; margin-right: 6px; }
+.blogpost.singlepost .posttext h4.normal:before, .blogpost.smallmedia .posttext h4.normal:before { content: ''; margin-right: 0; }
 .blogpost.singlepost .posttext h4.people:before, .blogpost.smallmedia .posttext h4.people:before { content: '\f183'; }
 .blogpost.singlepost .posttext h4.female:before, .blogpost.smallmedia .posttext h4.female:before { content: '\f182'; }
 .blogpost.singlepost .postbody  { margin-bottom: 4px; }
@@ -1344,7 +1345,7 @@ a.accordion-toggle.collapsed:hover { color: #666;
 .popover-title { font-weight: bold; }
 
 /* Pagination */
-	.pagination { float: right; height: 30px; margin: 0; }
+	.pagination { float: right; height: 60px; margin: 0; }
 	.pagination ul { display: inline-block; *display: inline; margin-bottom: 0; margin-left: 0; -webkit-border-radius: 0; -moz-border-radius: 0; border-radius: 0; *zoom: 1; -webkit-box-shadow: none; -moz-box-shadow: none; box-shadow: none; text-align: right; }
 	.pagination ul > li { display: inline; }
 	.pagination ul > li > a, .pagination ul > li > span {
@@ -1556,10 +1557,6 @@ a.accordion-toggle.collapsed:hover { color: #666;
   .contact-subject { width: 30%; }
 }
 
-@media only screen and (min-width: 768px) {
-  .sidebar .block:last-child { margin-bottom: 0; }
-}
-
 /* ALL MOBILE SIZES */
 @media only screen and (max-width: 767px) {
   .contact-form .form-item.form-type-textfield { width: 100%; margin-left: 0; float: left; }  
@@ -1586,6 +1583,8 @@ a.accordion-toggle.collapsed:hover { color: #666;
   .sidebar li.views-row-last {margin-right: 0; }
   .sidebar .block-projects ul li { float: left; width: 24%; }
   .sidebar .block-projects li a img { height: auto; }
+  .sidebar .block:last-child { margin-bottom: 0; }
+  .page-taxonomy .sidebar .block:first-child { margin-top: 30px; }
   .pagetitlewrap.boxed { margin-top: 0; }
   .notitleboxedtop { margin-top: 0px; }
 
@@ -1739,6 +1738,9 @@ a.accordion-toggle.collapsed:hover { color: #666;
   .sidebar .block-posts ul li { width: 50%; }
 }
 
+@media only screen and (max-width: 500px) {
+  .pagination ul > li > a, .pagination ul > li > span { padding: 0 2px; }
+}
 
 @media only screen and (max-width: 479px) {
   .headertop span.login { display: none; }
@@ -1769,7 +1771,7 @@ a.accordion-toggle.collapsed:hover { color: #666;
   .pricing.fourcols .pricecol .pricewrap,
   .pricing.twocols .pricecol .pricewrap,
   .pricing.fivecols .pricecol .pricewrap,
-  .pricing.threecols .pricecol .pricewrap { width:98% !important;}
+  .pricing.threecols .pricecol .pricewrap { width:98% !important; }
 }
 
 @media only screen and (max-width: 375px){
