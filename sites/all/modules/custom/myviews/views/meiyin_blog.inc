@@ -1024,7 +1024,7 @@ $handler->display->display_options['fields']['body_1']['element_label_colon'] = 
 /* Display: Block: Popular Posts */
 $handler = $view->new_display('block', 'Block: Popular Posts', 'block_4');
 $handler->display->display_options['defaults']['title'] = FALSE;
-$handler->display->display_options['title'] = '流行资讯';
+$handler->display->display_options['title'] = '热点资讯';
 $handler->display->display_options['defaults']['css_class'] = FALSE;
 $handler->display->display_options['css_class'] = 'block-posts';
 $handler->display->display_options['defaults']['pager'] = FALSE;
@@ -1441,7 +1441,7 @@ $translatables['meiyin_blog'] = array(
 <div class="posttext">[body]</div>
 </div>'),
   t('Block: Popular Posts'),
-  t('流行资讯'),
+  t('热点资讯'),
   t('Block: Related Posts'),
   t('相关资讯'),
   t('Divider'),
