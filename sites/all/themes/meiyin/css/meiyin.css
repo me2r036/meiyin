@@ -49,7 +49,7 @@ td img { width: 100%; } /* Specified for IE */
 .mr { margin-right: 15px; margin-bottom: 15px; }
 .ml { margin-left: 15px; margin-bottom: 15px; }
 .centered { text-align: center; }
-.highlight  { font-family: "Helvetica Neue", Helvetica, "Microsoft YaHei", Arial, sans-serif; font-weight: 400; line-height: 1.5; color: #333; text-shadow: rgba(50, 50, 50, .292969) 1px 1px 3px; }
+.highlight  { font-family: "Helvetica Neue", Helvetica, "Microsoft YaHei", Arial, sans-serif; font-weight: 400; color: #333; text-shadow: rgba(50, 50, 50, .292969) 1px 1px 3px; }
 a .highlight { margin: 0 3px; color: #ee4191; text-shadow: rgba(247, 171, 203, .292969) 1px 1px 3px; }
 a .highlight:hover { color: #111; text-shadow: rgba(50, 50, 50, .292969) 1px 1px 3px; }
 img.imgleft { display: inline; float: left; margin-right: 25px; margin-top: 0px; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; }
@@ -2004,8 +2004,8 @@ form.webform-client-form { width: 65%; background-color: #f3f3f3; border: 1px da
 .contact-form #edit-submit { margin: 20px 0 0 0; }
 
 /* Background */
-#node-95 { position: relative; overflow: hidden; }
-#node-95:before {
+#node-95, #node-97 { position: relative; overflow: hidden; }
+#node-95:before, #node-97:before {
   content : '';
   display: block;
   position: absolute;
