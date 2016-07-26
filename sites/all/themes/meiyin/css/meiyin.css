@@ -2004,8 +2004,8 @@ form.webform-client-form { width: 65%; background-color: #f3f3f3; border: 1px da
 .contact-form #edit-submit { margin: 20px 0 0 0; }
 
 /* Background */
-#node-95, #node-97 { position: relative; overflow: hidden; }
-#node-95:before, #node-97:before {
+#node-95, #node-96, #node-97 { position: relative; overflow: hidden; }
+#node-95:before, #node-96:before, #node-97:before {
   content : '';
   display: block;
   position: absolute;
