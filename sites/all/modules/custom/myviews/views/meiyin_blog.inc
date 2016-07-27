@@ -259,6 +259,24 @@ $handler->display->display_options['fields']['body']['element_default_classes'] 
 $handler->display->display_options['fields']['body']['settings'] = array(
   'trim_length' => '600',
 );
+$handler->display->display_options['defaults']['arguments'] = FALSE;
+$handler->display->display_options['defaults']['filter_groups'] = FALSE;
+$handler->display->display_options['defaults']['filters'] = FALSE;
+/* Filter criterion: Content: Published */
+$handler->display->display_options['filters']['status']['id'] = 'status';
+$handler->display->display_options['filters']['status']['table'] = 'node';
+$handler->display->display_options['filters']['status']['field'] = 'status';
+$handler->display->display_options['filters']['status']['value'] = 1;
+$handler->display->display_options['filters']['status']['group'] = 1;
+$handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+/* Filter criterion: Content: Type */
+$handler->display->display_options['filters']['type']['id'] = 'type';
+$handler->display->display_options['filters']['type']['table'] = 'node';
+$handler->display->display_options['filters']['type']['field'] = 'type';
+$handler->display->display_options['filters']['type']['value'] = array(
+  'blog_post' => 'blog_post',
+);
+$handler->display->display_options['filters']['type']['group'] = 1;
 $handler->display->display_options['path'] = 'blog-large-wide';
 
 /* Display: Page: Large Media Sidebar */
@@ -897,6 +915,17 @@ $handler->display->display_options['fields']['body']['type'] = 'text_trimmed';
 $handler->display->display_options['fields']['body']['settings'] = array(
   'trim_length' => '150',
 );
+$handler->display->display_options['defaults']['arguments'] = FALSE;
+/* Contextual filter: Content: Has taxonomy term ID */
+$handler->display->display_options['arguments']['tid']['id'] = 'tid';
+$handler->display->display_options['arguments']['tid']['table'] = 'taxonomy_index';
+$handler->display->display_options['arguments']['tid']['field'] = 'tid';
+$handler->display->display_options['arguments']['tid']['title_enable'] = TRUE;
+$handler->display->display_options['arguments']['tid']['title'] = '%1';
+$handler->display->display_options['arguments']['tid']['default_argument_type'] = 'fixed';
+$handler->display->display_options['arguments']['tid']['summary']['number_of_records'] = '0';
+$handler->display->display_options['arguments']['tid']['summary']['format'] = 'default_summary';
+$handler->display->display_options['arguments']['tid']['summary_options']['items_per_page'] = '25';
 $handler->display->display_options['path'] = 'blog';
 $handler->display->display_options['menu']['type'] = 'normal';
 $handler->display->display_options['menu']['title'] = '资讯';
@@ -1078,12 +1107,6 @@ $handler->display->display_options['row_options']['default_field_elements'] = FA
 $handler->display->display_options['defaults']['row_options'] = FALSE;
 $handler->display->display_options['defaults']['header'] = FALSE;
 $handler->display->display_options['defaults']['footer'] = FALSE;
-/* Footer: Global: Unfiltered text */
-$handler->display->display_options['footer']['area_text_custom']['id'] = 'area_text_custom';
-$handler->display->display_options['footer']['area_text_custom']['table'] = 'views';
-$handler->display->display_options['footer']['area_text_custom']['field'] = 'area_text_custom';
-$handler->display->display_options['footer']['area_text_custom']['label'] = 'Divider';
-$handler->display->display_options['footer']['area_text_custom']['content'] = '<div class="divider"></div>';
 $handler->display->display_options['defaults']['relationships'] = FALSE;
 $handler->display->display_options['defaults']['fields'] = FALSE;
 /* Field: Content: Post date (Day) */
@@ -1446,6 +1469,8 @@ $translatables['meiyin_blog'] = array(
 </section>
 <div class="postdivider"></div>
 </section>'),
+  t('All'),
+  t('%1'),
   t('Block: Latest Blog (From the blog)'),
   t('最新资讯'),
   t('Display latest blogs on the homepage.'),
@@ -1465,11 +1490,8 @@ $translatables['meiyin_blog'] = array(
   t('热点资讯'),
   t('Block: Related Posts'),
   t('相关资讯'),
-  t('Divider'),
-  t('<div class="divider"></div>'),
   t('[field_categories]'),
   t('<div class="comments">No comments</div>'),
-  t('All'),
   t('Block: Recent Posts'),
   t('Block: Recent Comments'),
   t('Recent Comments'),

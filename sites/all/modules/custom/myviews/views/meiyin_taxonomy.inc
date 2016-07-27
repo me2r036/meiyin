@@ -78,6 +78,7 @@ $handler->display->display_options['filters']['vid']['value'] = array(
 $handler = $view->new_display('block', 'Block: Categories', 'block_categories');
 $handler->display->display_options['defaults']['title'] = FALSE;
 $handler->display->display_options['title'] = 'Categories';
+$handler->display->display_options['enabled'] = FALSE;
 $handler->display->display_options['defaults']['css_class'] = FALSE;
 $handler->display->display_options['css_class'] = 'block_categories';
 $handler->display->display_options['defaults']['pager'] = FALSE;

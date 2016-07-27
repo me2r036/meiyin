@@ -59,6 +59,7 @@ $handler->display->display_options['filters']['type']['value'] = array(
 
 /* Display: Page: Services */
 $handler = $view->new_display('page', 'Page: Services', 'services');
+$handler->display->display_options['enabled'] = FALSE;
 $handler->display->display_options['defaults']['style_plugin'] = FALSE;
 $handler->display->display_options['style_plugin'] = 'default';
 $handler->display->display_options['style_options']['default_row_class'] = FALSE;
