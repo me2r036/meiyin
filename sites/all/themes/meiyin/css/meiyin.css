@@ -50,8 +50,8 @@ td img { width: 100%; } /* Specified for IE */
 .ml { margin-left: 15px; margin-bottom: 15px; }
 .centered { text-align: center; }
 .highlight  { font-family: "Helvetica Neue", Helvetica, "Microsoft YaHei", Arial, sans-serif; font-weight: 400; color: #333; text-shadow: rgba(50, 50, 50, .292969) 1px 1px 3px; }
-a .highlight { margin: 0 3px; color: #ee4191; text-shadow: rgba(247, 171, 203, .292969) 1px 1px 3px; }
-a .highlight:hover { color: #111; text-shadow: rgba(50, 50, 50, .292969) 1px 1px 3px; }
+a .highlight { margin: 0 3px; color: #ee4191; }
+a .highlight:hover { color: #111; }
 img.imgleft { display: inline; float: left; margin-right: 25px; margin-top: 0px; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; }
 img.imgright { display: inline; float: right; margin-left: 25px; margin-top: 0px; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; }
 .rounded, .rounded img, .rounded iframe { -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px;
