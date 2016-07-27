@@ -733,7 +733,7 @@ ul.inline .comment-add { padding: 0px; }
 
 /* SERVICES  */
 /* ------------------------------------ */
-.node-type-services .sidebar.sidebar-first .block { margin-bottom: 0; }
+
 
 /* MOBILE MENU */
 /* ------------------------------------ */
@@ -1580,10 +1580,11 @@ a.accordion-toggle.collapsed:hover { color: #666;
   .boxedspacer { margin: 0 !important; }
   .sidebar .view-display-id-randomprojects li a img { width: 100%; border: 0; }
   .sidebar li.views-row-odd, .sidebar li.views-row-even { margin-right: 1%; }
-  .sidebar li.views-row-last {margin-right: 0; }
+  .sidebar li.views-row-last { margin-right: 0; }
   .sidebar .block-projects ul li { float: left; width: 24%; }
   .sidebar .block-projects li a img { height: auto; }
   .sidebar .block:last-child { margin-bottom: 0; }
+  .node-type-service .sidebar-second.sidebar { padding-top: 30px; margin-top: 30px; border-top: 1px solid #ccc; }
   .page-taxonomy .sidebar .block:first-child { margin-top: 30px; }
   .pagetitlewrap.boxed { margin-top: 0; }
   .notitleboxedtop { margin-top: 0px; }
@@ -1711,7 +1712,7 @@ a.accordion-toggle.collapsed:hover { color: #666;
   .headerleftwidget ul li ul li { display:block;}
 
   .headertop .icon_wrap:last-child  { margin-right:0px;}
-  .sidebar .block-sidebar-menu ul.services li:first-child { padding-top: 7px; }
+  .sidebar .block-sidebar-menu ul.services li:first-child { padding-top: 15px; }
   .sidebar .block-posts ul li:first-child { padding-top: 7px; }
   .sidebar .block ul.services { padding-left: 20px; width: 90%; }
 }
