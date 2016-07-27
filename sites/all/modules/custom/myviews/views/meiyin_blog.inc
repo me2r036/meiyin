@@ -887,7 +887,7 @@ $handler->display->display_options['fields']['body']['alter']['text'] = '<sectio
 <div class="date">[created]</div>
 <h2>[title]</h2>
 [comment_count]
-<div class="posttext">[body]</div>
+<div class="posttext">[body]...</div>
 </section>
 <div class="postdivider"></div>
 </section>';
@@ -999,18 +999,28 @@ $handler->display->display_options['fields']['body']['id'] = 'body';
 $handler->display->display_options['fields']['body']['table'] = 'field_data_body';
 $handler->display->display_options['fields']['body']['field'] = 'body';
 $handler->display->display_options['fields']['body']['label'] = '';
-$handler->display->display_options['fields']['body']['alter']['alter_text'] = TRUE;
-$handler->display->display_options['fields']['body']['alter']['text'] = '<div class="postbody">
-<h4>[title]</h4>
-<div class="postinfo"><div class="categories">[field_categories]</div>[comment_count]</div>
-<div class="posttext">[body-summary] ...</div>
-</div>';
+$handler->display->display_options['fields']['body']['exclude'] = TRUE;
+$handler->display->display_options['fields']['body']['alter']['max_length'] = '60';
+$handler->display->display_options['fields']['body']['alter']['ellipsis'] = FALSE;
+$handler->display->display_options['fields']['body']['alter']['trim'] = TRUE;
 $handler->display->display_options['fields']['body']['element_label_colon'] = FALSE;
 $handler->display->display_options['fields']['body']['element_default_classes'] = FALSE;
 $handler->display->display_options['fields']['body']['type'] = 'text_summary_or_trimmed';
 $handler->display->display_options['fields']['body']['settings'] = array(
-  'trim_length' => '120',
+  'trim_length' => '60',
 );
+/* Field: Content: Body */
+$handler->display->display_options['fields']['body_1']['id'] = 'body_1';
+$handler->display->display_options['fields']['body_1']['table'] = 'field_data_body';
+$handler->display->display_options['fields']['body_1']['field'] = 'body';
+$handler->display->display_options['fields']['body_1']['label'] = '';
+$handler->display->display_options['fields']['body_1']['alter']['alter_text'] = TRUE;
+$handler->display->display_options['fields']['body_1']['alter']['text'] = '<div class="postbody">
+<h4>[title]</h4>
+<div class="postinfo"><div class="categories">[field_categories]</div>[comment_count]</div>
+<div class="posttext">[body] ...</div>
+</div>';
+$handler->display->display_options['fields']['body_1']['element_label_colon'] = FALSE;
 
 /* Display: Block: Popular Posts */
 $handler = $view->new_display('block', 'Block: Popular Posts', 'block_4');
@@ -1051,7 +1061,7 @@ $handler->display->display_options['defaults']['css_class'] = FALSE;
 $handler->display->display_options['css_class'] = 'relatedposts relatedwrap';
 $handler->display->display_options['defaults']['pager'] = FALSE;
 $handler->display->display_options['pager']['type'] = 'full';
-$handler->display->display_options['pager']['options']['items_per_page'] = '4';
+$handler->display->display_options['pager']['options']['items_per_page'] = '3';
 $handler->display->display_options['pager']['options']['offset'] = '0';
 $handler->display->display_options['pager']['options']['id'] = '0';
 $handler->display->display_options['pager']['options']['total_pages'] = '1';
@@ -1141,12 +1151,10 @@ $handler->display->display_options['fields']['body']['id'] = 'body';
 $handler->display->display_options['fields']['body']['table'] = 'field_data_body';
 $handler->display->display_options['fields']['body']['field'] = 'body';
 $handler->display->display_options['fields']['body']['label'] = '';
-$handler->display->display_options['fields']['body']['alter']['alter_text'] = TRUE;
-$handler->display->display_options['fields']['body']['alter']['text'] = '<div class="postbody">
-<h4>[title]</h4>
-<div class="postinfo"><div class="categories">[field_categories]</div>[comment_count]</div>
-<div class="posttext">[body-summary] ...</div>
-</div>';
+$handler->display->display_options['fields']['body']['exclude'] = TRUE;
+$handler->display->display_options['fields']['body']['alter']['max_length'] = '100';
+$handler->display->display_options['fields']['body']['alter']['ellipsis'] = FALSE;
+$handler->display->display_options['fields']['body']['alter']['trim'] = TRUE;
 $handler->display->display_options['fields']['body']['element_type'] = 'div';
 $handler->display->display_options['fields']['body']['element_class'] = 'post';
 $handler->display->display_options['fields']['body']['element_label_colon'] = FALSE;
@@ -1154,18 +1162,30 @@ $handler->display->display_options['fields']['body']['element_default_classes'] 
 $handler->display->display_options['fields']['body']['empty'] = '[field_categories]';
 $handler->display->display_options['fields']['body']['type'] = 'text_summary_or_trimmed';
 $handler->display->display_options['fields']['body']['settings'] = array(
-  'trim_length' => '120',
+  'trim_length' => '100',
 );
+/* Field: Content: Body */
+$handler->display->display_options['fields']['body_1']['id'] = 'body_1';
+$handler->display->display_options['fields']['body_1']['table'] = 'field_data_body';
+$handler->display->display_options['fields']['body_1']['field'] = 'body';
+$handler->display->display_options['fields']['body_1']['label'] = '';
+$handler->display->display_options['fields']['body_1']['alter']['alter_text'] = TRUE;
+$handler->display->display_options['fields']['body_1']['alter']['text'] = '<div class="postbody">
+<h4>[title]</h4>
+<div class="postinfo"><div class="categories">[field_categories]</div>[comment_count]</div>
+<div class="posttext">[body] ...</div>
+</div>';
+$handler->display->display_options['fields']['body_1']['element_label_colon'] = FALSE;
 $handler->display->display_options['defaults']['sorts'] = FALSE;
+/* Sort criterion: Global: Random */
+$handler->display->display_options['sorts']['random']['id'] = 'random';
+$handler->display->display_options['sorts']['random']['table'] = 'views';
+$handler->display->display_options['sorts']['random']['field'] = 'random';
 /* Sort criterion: Content: Post date */
 $handler->display->display_options['sorts']['created']['id'] = 'created';
 $handler->display->display_options['sorts']['created']['table'] = 'node';
 $handler->display->display_options['sorts']['created']['field'] = 'created';
 $handler->display->display_options['sorts']['created']['order'] = 'DESC';
-/* Sort criterion: Global: Random */
-$handler->display->display_options['sorts']['random']['id'] = 'random';
-$handler->display->display_options['sorts']['random']['table'] = 'views';
-$handler->display->display_options['sorts']['random']['field'] = 'random';
 $handler->display->display_options['defaults']['arguments'] = FALSE;
 /* Contextual filter: Content: Has taxonomy term ID */
 $handler->display->display_options['arguments']['tid']['id'] = 'tid';
@@ -1175,6 +1195,7 @@ $handler->display->display_options['arguments']['tid']['default_action'] = 'defa
 $handler->display->display_options['arguments']['tid']['default_argument_type'] = 'taxonomy_tid';
 $handler->display->display_options['arguments']['tid']['default_argument_options']['node'] = TRUE;
 $handler->display->display_options['arguments']['tid']['default_argument_options']['vocabularies'] = array(
+  'categories' => 'categories',
   'tags' => 'tags',
 );
 $handler->display->display_options['arguments']['tid']['summary']['number_of_records'] = '0';
@@ -1421,7 +1442,7 @@ $translatables['meiyin_blog'] = array(
 <div class="date">[created]</div>
 <h2>[title]</h2>
 [comment_count]
-<div class="posttext">[body]</div>
+<div class="posttext">[body]...</div>
 </section>
 <div class="postdivider"></div>
 </section>'),
@@ -1438,7 +1459,7 @@ $translatables['meiyin_blog'] = array(
   t('<div class="postbody">
 <h4>[title]</h4>
 <div class="postinfo"><div class="categories">[field_categories]</div>[comment_count]</div>
-<div class="posttext">[body-summary] ...</div>
+<div class="posttext">[body] ...</div>
 </div>'),
   t('Block: Popular Posts'),
   t('热点资讯'),

@@ -18,17 +18,17 @@
         <div class="postmedia">
           <?php print render($content['field_image']); ?>
         </div>
-      <?php break; case 'video': ?>
-        <div class="postmedia">
-          <div class="scalevid">
-            <?php print render($content['field_video']); ?>
+        <?php break; case 'video': ?>
+          <div class="postmedia">
+            <div class="scalevid">
+              <?php print render($content['field_video']); ?>
+            </div>
           </div>
-        </div>
-      <?php break; case 'slider': ?>
-        <?php if(!empty($content['field_slider_block'])): ?>
-          <div class="postmedia-slide"><?php print render($content['field_slider_block']); ?></div>
-        <?php endif;?>
-      <?php break; default: ?>
+        <?php break; case 'slider': ?>
+          <?php if(!empty($content['field_slider_block'])): ?>
+            <div class="postmedia-slide"><?php print render($content['field_slider_block']); ?></div>
+          <?php endif;?>
+        <?php break; default: ?>
       <?php break; endswitch; ?>
 
       <!-- Portfolio info starts here -->
