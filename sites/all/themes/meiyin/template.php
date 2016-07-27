@@ -146,17 +146,17 @@
 	/**
 	 * Implements theme_breadcrumb().
 	 */
-	function meiyin_breadcrumb(&$vars) {
-		$breadcrumb = &$vars['breadcrumb'];
-	
-		if (!empty($breadcrumb)) {
-			// Provide a navigational heading to give context for breadcrumb links to
-			// screen-reader users. Make the heading invisible with .element-invisible.
-			$output = '<h2 class="element-invisible">' . t('You are here') . '</h2>';
-			$output .= '<div class="breadcrumbwrap"><i class="fa fa-location-arrow"></i>' . implode('&nbsp; &nbsp; / &nbsp; &nbsp;', $breadcrumb) . '&nbsp; &nbsp; / &nbsp; &nbsp;'. drupal_get_title() .'</div>';
-			return $output;
-		}
-	}
+  function meiyin_breadcrumb(&$vars) {
+    $breadcrumb = &$vars['breadcrumb'];
+
+    if (!empty($breadcrumb)) {
+      // Provide a navigational heading to give context for breadcrumb links to
+      // screen-reader users. Make the heading invisible with .element-invisible.
+      $output = '<h2 class="element-invisible">' . t('You are here') . '</h2>';
+      $output .= '<div class="breadcrumbwrap"><i class="fa fa-location-arrow"></i>' . implode('&nbsp; &nbsp; / &nbsp; &nbsp;', $breadcrumb) . '&nbsp; &nbsp; / &nbsp; &nbsp;'. drupal_get_title() .'</div>';
+      return $output;
+    }
+  }
 	
   /**
    * Implements hook_form_alter().
