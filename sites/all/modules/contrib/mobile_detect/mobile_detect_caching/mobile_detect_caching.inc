@@ -60,7 +60,7 @@ class MobileDetectCache extends DrupalDatabaseCache implements DrupalCacheInterf
       try {
         $detect = new Mobile_Detect();
 
-        if ($detect->isMobile()) {
+        if (($detect->isMobile()) && ($detect->isTablet() == FALSE)) {
           $device = 'mobile:';
         }
         elseif ($detect->isTablet()) {
