@@ -35,15 +35,10 @@
             <?php print render($content['field_slider_block']); ?>
           </div>
         <?php endif;?>
-      <?php break; endswitch; ?>
 
-  <?php else: ?>
-    <?php
-      // We hide the comments and links now so that we can render them later.
-      hide($content['comments']);
-      hide($content['links']);
-      print render($content);
-    ?>
+      <?php break; default: ?>
+    <?php break; endswitch; ?>
+
   <?php endif; ?>
 
   <!-- Blog post info starts here -->
