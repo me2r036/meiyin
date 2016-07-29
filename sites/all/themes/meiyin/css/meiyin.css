@@ -1584,7 +1584,7 @@ a.accordion-toggle.collapsed:hover { color: #666;
   .sidebar .block-projects ul li { float: left; width: 24%; }
   .sidebar .block-projects li a img { height: auto; }
   .sidebar .block:last-child { margin-bottom: 0; }
-  .node-type-service .sidebar-second.sidebar { padding-top: 30px; margin-top: 30px; border-top: 1px solid #ccc; }
+  .page-node.node-type-blog-post .sidebar .block:first-child, .page-node.node-type-service .sidebar .block:first-child { padding-top: 30px; margin-top: 30px; border-top: 1px solid #ccc; }
   .page-taxonomy .sidebar .block:first-child { margin-top: 30px; }
   .postscript-third { margin-top: 30px; }
   .pagetitlewrap.boxed { margin-top: 0; }
