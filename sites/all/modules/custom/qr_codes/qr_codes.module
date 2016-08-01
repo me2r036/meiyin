@@ -1,0 +1,202 @@
+<?php
+
+/**
+ * @file
+ * QR Codes
+ *
+ * @author
+ */
+
+/**
+ * Implements hook_theme().
+ *
+ * @see: http://api.drupal.org/api/function/hook_theme/7
+ */
+function qr_codes_theme() {
+  return array(
+    'qr_codes' => array(
+      'variables' => array(
+        'data' => NULL,
+        'width' => NULL,
+        'height' => NULL,
+        'margin' => NULL,
+        'image_style' => NULL,
+        'attributes' => NULL
+      ),
+    )
+  );
+}
+
+/**
+ * Implements hook_permission().
+ *
+ * @see: http://api.drupal.org/api/function/hook_permission/7
+ */
+function qr_codes_permission() {
+  return array(
+    'administer qr_codes' => array(
+      'title' => t('administer qr_codes'),
+      'description' => t('Administer permissions for QR Codes module'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_menu().
+ *
+ * @see: http://api.drupal.org/api/function/hook_menu/6
+ */
+function qr_codes_menu() {
+  $items = array();
+  $items['admin/config/media/qr_codes'] = array(
+    'type' => MENU_NORMAL_ITEM,
+    'title' => 'QR Codes',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('qr_codes_settings'),
+    'access arguments' => array('administer qr_codes'),
+    'file' => 'qr_codes.admin.inc',
+  );
+  $items['admin/config/media/qr_codes/default'] = array(
+    'type' => MENU_DEFAULT_LOCAL_TASK,
+    'title' => 'Global Settings',
+    'access arguments' => array('administer qr_codes'),
+  );
+
+  // Build engine tabs.
+  foreach (module_invoke_all('qr_codes_list') as $key => $name) {
+    list($module, $id) = explode(':', $key, 2);
+    if (count(module_invoke($module, 'qr_codes_config', $id))) {
+      $items['admin/config/media/qr_codes/' . $id] = array(
+        'type' => MENU_LOCAL_TASK,
+        'title' => $name,
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('qr_codes_engine_settings', $module, $id),
+        'access arguments' => array('administer qr_codes'),
+        'file' => 'qr_codes.admin.inc',
+        'weight' => 1,
+      );
+    }
+  }
+
+  return $items;
+}
+
+/**
+ * Implements hook_cron().
+ *
+ * @see: http://api.drupal.org/api/function/hook_cron/6
+ */
+function qr_codes_cron() {
+  if ($life = variable_get('qr_codes_cache_lifetime', 0)) {
+    $now = REQUEST_TIME;
+    $life = $life * 24 * 60 * 60;
+    $cache_dir = variable_get('qr_codes_cache_dir', 'qr_codes');
+    foreach (file_scan_directory(file_default_scheme() . '://' . $cache_dir, '\.png$') as $file) {
+      if ($now - filemtime($file->filename) > $life) {
+        file_unmanaged_delete($file->filename);
+      }
+    }
+  }
+}
+
+/**
+ * Returns the file path of a qr code image
+ *
+ * @param string $data
+ * @param string $width
+ * @param string $height
+ * @param string $margin
+ * @param string $attributes
+ *
+ * @return file path
+ */
+function qr_codes_generate($data, $width, $height, $margin = 0) {
+  // Create a unique file name using all image attributes.
+  $imagename = md5($data . $width . $height . $margin) . '.png';
+  $dir = file_build_uri(variable_get('qr_codes_cache_dir', 'qr_codes'));
+  $file = $dir . '/' . $imagename;
+
+  // Cache locally.
+  if (!file_exists($file)) {
+    if (!file_prepare_directory($dir, FILE_CREATE_DIRECTORY)) {
+      drupal_set_message(t('Failed to create the qr_codes directory.'));
+      return '';
+    }
+
+    // Find out which module is handling the image generation.
+    list($module) = explode(':', variable_get('qr_codes_engine', 'qr_codes_google_chart:google_chart'), 2);
+
+    // Invoke the right module for file generation.
+    module_invoke($module, 'qr_codes_generate', $file, $data, $width, $height, $margin);
+  }
+
+  return $file;
+}
+
+/**
+ * Return a themed image tag of a qr code
+ *
+ * @param string $data
+ * @param string $width
+ * @param string $height
+ * @param string $margin
+ * @param string $attributes
+ * @return image tag
+ */
+function theme_qr_codes($variables) {
+  return theme('image', $variables);
+}
+
+/**
+ * Preprocess template variables
+ */
+function template_preprocess_qr_codes(&$variables) {
+  extract($variables);
+  $variables['alt']   = t('QR Code');
+  $variables['title'] = t('QR Code');
+  $path  = qr_codes_generate($data, $width, $height, $margin, $attributes);
+  if (!empty($image_style) && module_exists('image')) {
+    $path = image_style_url($image_style, $path);
+    unset($variables['height']);
+    unset($variables['width']);
+  }
+  $variables['path'] = $path;
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function qr_codes_block_info() {
+  $blocks['qr-codes-block']['info'] = t('QR Codes block');
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_configure().
+ */
+function qr_codes_block_configure($delta) {
+  if ($delta == 'qr-codes-block') {
+    module_load_include('inc', 'qr_codes', 'qr_codes.block');
+    return _qr_codes_block_configure_form($delta);
+  }
+}
+
+/**
+ * Implements hook_block_save().
+ */
+function qr_codes_block_save($delta, $edit) {
+  if ($delta == 'qr-codes-block') {
+    module_load_include('inc', 'qr_codes', 'qr_codes.block');
+    _qr_codes_block_configure_save($delta, $edit);
+  }
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function qr_codes_block_view($delta) {
+  if ($delta == 'qr-codes-block') {
+    module_load_include('inc', 'qr_codes', 'qr_codes.block');
+    return _qr_codes_block_view($delta);
+  }
+}

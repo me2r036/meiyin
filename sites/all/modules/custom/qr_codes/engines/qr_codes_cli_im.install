@@ -1,0 +1,11 @@
+<?php
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function qr_codes_cli_im_uninstall() {
+  db_delete('variable')
+    ->condition('name', 'qr_codes_cli_im', 'LIKE')
+    ->execute();
+  cache_clear_all('variables', 'cache');
+}

@@ -1,0 +1,671 @@
+From 803071b55a08bfe094c5fe355610f92453830ccd Mon Sep 17 00:00:00 2001
+From: Stefan Auditor <stefan.auditor@erdfisch.de>
+Date: Sun, 6 Mar 2011 14:31:25 +0100
+Subject: [PATCH] Issue #1054132 by sanduhrs: Fixing issues with D7 port
+
+---
+ engines/qr_codes_google_chart.info    |    5 +-
+ engines/qr_codes_google_chart.install |   13 ++++-
+ engines/qr_codes_google_chart.module  |   34 +++++++++--
+ engines/qr_codes_qrencode.info        |    5 +-
+ engines/qr_codes_qrencode.install     |   15 ++++-
+ engines/qr_codes_qrencode.module      |  102 +++++++++++++++++++-------------
+ qr_codes.admin.inc                    |   14 +++--
+ qr_codes.block.inc                    |   72 ++++++++++-------------
+ qr_codes.info                         |    6 ++-
+ qr_codes.install                      |   24 +++++---
+ qr_codes.module                       |   60 +++++++++++---------
+ 11 files changed, 212 insertions(+), 138 deletions(-)
+
+diff --git a/engines/qr_codes_google_chart.info b/engines/qr_codes_google_chart.info
+index 1286c2d..132cd3d 100644
+--- a/engines/qr_codes_google_chart.info
++++ b/engines/qr_codes_google_chart.info
+@@ -2,4 +2,7 @@ name = "QR Codes - Google Chart API"
+ description = "Implements Google Chart API as engine for builing QR Codes"
+ core = 7.x
+ package = "QR Codes"
+-dependencies[] = qr_codes
+\ No newline at end of file
++dependencies[] = qr_codes
++
++files[] = qr_codes_google_chart.install
++files[] = qr_codes_google_chart.module
+diff --git a/engines/qr_codes_google_chart.install b/engines/qr_codes_google_chart.install
+index 035c4ad..ade808e 100644
+--- a/engines/qr_codes_google_chart.install
++++ b/engines/qr_codes_google_chart.install
+@@ -1,9 +1,18 @@
+ <?php
+ 
+ /**
+- * Implementation of hook_uninstall().
++ * @file
++ * Install, update and uninstall functions for the qr_codes_google_chart module.
++ *
++ * @author
++ */
++
++/**
++ * Implements hook_uninstall().
+  */
+ function qr_codes_google_chart_uninstall() {
+-  db_query("DELETE FROM {variable} WHERE name LIKE '%s_%%'", 'qr_codes_google_chart');
++  db_delete('variable')
++  ->condition('name', 'qr_codes_google_chart', 'LIKE')
++  ->execute();
+   cache_clear_all('variables', 'cache');
+ }
+diff --git a/engines/qr_codes_google_chart.module b/engines/qr_codes_google_chart.module
+index 2f51471..51ce33d 100644
+--- a/engines/qr_codes_google_chart.module
++++ b/engines/qr_codes_google_chart.module
+@@ -1,16 +1,30 @@
+ <?php
+ 
+ /**
+- * Implements hook_qr_codes_list()
++ * @file
++ * QR Codes
++ *
++ * @author
++ *
++ */
++
++/**
++ * Implements hook_qr_codes_list().
+  */
+ function qr_codes_google_chart_qr_codes_list() {
+   return array('qr_codes_google_chart:google_chart' => t('Google Chart API'));
+ }
+ 
++/**
++ * Implements hook_qr_codes_description().
++ */
+ function qr_codes_google_chart_qr_codes_description() {
+   return t('Google Chart API. See <a href="http://code.google.com/apis/chart/docs/gallery/qr_codes.html">http://code.google.com/apis/chart/docs/gallery/qr_codes.html</a>');
+ }
+ 
++/**
++ * Implements hook_qr_codes_config().
++ */
+ function qr_codes_google_chart_qr_codes_config() {
+   $form = array();
+   $form['qr_codes_google_chart_url'] = array(
+@@ -23,10 +37,20 @@ function qr_codes_google_chart_qr_codes_config() {
+ }
+ 
+ /**
+- * Implementation of hook_qr_codes_generate().
++ * Implements hook_qr_codes_generate().
+  */
+ function qr_codes_google_chart_qr_codes_generate($file, $data, $width, $height, $margin) {
+-  $url = variable_get('qr_codes_google_chart_url', 'http://chart.apis.google.com/chart') . sprintf('?cht=qr&chl=%s&chs=%dx%d&chld=%d', $data, $width, $height, $margin);
+-  $image = drupal_http_request($url);
+-  file_save_data($image->data, $file, FILE_EXISTS_REPLACE);
++  $path = variable_get('qr_codes_google_chart_url', 'http://chart.apis.google.com/chart');
++  $options = array(
++    'cht' => 'qr',
++    'chl' => $data,
++    'chs' => $height . 'x' . $width,
++    'chld' => $margin,
++  );
++  $url = url($path, array('query' => $options, 'external' => TRUE, 'absolute' => TRUE));
++  $request = drupal_http_request($url);
++  // Only store the response in case of success
++  if ($request->code == '200') {
++    file_unmanaged_save_data($request->data, $file, FILE_EXISTS_REPLACE);
++  }
+ }
+diff --git a/engines/qr_codes_qrencode.info b/engines/qr_codes_qrencode.info
+index 7f61a40..b2582a2 100644
+--- a/engines/qr_codes_qrencode.info
++++ b/engines/qr_codes_qrencode.info
+@@ -2,4 +2,7 @@ name = "QR Codes - Libqrencode"
+ description = "Use Libqrencode command line for builing QR Codes"
+ core = 7.x
+ package = "QR Codes"
+-dependencies[] = qr_codes
+\ No newline at end of file
++dependencies[] = qr_codes
++
++files[] = qr_codes_qrencode.install
++files[] = qr_codes_qrencode.module
+diff --git a/engines/qr_codes_qrencode.install b/engines/qr_codes_qrencode.install
+index ed39a35..df5e3e0 100644
+--- a/engines/qr_codes_qrencode.install
++++ b/engines/qr_codes_qrencode.install
+@@ -1,10 +1,19 @@
+ <?php
+ 
+ /**
++ * @file
++ * Install, update and uninstall functions for the qr_codes_google_chart module.
++ *
++ * @author
++ */
++
++/**
+  * Implementation of hook_uninstall().
+  */
+ function qr_codes_qrencode_uninstall() {
+-  db_query("DELETE FROM {variable} WHERE name LIKE '%s_%%'", 'qr_codes_qrencode');
++  db_delete('variable')
++  ->condition('name', 'qr_codes_qrencode', 'LIKE')
++  ->execute();
+   cache_clear_all('variables', 'cache');
+ }
+ 
+@@ -18,8 +27,8 @@ function qr_codes_qrencode_requirements($phase) {
+     $version = qr_codes_qrencode_version();
+     $status['qr_codes_qrencode_libqrencode'] = array(
+       'title' => t('Qrencode'),
+-      'value' => $version ? t('qrencode @version', array('@version' => (string)$version)) : t('Not available'),
+-      'description' => $version ? '' : t('<a href="@qrencode">Qrencode</a> is not available on the server, or the <a href="@settings">configuration settings</a> are incorrect.', array('@qrencode' => 'http://megaui.net/fukuchi/works/qrencode/index.en.html', '@settings' => url('admin/settings/qr_codes/qrencode'))),
++      'value' => $version ? t('qrencode @version', array('@version' => (string) $version)) : t('Not available'),
++      'description' => $version ? '' : t('<a href="@qrencode">Qrencode</a> is not available on the server, or the <a href="@settings">configuration settings</a> are incorrect.', array('@qrencode' => 'http://megaui.net/fukuchi/works/qrencode/index.en.html', '@settings' => url('admin/config/qr_codes/qrencode'))),
+       'severity' => $version ? REQUIREMENT_OK : REQUIREMENT_ERROR,
+     );
+   }
+diff --git a/engines/qr_codes_qrencode.module b/engines/qr_codes_qrencode.module
+index 2fe5bbe..0e2411a 100644
+--- a/engines/qr_codes_qrencode.module
++++ b/engines/qr_codes_qrencode.module
+@@ -1,53 +1,71 @@
+ <?php
+ 
++/**
++ * @file
++ * QR Codes
++ *
++ * @author
++ *
++ */
++
+ define('QR_CODES_QRENCODE_PATH', variable_get('qr_codes_qrencode_path', qr_codes_qrencode_path('qrencode')));
+ 
+ /**
+- * Implementation of hook_qr_codes().
++ * Implements hook_qr_codes_list().
+  */
+-function qr_codes_qrencode_qr_codes($op, $a2 = NULL, $data = NULL, $width = NULL, $height = NULL, $margin = NULL) {
+-  switch ($op) {
+-    case 'list':
+-      return array('qr_codes_qrencode:qrencode' => t('Libqrencode'));
++function qr_codes_qrencode_qr_codes_list() {
++  return array('qr_codes_qrencode:qrencode' => t('Libqrencode'));
++}
+ 
+-    case 'description':
+-      return t('Qrencode. Libqrencode is a C library for encoding data in a QR Code. See <a href="http://megaui.net/fukuchi/works/qrencode/index.en.html">http://megaui.net/fukuchi/works/qrencode/index.en.html</a>');
++/**
++ * Implements hook_qr_codes_description().
++ */
++function qr_codes_qrencode_qr_codes_description() {
++  return t('Qrencode. Libqrencode is a C library for encoding data in a QR Code. See <a href="http://megaui.net/fukuchi/works/qrencode/index.en.html">http://megaui.net/fukuchi/works/qrencode/index.en.html</a>');
++}
+ 
+-    case 'config':
+-      if ($version = qr_codes_qrencode_version()) {
+-        drupal_set_message(t('Qrencode @version is installed on your system.', array('@version' => $version)));
+-      }
+-      else {
+-        drupal_set_message(t('<a href="@qrencode">Qrencode</a> is not available on the server, or the <a href="@settings">configuration settings</a> are incorrect.', array('@qrencode' => 'http://megaui.net/fukuchi/works/qrencode/index.en.html', '@settings' => url('admin/settings/qr_codes/qrencode'))), 'error');
+-      }
+-      $form['qr_codes_qrencode_path'] = array(
+-        '#type' => 'textfield',
+-        '#title' => t('Path to encoder'),
+-        '#default_value' => QR_CODES_QRENCODE_PATH,
+-        '#size' => 60,
+-        '#maxlength' => 255,
+-        '#required' => TRUE,
+-        '#description' => t('A file system path to the <code>qrencode</code> binary. On Unix systems, this would typically be located at <code>/usr/bin/qrencode</code> or <code>/usr/local/bin/qrencode</code>. On Mac OS X with MacPorts, the path would typically be <code>/opt/local/bin/qrencode</code>.'),
+-      );
+-      return $form;
++/**
++ * Implements hook_qr_codes_config().
++ */
++function qr_codes_qrencode_qr_codes_config() {
++  $form = array();
++  if ($version = qr_codes_qrencode_version()) {
++    drupal_set_message(t('Qrencode @version is installed on your system.', array('@version' => $version)));
++  }
++  else {
++    drupal_set_message(t('<a href="@qrencode">Qrencode</a> is not available on the server, or the <a href="@settings">configuration settings</a> are incorrect.', array('@qrencode' => 'http://megaui.net/fukuchi/works/qrencode/index.en.html', '@settings' => url('admin/settings/qr_codes/qrencode'))), 'error');
++  }
++  $form['qr_codes_qrencode_path'] = array(
++    '#type' => 'textfield',
++    '#title' => t('Path to encoder'),
++    '#default_value' => QR_CODES_QRENCODE_PATH,
++    '#size' => 60,
++    '#maxlength' => 255,
++    '#required' => TRUE,
++    '#description' => t('A file system path to the <code>qrencode</code> binary. On Unix systems, this would typically be located at <code>/usr/bin/qrencode</code> or <code>/usr/local/bin/qrencode</code>. On Mac OS X with MacPorts, the path would typically be <code>/opt/local/bin/qrencode</code>.'),
++  );
++  return $form;
++}
+ 
+-    case 'generate':
+-      $options = array(
+-        'output' => $a2,
+-      );
+-      if (!is_null($margin)) {
+-        $options['margin'] = $margin;
+-      }
++/**
++ * Implements hook_qr_codes_generate().
++ */
++function qr_codes_qrencode_qr_codes_generate($file, $data, $width, $height, $margin) {
++  $options = array(
++    'output' => drupal_realpath($file),
++  );
++  if (!is_null($margin)) {
++    $options['margin'] = $margin;
++  }
+ 
+-      $command = QR_CODES_QRENCODE_PATH;
+-      foreach ($options as $k => $v) {
+-        $command .= ' --'. $k . ($v === TRUE ? '' : '='. escapeshellarg((string)$v));
+-      }
++  $command = QR_CODES_QRENCODE_PATH;
++  foreach ($options as $k => $v) {
++    $command .= ' --' . $k . ($v === TRUE ? '' : '=' . escapeshellarg((string) $v));
++  }
+ 
+-      if ($handle = popen($command, 'w')) {
+-        fwrite($handle, $data);
+-        return pclose($handle) === 0 ? $options['output'] : FALSE;
+-      }
++  if ($handle = popen($command, 'w')) {
++    fwrite($handle, $data);
++    return pclose($handle) === 0 ? $options['output'] : FALSE;
+   }
+ }
+ 
+@@ -59,7 +77,7 @@ function qr_codes_qrencode_path($binary) {
+     return $binary; // let's not even go there
+   }
+   else {
+-    $path = exec('type -P '. escapeshellarg($binary), $output, $result);
++    $path = exec('type -P ' . escapeshellarg($binary), $output, $result);
+     return $result === 0 ? $path : $binary;
+   }
+ }
+@@ -68,7 +86,7 @@ function qr_codes_qrencode_path($binary) {
+  * Get Libqrencode version.
+  */
+ function qr_codes_qrencode_version() {
+-  exec(QR_CODES_QRENCODE_PATH .' --version 2>&1', $output, $result);
++  exec(QR_CODES_QRENCODE_PATH . ' --version 2>&1', $output, $result);
+   if ($result === 0) {
+     foreach ($output as $row) {
+       if (preg_match('!^qrencode version (.*)$!', $row, $matches)) {
+@@ -77,4 +95,4 @@ function qr_codes_qrencode_version() {
+     }
+   }
+   return FALSE;
+-}
+\ No newline at end of file
++}
+diff --git a/qr_codes.admin.inc b/qr_codes.admin.inc
+index ff4062d..fd4c8ed 100644
+--- a/qr_codes.admin.inc
++++ b/qr_codes.admin.inc
+@@ -2,7 +2,9 @@
+ 
+ /**
+  * @file
+- * Admin settings pages for QR codes module
++ * QR Codes - Admin settings pages for QR codes module
++ *
++ * @author
+  */
+ 
+ /**
+@@ -10,7 +12,7 @@
+  */
+ function qr_codes_settings($form, &$form_state) {
+   $form = array();
+-  $options = module_invoke_all('qr_codes', 'list');
++  $options = module_invoke_all('qr_codes_list');
+ 
+   if (count($options)) {
+     $engine = variable_get('qr_codes_engine', 'qr_codes_google_chart:google_chart');
+@@ -20,7 +22,7 @@ function qr_codes_settings($form, &$form_state) {
+     $form['qr_codes_engine'] = array(
+       '#type' => 'select',
+       '#title' => t('Select the QR encoding engine'),
+-      '#description' => '<p>' . t('Select which engine/API is used to generate QR Code images. The following options are available as enabled modules:') . '</p>' . theme('item_list', array('items' => module_invoke_all('qr_codes', 'description'))) . '<p>' . t('If your option is not in the list, you should enable the appropriate sub-module. Additionaly you can plug other engines/APIs by implementing <code>hook_qr_codes()</code> in your module.') . '</p>',
++      '#description' => '<p>' . t('Select which engine/API is used to generate QR Code images. The following options are available as enabled modules:') . '</p>' . theme('item_list', array('items' => module_invoke_all('qr_codes_description'))) . '<p>' . t('If your option is not in the list, you should enable the appropriate sub-module. Additionaly you can plug other engines/APIs by implementing <code>hook_qr_codes()</code> in your module.') . '</p>',
+       '#options' => $options,
+       '#default_value' => $engine,
+     );
+@@ -36,7 +38,7 @@ function qr_codes_settings($form, &$form_state) {
+     );
+ 
+     $dir = file_default_scheme() . '://' . variable_get('qr_codes_cache_dir', 'qr_codes');
+-    $count = count(file_scan_directory("%" . $dir . "%", '/\.png$/'));
++    $count = count(file_scan_directory($dir, '/\.png$/'));
+     $form['qr_codes_clear_cache'] = array(
+       '#type' => 'fieldset',
+       '#title' => $count ? t('Cache: @count files cached', array('@count' => $count)) : t('Cache: There are no files in cache'),
+@@ -85,7 +87,7 @@ function qr_codes_settings($form, &$form_state) {
+  *  FAPI Array.
+  */
+ function qr_codes_engine_settings($form, $form_state, $module, $engine_id) {
+-  return system_settings_form(module_invoke($module, 'qr_codes', 'config', $engine_id));
++  return system_settings_form(module_invoke($module, 'qr_codes_config', $engine_id));
+ }
+ 
+ /**
+@@ -93,7 +95,7 @@ function qr_codes_engine_settings($form, $form_state, $module, $engine_id) {
+  */
+ function qr_codes_clear_cache() {
+   $dir = file_default_scheme() . '://' . variable_get('qr_codes_cache_dir', 'qr_codes');
+-  $options = array('callback' => 'file_delete');
++  $options = array('callback' => 'file_unmanaged_delete');
+   $count = count(file_scan_directory($dir, '/\.png$/', $options));
+   if ($count) {
+     drupal_set_message(t('QR Codes local cache cleared. @count files have been deleted.', array('@count' => $count)));
+diff --git a/qr_codes.block.inc b/qr_codes.block.inc
+index 665e9f6..7fd8778 100644
+--- a/qr_codes.block.inc
++++ b/qr_codes.block.inc
+@@ -1,6 +1,14 @@
+ <?php
++
+ /**
+- * callback for block configure form
++ * @file
++ * QR Codes
++ *
++ * @author
++ */
++
++/**
++ * Callback for block configure form
+  */
+ function _qr_codes_block_configure_form($delta = 0) {
+   $form = array();
+@@ -13,75 +21,59 @@ function _qr_codes_block_configure_form($delta = 0) {
+   $form['qr_codes']['qr_codes_block_data'] = array(
+     '#type' => 'textarea',
+     '#title' => t('Enter the text to embed in your barcode'),
+-    '#description' => t('Available token replacement patterns are listed below and will be applied on node or user pages.'),
+     '#default_value' => variable_get('qr_codes_block_data', '')
+   );
+-  
+   if (module_exists('token')) {
+-    $form['qr_codes']['tokens'] = array(
+-      '#type' => 'fieldset',
+-      '#title' => t('Available Tokens'),
+-      '#collapsible' => TRUE,
+-      '#collapsed' => TRUE,
+-    );
+-    
+-    $form['qr_codes']['tokens']['help'] = array(
+-      '#type' => 'markup',
+-      '#markup' => theme('token_tree', array('token_types' => 'all', 'click_insert' => FALSE, 'show_restricted' => TRUE)),
++    $form['qr_codes']['qr_codes_block_data']['#description'] = t('Available token replacement patterns are listed below and will be applied on node or user pages.');
++
++    $form['qr_codes']['qr_codes_block_data']['#element_validate'][] = 'token_element_validate';
++    $form['qr_codes']['qr_codes_block_data']['#token_types'] = array('node', 'user');
++    $form['qr_codes']['token_tree'] = array(
++      '#theme' => 'token_tree',
++      '#token_types' => array('node', 'user'),
++
+     );
+   }
+-  
+-  if(function_exists('image_styles')){
+-    $options = array('');
+-    $styles = image_styles();
+-    foreach((array)$styles as $style){
+-      $options[$style['name']] = $style['name'];
+-    }
+-    
++  if(module_exists('image')){
+     $form['qr_codes']['qr_codes_block_image_style'] = array(
+       '#type' => 'select',
+       '#title' => t('Select an Image style'),
+       '#multiple' => FALSE,
+       '#description' => t('If selected, this image style will be applied to the barcode image.'),
+-      '#options' => $options,
+-      '#default_value' => variable_get('qr_codes_block_image_style', -1),
++      '#options' => image_style_options(),
++      '#default_value' => variable_get('qr_codes_block_image_style', NULL),
+     );
+   }
+   return $form;
+ }
+ 
+ /**
+- * callback to handle save of block configure options
++ * Callback to handle save of block configure options
+  */
+ function _qr_codes_block_configure_save($delta, $edit) {
+   variable_set('qr_codes_block_data', $edit['qr_codes_block_data']);
+-  if (!empty($edit['qr_codes_block_image_style'])) {
+-    variable_set('qr_codes_block_image_style', $edit['qr_codes_block_image_style']);
+-  }
++  variable_set('qr_codes_block_image_style', $edit['qr_codes_block_image_style']);
+ }
+ 
+ /**
+- * callback to handle view of qr_codes block
++ * Callback to handle view of qr_codes block
+  */
+ function _qr_codes_block_view($delta) {
+-  $block['subject'] = t('QR Codes');
+-
+   $text = variable_get('qr_codes_block_data', '');
+-  
+-  // use token replacement if available for nodes and users
+-  global $user;
+-  $data = array();
++  $style = variable_get('qr_codes_block_image_style', '');
+ 
++  // Use token replacement if available for nodes and users
++  $data = array();
+   if (arg(0) == 'node' && is_numeric(arg(1))) {
+     $data['node'] = node_load(arg(1));
+   }
+-  if ($user->uid) {
+-    $data['user'] = $user;
++  elseif (arg(0) == 'user' && is_numeric(arg(1))) {
++    $data['user'] = user_load(arg(1));
+   }
+-  $data['path'] = 
+   $text = token_replace($text, $data);
+ 
+-  $style = variable_get('qr_codes_block_image_style', '');
+-  $block['content'] = theme('qr_codes', array('data' => $text, 'width' => 150, 'height' => 150, 'margin' => 0, 'image_style' => $style));
++  $block['subject'] = t('QR Codes');
++  $block['content'] = theme('qr_codes', array('data' => $text, 'width' => 168, 'height' => 168, 'margin' => 0, 'image_style' => $style));
+   return $block;
+-}
+\ No newline at end of file
++}
++
+diff --git a/qr_codes.info b/qr_codes.info
+index 8613c15..23dece7 100644
+--- a/qr_codes.info
++++ b/qr_codes.info
+@@ -1,4 +1,8 @@
+ name = "QR Codes"
+ description = "This modules allows for the creation of two dimensional (2D) QR barcodes."
+ core = "7.x"
+-package = "QR Codes"
+\ No newline at end of file
++package = "QR Codes"
++
++files[] = qr_codes.admin.inc
++files[] = qr_codes.install
++files[] = qr_codes.module
+diff --git a/qr_codes.install b/qr_codes.install
+index 47e475c..391baf2 100644
+--- a/qr_codes.install
++++ b/qr_codes.install
+@@ -1,19 +1,10 @@
+ <?php
+ 
+-
+-function qr_codes_install() {
+-  // migrate from imagecache if it exists
+-  $old = variable_get('qr_codes_block_imagecache_preset', NULL);
+-  if ($old) {
+-    variable_set('qr_codes_block_image_style', $old);
+-    variable_del('qr_codes_block_imagecache_preset');
+-    cache_clear_all('variables', 'cache');
+-  }
+-}
+ /**
+  * @file
+  * Install, update and uninstall functions for the qr_codes module.
+  *
++ * @author
+  */
+ 
+ /**
+@@ -25,3 +16,16 @@ function qr_codes_uninstall() {
+   ->execute();
+   cache_clear_all('variables', 'cache');
+ }
++
++/**
++ * Implements hook_update_7100().
++ */
++function qr_codes_update_7100(&$sandbox) {
++  // migrate from imagecache if it exists
++  $old = variable_get('qr_codes_block_imagecache_preset', NULL);
++  if ($old) {
++    variable_set('qr_codes_block_image_style', $old);
++    variable_del('qr_codes_block_imagecache_preset');
++    cache_clear_all('variables', 'cache');
++  }
++}
+diff --git a/qr_codes.module b/qr_codes.module
+index b1c7244..d79b21a 100644
+--- a/qr_codes.module
++++ b/qr_codes.module
+@@ -1,6 +1,13 @@
+ <?php
+ 
+ /**
++ * @file
++ * QR Codes
++ *
++ * @author
++ */
++
++/**
+  * Implements hook_theme().
+  *
+  * @see: http://api.drupal.org/api/function/hook_theme/7
+@@ -35,13 +42,13 @@ function qr_codes_permission() {
+ }
+ 
+ /**
+- * Implementation of hook_menu().
++ * Implements hook_menu().
+  *
+  * @see: http://api.drupal.org/api/function/hook_menu/6
+  */
+ function qr_codes_menu() {
+   $items = array();
+-  $items['admin/settings/qr_codes'] = array(
++  $items['admin/config/qr_codes'] = array(
+     'type' => MENU_NORMAL_ITEM,
+     'title' => 'QR Codes',
+     'page callback' => 'drupal_get_form',
+@@ -49,7 +56,7 @@ function qr_codes_menu() {
+     'access arguments' => array('administer qr_codes'),
+     'file' => 'qr_codes.admin.inc',
+   );
+-  $items['admin/settings/qr_codes/default'] = array(
++  $items['admin/config/qr_codes/default'] = array(
+     'type' => MENU_DEFAULT_LOCAL_TASK,
+     'title' => 'Global Settings',
+     'access arguments' => array('administer qr_codes'),
+@@ -80,13 +87,13 @@ function qr_codes_menu() {
+  * @see: http://api.drupal.org/api/function/hook_cron/6
+  */
+ function qr_codes_cron() {
+-  if (variable_get('qr_codes_cache_lifetime', 0)) {
+-    $now = time();
+-    $life = variable_get('qr_codes_cache_lifetime', 0) * 24 * 60 * 60;
++  if ($life = variable_get('qr_codes_cache_lifetime', 0)) {
++    $now = REQUEST_TIME;
++    $life = $life * 24 * 60 * 60;
+     $cache_dir = variable_get('qr_codes_cache_dir', 'qr_codes');
+     foreach (file_scan_directory(file_default_scheme() . '://' . $cache_dir, '\.png$') as $file) {
+       if ($now - filemtime($file->filename) > $life) {
+-        file_delete($file->filename);
++        file_unmanaged_delete($file->filename);
+       }
+     }
+   }
+@@ -106,8 +113,8 @@ function qr_codes_cron() {
+ function qr_codes_generate($data, $width, $height, $margin = 0) {
+   // Create a unique file name using all image attributes.
+   $imagename = md5($data . $width . $height . $margin) . '.png';
+-  $dir = 'public://' . variable_get('qr_codes_cache_dir', 'qr_codes') . '/';
+-  $file = $dir . $imagename;
++  $dir = file_build_uri(variable_get('qr_codes_cache_dir', 'qr_codes'));
++  $file = $dir . '/' . $imagename;
+ 
+   // Cache locally.
+   if (!file_exists($file)) {
+@@ -117,7 +124,7 @@ function qr_codes_generate($data, $width, $height, $margin = 0) {
+     }
+ 
+     // Find out which module is handling the image generation.
+-    list($module,) = explode(':', variable_get('qr_codes_engine', 'qr_codes_google_chart:google_chart'), 2);
++    list($module) = explode(':', variable_get('qr_codes_engine', 'qr_codes_google_chart:google_chart'), 2);
+ 
+     // Invoke the right module for file generation.
+     module_invoke($module, 'qr_codes_generate', $file, $data, $width, $height, $margin);
+@@ -137,24 +144,23 @@ function qr_codes_generate($data, $width, $height, $margin = 0) {
+  * @return image tag
+  */
+ function theme_qr_codes($variables) {
+-  $data = $variables['data'];
+-  $width = $variables['width'];
+-  $height = $variables['height'];
+-  $margin = $variables['margin'];
+-  $alt = isset($variables['alt']) ? $variables['alt'] : '';
+-  $title = isset($variables['title']) ? $variables['title'] : '';
+-  $image_style = isset($variables['image_style']) ? $variables['image_style'] : '';
+-  $attributes = $variables['attributes'];
+-
+-  $file = qr_codes_generate($data, $width, $height, $margin, $attributes);
+-  if (!empty($file)) {
+-    if (function_exists('theme_image_style') && !empty($image_style)) {
+-      return theme('image_style', array('style_name' => $image_style, 'path' => $file, 'alt' => $alt, 'title' => $title, 'attributes' => $attributes));
+-    }
+-    else {
+-      return theme('image', array('path' => $file, 'alt' => $alt, 'title' => $title, 'attributes' => $attributes));
+-    }
++  return theme('image', $variables);
++}
++
++/**
++ * Preprocess template variables
++ */
++function template_preprocess_qr_codes(&$variables) {
++  extract($variables);
++  $variables['alt']   = t('QR Code');
++  $variables['title'] = t('QR Code');
++  $path  = qr_codes_generate($data, $width, $height, $margin, $attributes);
++  if (!empty($image_style) && module_exists('image')) {
++    $path = image_style_url($image_style, $path);
++    unset($variables['height']);
++    unset($variables['width']);
+   }
++  $variables['path'] = $path;
+ }
+ 
+ /**
+-- 
+1.7.0.4
+

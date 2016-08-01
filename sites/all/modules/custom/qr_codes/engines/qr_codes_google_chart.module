@@ -1,0 +1,56 @@
+<?php
+
+/**
+ * @file
+ * QR Codes
+ *
+ * @author
+ *
+ */
+
+/**
+ * Implements hook_qr_codes_list().
+ */
+function qr_codes_google_chart_qr_codes_list() {
+  return array('qr_codes_google_chart:google_chart' => t('Google Chart API'));
+}
+
+/**
+ * Implements hook_qr_codes_description().
+ */
+function qr_codes_google_chart_qr_codes_description() {
+  return t('Google Chart API. See <a href="http://code.google.com/apis/chart/docs/gallery/qr_codes.html">http://code.google.com/apis/chart/docs/gallery/qr_codes.html</a>');
+}
+
+/**
+ * Implements hook_qr_codes_config().
+ */
+function qr_codes_google_chart_qr_codes_config() {
+  $form = array();
+  $form['qr_codes_google_chart_url'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Google Chart API URI'),
+    '#description' => t('Enter the URI for the Google Chart API service.'),
+    '#default_value' => variable_get('qr_codes_google_chart_url', 'http://chart.apis.google.com/chart'),
+  );
+  return $form;
+}
+
+/**
+ * Implements hook_qr_codes_generate().
+ */
+function qr_codes_google_chart_qr_codes_generate($file, $data, $width, $height, $margin) {
+  $path = variable_get('qr_codes_google_chart_url', 'http://chart.apis.google.com/chart');
+  $options = array(
+    'cht' => 'qr',
+    'chl' => $data,
+    'chs' => $height . 'x' . $width,
+    'chld' => $margin,
+  );
+  $url = url($path, array('query' => $options, 'external' => TRUE, 'absolute' => TRUE));
+  $request = drupal_http_request($url);
+  // Only store the response in case of success
+  if ($request->code == '200') {
+    file_unmanaged_save_data($request->data, $file, FILE_EXISTS_REPLACE);
+  }
+}

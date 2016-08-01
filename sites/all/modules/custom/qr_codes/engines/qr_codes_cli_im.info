@@ -1,0 +1,8 @@
+name = "QR Codes - cli.im API"
+description = "Implements cli.im API as engine for builing QR Codes"
+core = 7.x
+package = "QR Codes"
+dependencies[] = qr_codes
+
+files[] = qr_codes_cli_im.install
+files[] = qr_codes_cli_im.module

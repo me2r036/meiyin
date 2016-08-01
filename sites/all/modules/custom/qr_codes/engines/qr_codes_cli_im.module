@@ -1,0 +1,63 @@
+<?php
+define('MHID', 'vEWVXQq6mMMhPXcnKNI');
+
+/**
+ * Implements hook_qr_codes_list()
+ */
+function qr_codes_cli_im_qr_codes_list() {
+  return array('qr_codes_cli_im:cli_im' => t('cli.im API'));
+}
+
+function qr_codes_cli_im_qr_codes_description() {
+  return t('Cli.im API. See <a href="http://cli.im">http://cli.im</a>');
+}
+
+function qr_codes_cli_im_qr_codes_config() {
+  $form = array();
+  $form['qr_codes_cli_im_url'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Cli.im API URI'),
+    '#description' => t('Enter the URI for the Cli.im API service.'),
+    '#default_value' => variable_get('qr_codes_cli_im_url', 'https://cli.im/api/qrcode/code'),
+  );
+  $form['qr_codes_cli_im_mhid'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Cli.im API QR code style MHID'),
+    '#description' => t('Specify QR code style id (MHID) of the Cli.im API service.'),
+    '#default_value' => variable_get('qr_codes_cli_im_mhid', MHID),
+  );
+  return $form;
+}
+
+/**
+ * Implementation of hook_qr_codes_generate().
+ */
+function qr_codes_cli_im_qr_codes_generate($file, $data, $width, $height, $margin) {
+
+  // Prepare for necessary paremeters
+  $mhid = variable_get('qr_codes_cli_im_mhid', MHID);
+  $user_agent = array(
+    'headers' => array(
+      'User-Agent' => 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36',
+    ),
+  );
+
+  // Step 1, get the demo page from cli.im that contains info we need.
+  $url = variable_get('qr_codes_cli_im_url', 'https://cli.im/api/qrcode/code') . sprintf('?text=%s&mhid=%s', $data, $mhid);
+  $temp_html = drupal_http_request($url, $user_agent)->data;
+
+  // Steop 2, get the acture QR code image address
+  $pattern = '/img\s+src="([^"]+)"/';
+  if (preg_match($pattern, $temp_html, $matches)){
+    $path = $matches[1];
+
+    // Modify the path to get full sized QR code image
+    $path = str_replace('/qr?data=', '/qr/downQr?data=', $path);
+    $path .= '&downsize=' . $width;
+  }
+
+  // Get and save it
+  if ($buffer = file_get_contents('http:' . $path)) {
+    file_unmanaged_save_data($buffer, $file, FILE_EXISTS_REPLACE);
+  }
+}

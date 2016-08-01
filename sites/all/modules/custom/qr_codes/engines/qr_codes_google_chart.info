@@ -1,0 +1,8 @@
+name = "QR Codes - Google Chart API"
+description = "Implements Google Chart API as engine for builing QR Codes"
+core = 7.x
+package = "QR Codes"
+dependencies[] = qr_codes
+
+files[] = qr_codes_google_chart.install
+files[] = qr_codes_google_chart.module

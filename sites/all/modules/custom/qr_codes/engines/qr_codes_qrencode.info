@@ -1,0 +1,8 @@
+name = "QR Codes - Libqrencode"
+description = "Use Libqrencode command line for builing QR Codes"
+core = 7.x
+package = "QR Codes"
+dependencies[] = qr_codes
+
+files[] = qr_codes_qrencode.install
+files[] = qr_codes_qrencode.module
