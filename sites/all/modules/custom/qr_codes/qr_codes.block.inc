@@ -112,7 +112,7 @@ function _qr_codes_block_view($delta) {
   $title = t('QR Code') . ' - ' . token_replace($title, $data);
 
   $block['subject'] = t('QR Codes');
-  $block['content'] = '<div class="qr-code-container"><div class="qr-code-caption">'. variable_get('qr_codes_block_caption') . '</div><div class="qr-code-image">' . theme('qr_codes', array('data' => $text, 'width' => $width, 'height' => $width, 'margin' => 0, 'image_style' => $style, array('alt' => $alt, 'title' => $title,))) . '</div></div>';
+  $block['content'] = '<div class="qr-code-container"><div class="qr-code-caption">'. variable_get('qr_codes_block_caption') . '</div><div class="qr-code-image">' . theme('qr_codes', array('data' => $text, 'width' => $width, 'height' => $width, 'margin' => 0, 'image_style' => $style, 'alt' => $alt, 'title' => $title,)) . '</div></div>';
 
   return $block;
 }
