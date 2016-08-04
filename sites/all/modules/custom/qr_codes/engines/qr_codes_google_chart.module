@@ -19,7 +19,7 @@ function qr_codes_google_chart_qr_codes_list() {
  * Implements hook_qr_codes_description().
  */
 function qr_codes_google_chart_qr_codes_description() {
-  return t('Google Chart API. See <a href="http://code.google.com/apis/chart/docs/gallery/qr_codes.html">http://code.google.com/apis/chart/docs/gallery/qr_codes.html</a>');
+  return t('Google Chart API (has a limit of 300000 pexels (547x547) on generated QR code. See <a href="http://code.google.com/apis/chart/docs/gallery/qr_codes.html">http://code.google.com/apis/chart/docs/gallery/qr_codes.html</a>');
 }
 
 /**
@@ -31,7 +31,7 @@ function qr_codes_google_chart_qr_codes_config() {
     '#type' => 'textfield',
     '#title' => t('Google Chart API URI'),
     '#description' => t('Enter the URI for the Google Chart API service.'),
-    '#default_value' => variable_get('qr_codes_google_chart_url', 'http://chart.apis.google.com/chart'),
+    '#default_value' => variable_get('qr_codes_google_chart_url', 'https://chart.googleapis.com/chart'),
   );
   return $form;
 }
@@ -40,15 +40,20 @@ function qr_codes_google_chart_qr_codes_config() {
  * Implements hook_qr_codes_generate().
  */
 function qr_codes_google_chart_qr_codes_generate($file, $data, $width, $height, $margin) {
-  $path = variable_get('qr_codes_google_chart_url', 'http://chart.apis.google.com/chart');
+  $path = variable_get('qr_codes_google_chart_url', 'https://chart.googleapis.com/chart');
+
+  // Google chart allowed max size
+  intval($width) > 547 ? $width = '547' : '';
   $options = array(
     'cht' => 'qr',
     'chl' => $data,
-    'chs' => $height . 'x' . $width,
-    'chld' => $margin,
+    'chs' => $width . 'x' . $width,
+    'chld' => 'H',
   );
   $url = url($path, array('query' => $options, 'external' => TRUE, 'absolute' => TRUE));
+
   $request = drupal_http_request($url);
+
   // Only store the response in case of success
   if ($request->code == '200') {
     file_unmanaged_save_data($request->data, $file, FILE_EXISTS_REPLACE);

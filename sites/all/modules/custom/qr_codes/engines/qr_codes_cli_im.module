@@ -43,10 +43,16 @@ function qr_codes_cli_im_qr_codes_generate($file, $data, $width, $height, $margi
   );
 
   // Step 1, get the demo page from cli.im that contains info we need.
-  $url = variable_get('qr_codes_cli_im_url', 'https://cli.im/api/qrcode/code') . sprintf('?text=%s&mhid=%s', $data, $mhid);
+  $path = variable_get('qr_codes_cli_im_url', 'https://cli.im/api/qrcode/code');
+  $options = array(
+    'text' => $data,
+    'mhid' => $mhid,
+  );
+
+  $url = url($path, array('query' => $options, 'external' => TRUE, 'absolute' => TRUE));
   $temp_html = drupal_http_request($url, $user_agent)->data;
 
-  // Steop 2, get the acture QR code image address
+  // Step 2, get the acture QR code image address
   $pattern = '/img\s+src="([^"]+)"/';
   if (preg_match($pattern, $temp_html, $matches)){
     $path = $matches[1];
@@ -54,10 +60,11 @@ function qr_codes_cli_im_qr_codes_generate($file, $data, $width, $height, $margi
     // Modify the path to get full sized QR code image
     $path = str_replace('/qr?data=', '/qr/downQr?data=', $path);
     $path .= '&downsize=' . $width;
+    $path = 'https:' . $path;
   }
 
-  // Get and save it
-  if ($buffer = file_get_contents('http:' . $path)) {
+  // Step 3, get and save it (switched to file_get_contents due to drupal_http_request can't handle chunked response correctly.)
+  if ($buffer = file_get_contents($path)) {
     file_unmanaged_save_data($buffer, $file, FILE_EXISTS_REPLACE);
   }
 }

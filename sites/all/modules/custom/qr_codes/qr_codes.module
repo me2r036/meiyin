@@ -21,7 +21,9 @@ function qr_codes_theme() {
         'height' => NULL,
         'margin' => NULL,
         'image_style' => NULL,
-        'attributes' => NULL
+        'attributes' => NULL,
+        'alt' => NULL,
+        'title' => NULL,
       ),
     )
   );
@@ -152,8 +154,8 @@ function theme_qr_codes($variables) {
  */
 function template_preprocess_qr_codes(&$variables) {
   extract($variables);
-  $variables['alt']   = t('QR Code');
-  $variables['title'] = t('QR Code');
+  // $variables['alt']   = t('QR Code');
+  // $variables['title'] = t('QR Code');
   $path  = qr_codes_generate($data, $width, $height, $margin, $attributes);
   if (!empty($image_style) && module_exists('image')) {
     $path = image_style_url($image_style, $path);

@@ -37,6 +37,18 @@ function _qr_codes_block_configure_form($delta = '') {
     '#default_value' => variable_get('qr_codes_block_data', ''),
   );
 
+  $form['qr_codes']['qr_codes_image_alt'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Enter the alt attribute of the QR code image'),
+    '#default_value' => variable_get('qr_codes_image_alt', 'QR Code'),
+  );
+
+  $form['qr_codes']['qr_codes_image_title'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Enter the title attribute of the QR code image'),
+    '#default_value' => variable_get('qr_codes_image_title', 'QR Code'),
+  );
+
   if (module_exists('token')) {
     $form['qr_codes']['qr_codes_block_data']['#description'] = t('Available token replacement patterns are listed below and will be applied on node or user pages.');
     $form['qr_codes']['qr_codes_block_data']['#element_validate'][] = 'token_element_validate';
@@ -72,6 +84,8 @@ function _qr_codes_block_configure_save($delta, $edit) {
   variable_set('qr_codes_width_height', $edit['qr_codes_width_height']);
   variable_set('qr_codes_block_data', $edit['qr_codes_block_data']);
   variable_set('qr_codes_block_image_style', $edit['qr_codes_block_image_style']);
+  variable_set('qr_codes_image_alt', $edit['qr_codes_image_alt']);
+  variable_set('qr_codes_image_title', $edit['qr_codes_image_title']);
 }
 
 /**
@@ -80,7 +94,10 @@ function _qr_codes_block_configure_save($delta, $edit) {
 function _qr_codes_block_view($delta) {
   $text = variable_get('qr_codes_block_data', '');
   $style = variable_get('qr_codes_block_image_style', '');
-  $width = variable_get('qr_codes_width_height', '480');
+  $width = variable_get('qr_codes_width_height', '600');
+
+  $alt = variable_get('qr_codes_image_alt', 'QR Code');
+  $title = variable_get('qr_codes_image_title', 'QR Code');
 
   // Use token replacement if available for nodes and users
   $data = array();
@@ -91,9 +108,11 @@ function _qr_codes_block_view($delta) {
     $data['user'] = user_load(arg(1));
   }
   $text = token_replace($text, $data);
+  $alt = t('QR Code') . ' - ' . token_replace($alt, $data);
+  $title = t('QR Code') . ' - ' . token_replace($title, $data);
 
   $block['subject'] = t('QR Codes');
-  $block['content'] = '<div class="qr-code-container"><div class="qr-code-caption">'. variable_get('qr_codes_block_caption') . '</div><div class="qr-code-image">' . theme('qr_codes', array('data' => $text, 'width' => $width, 'height' => $width, 'margin' => 0, 'image_style' => $style)) . '</div></div>';
+  $block['content'] = '<div class="qr-code-container"><div class="qr-code-caption">'. variable_get('qr_codes_block_caption') . '</div><div class="qr-code-image">' . theme('qr_codes', array('data' => $text, 'width' => $width, 'height' => $width, 'margin' => 0, 'image_style' => $style, array('alt' => $alt, 'title' => $title,))) . '</div></div>';
 
   return $block;
 }
