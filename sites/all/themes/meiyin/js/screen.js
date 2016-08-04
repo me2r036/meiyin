@@ -198,11 +198,16 @@ jQuery(document).ready(function($) {
   });
 
   /* Display Wechat QR code with customised fancybox */
-  jQuery('a.so_wechat').fancybox({
+  jQuery('a.qr-code').fancybox({
     fitToView: false,
+    openEffect: 'elastic',
+    closeEffect: 'elastic',
+    openMethod: 'zoomIn',
+    closeMethod: 'zoomOut',
+    helpers: { title: null },
     beforeShow: function(){
-      this.width = 260;
-      this.height = 260;
+      this.width = 300;
+      this.height = 300;
     }
   });
 
@@ -333,10 +338,11 @@ function initCollapseExtras() {
 
 /* #Fancy Box  */
 function addFancyBox() {
-
-  /*jQuery(".fancybox").fancybox({
-    openEffect  : 'none',
-    closeEffect : 'none',
+/*  jQuery(".fancybox").fancybox({
+    openEffect: 'elastic',
+    closeEffect: 'elastic',
+    openMethod: 'zoomIn',
+    closeMethod: 'zoomOut',
     autoResize : true,
     fitToView : true,
     helpers : {
