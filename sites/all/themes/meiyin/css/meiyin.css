@@ -151,8 +151,9 @@ a.color:hover { color: #353535; text-decoration: none; }
 .social ul li a.so_wechat:hover { background: #12b751; }
 .social ul li a.so_weibo:hover { background: #f8c300; }
 .social ul li a.so_tweibo:hover { background: #1098eb; }
-.social ul li a.so_qq:hover { background: #f67878; }
+.social ul li a.so_qq:hover { background: #ff5165; }
 .social ul li a.so_youku:hover { background: #06a7e1; }
+.social ul li a.so_vcard:hover { background: #ff5165; }
 .social ul li a.so_rss:hover { background: #f8c300; }
 
 /* HEADER TOP LINE */
@@ -231,7 +232,7 @@ a.color:hover { color: #353535; text-decoration: none; }
 .ddsmoothmenu ul li.active .downarrowclass, .ddsmoothmenu ul li.active-trail .downarrowclass, .ddsmoothmenu ul li.current-menu-ancestor .downarrowclass { opacity: 0.4; }
 .rightarrowclass{ visibility: hidden; }
 .downarrowclass{ visibility: hidden; }
-#mainmenu i { margin-right: 4px; }
+#mainmenu .fa { margin-right: 4px; }
 
 /**************************************************************
 	-	MENU AND FIRST CONTAINER ADJUSTMENTS  -
@@ -314,8 +315,6 @@ a.color:hover { color: #353535; text-decoration: none; }
 .front .prescript-first, .front .prescript-second, .front .prescript-third { margin-top: 30px; margin-bottom: 30px; }
 .front .servicemodifier, .front .prescript-third, .front a.service  { margin-bottom: 0; }
 
-.divider { margin-top: 30px; border-top: 1px solid #ccc; padding-top: 30px; }
-
 /* START HEIGHT OF REVOLUTION SLIDER */
 /*.homeslider {	height:450px; }*/
 
@@ -342,7 +341,7 @@ a.color:hover { color: #353535; text-decoration: none; }
 /* ------------------------------------ */
 .pagedivider { margin-left: 0; height: 0px; width: 100%; margin-top: 40px; margin-bottom: 0px; }
 .dotdivider { float: left; margin-left: 0; width: 100%; background: url(../img/tiles/threedot.png) repeat-x 0 0; height: 7px; margin-top: 10px; margin-bottom: 40px; }
-.divider { float: left; margin-left: 0; width: 100%; height: 1px; }
+.divider { float: left; margin-left: 0; width: 100%; height: 1px; border-top: 1px solid #ccc; padding-top: 30px; margin-top: 30px; }
 .firstdivider { margin-left: 0; width: 100%; height: 0px; margin-bottom: 40px; }
 .top-divider { margin-top: 10px; padding-top: 30px; border-top: 1px solid #ccc; }
 /* TEXT CONTENT */
@@ -470,7 +469,7 @@ border-top-right-radius: 5px; }
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
-  padding: 18px 30px 18px;
+  padding: 16px 30px 16px;
   background: #f3f3f3;
   border: 0;
   width: 100%;
@@ -505,7 +504,7 @@ border-top-right-radius: 5px; }
 .blogpost h2 { box-sizing:border-box;-moz-box-sizing:border-box;-webkit-box-sizing:border-box; float: left; width: 100%; line-height: 20px; margin-bottom: 4px; text-align: left; }
 .blogpost .post { float: right; width: 100%; margin-top: 0; }
 .blogpost .postbody  { float: left; padding-left: 0px; position: relative; width: 100%; }
-.blogpost .postmedia { margin-bottom: 5px; position: relative; z-index: 1; overflow: hidden; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px;
+.blogpost .postmedia { margin-bottom: 5px; position: relative; z-index: 1; overflow: hidden; width: 100%; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px;
   -webkit-mask-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA5JREFUeNpiYGBgAAgwAAAEAAGbA+oJAAAAAElFTkSuQmCC);
      -moz-mask-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA5JREFUeNpiYGBgAAgwAAAEAAGbA+oJAAAAAElFTkSuQmCC);
       -ms-mask-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA5JREFUeNpiYGBgAAgwAAAEAAGbA+oJAAAAAElFTkSuQmCC);
@@ -606,7 +605,7 @@ border-top-right-radius: 5px; }
 .blogpost .field-name-field-tags .field-item:after, .blogpost .field-name-field-categories .field-item:after { content: ", "; }
 .blogpost .field-name-field-tags .field-item:last-child:after, .blogpost .field-name-field-categories .field-item:last-child:after { content: ""; }
 .node-portfolio.blogpost .field-name-field-tags .field-item:after { content: ""; }
-.node-type-blog-post #block-system-main { float: left; border-bottom: 1px solid #ccc; margin-bottom: 30px; padding-bottom: 30px; }
+.node-type-blog-post #block-system-main { float: left; border-bottom: 1px solid #ccc; padding-bottom: 30px; margin-bottom: 30px; }
 
 /* Post Date Box */
 .blogpost .date, .homepost .date { float: left; width: 40px; position: absolute; margin-top: 0px; color: #fff; padding: 3px 1px; border-radius: 8px; background: #f48cb7; }
@@ -782,12 +781,6 @@ ul.inline .comment-add { padding: 0px; }
 .sidebar .block-posts ul li:first-child { border-top: 0; padding-top: 0; }
 .sidebar .block-posts ul li:last-child { border-bottom: 0; padding-bottom: 0; }
 
-/* Contact Box */
-.contactbox { float: left; width: 100%; -moz-box-sizing: border-box; box-sizing:border-box; -webkit-border-sizing: border-box; background: #292929; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; padding: 20px; }
-
-/* Twitter */
-.twitter-timeline { margin-bottom: -20px; margin-top: -7px; }
-
 /* Tag Cloud */
 .footer .tagcloud a { float: left; font-size: 13px; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px;  text-decoration: none; color: #bbb; font-weight: normal; background-color: #151515; padding-bottom: 4px; padding-top: 4px; padding-left: 8px; padding-right: 8px; margin-right: 5px; margin-bottom: 5px; -webkit-transition: background-color 0.2s, color 0.2s; -moz-transition: background-color 0.2s, color 0.2s; -o-transition: background-color 0.2s, color 0.2s; -ms-transition: background-color 0.2s, color 0.2s; transition: background-color 0.2s, color 0.2s; }
 .footer .tagcloud a:hover { background-color: #8baa2b; color: #fff; }
@@ -943,7 +936,7 @@ blockquote { font-size: 15px; line-height: 26px; color: #777; background: #eee; 
 
 .node-type-portfolio .postinfo,	.page-taxonomy-term .postinfo { padding-left: 0px; }
 .page-taxonomy-term h2 { margin-bottom: 10px; }
-.node-type-portfolio .block { float: left; width: 100%; }
+.node-type-portfolio #block-system-main { float: left; border-bottom: 1px solid #ccc; padding-bottom: 30px; margin-bottom: 30px; }
 .node-type-portfolio .singlepost .posttext { margin-bottom: 0; }
 .node-type-portfolio .region.content .block-views { border-top: 1px solid #ccc; padding-top: 30px; margin-top: 30px; }
 .field-name-field-portfolio-tags { display: inline-block; }
@@ -958,7 +951,7 @@ ul.isotope-options li a { font-weight: 400; font-size: 13px; float: left; color:
   text-shadow: rgba(50, 50, 50, .292969) 1px 1px 3px;
  }
 ul.isotope-options li a:hover { color: #ff5165 !important; border: 1px solid #ff5165; text-shadow: rgba(244, 140, 183, .292969) 1px 1px 3px !important; }
-ul.isotope-options li a.selected { color: #fff !important; border: 1px solid #ff5165; background: #ff5165;}
+ul.isotope-options li a.selected { color: #fff !important; border: 1px solid #ff5165; background: #ff5165; }
 
 .isotope-item { z-index: 2; }
 .isotope-hidden.isotope-item { pointer-events: none; z-index: 1; }
@@ -1716,6 +1709,8 @@ a.accordion-toggle.collapsed:hover { color: #666;
   .sidebar .block-sidebar-menu ul.services li:first-child { padding-top: 15px; }
   .sidebar .block-posts ul li:first-child { padding-top: 7px; }
   .sidebar .block ul.services { padding-left: 20px; width: 90%; }
+
+  .qr-code-image img { max-width: 300px; }
 }
 
 @media only screen and (min-width: 480px) and (max-width: 767px) {
@@ -1976,7 +1971,7 @@ ul.retina-icons li i {
 }
 
 /* Icon style */
-.icon_wrap i { margin-right: 5px; }
+.fa { margin-right: 5px; }
 
 /* View counter */
 #viewcounter { font-size: 13px; float: right; color: #000; line-height: 18px; }
@@ -2012,10 +2007,21 @@ form.webform-client-form { width: 65%; background-color: #f3f3f3; border: 1px da
   display: block;
   position: absolute;
   left: 0;
-  top: 0;
+  top: 25%;
   background: url(/sites/default/files/images/blogpost/decoration/bg_bike_520x500.jpg) no-repeat right bottom; 
   background-size: 60%;
   width: 100%;
-  height: 99%;
+  height: 74%;
   opacity: .2;
 }
+
+/* QR Code */
+.qr-code-container { margin-bottom: -10px; }
+.qr-code-image { text-align: center; }
+a.qr-code.meiyin-contact { float: right; }
+.qr-code-image-contact { max-width: 300px; margin-top: 20px; }
+.qr-code-caption { margin-top: 12px; }
+.qr-code-caption .highlight { font-size: 16px; }
+
+.contact-info a { color: #f48cb8; }
+.contact-info a:hover { color: #111; }

@@ -170,7 +170,6 @@
           </div>
         </div>
       <?php endif; ?>
-      <div class="divider"></div>
     </div>
   </div>
 </div>
