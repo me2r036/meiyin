@@ -109,5 +109,14 @@
   <?php print $page_top; ?>
   <?php print $page; ?>
   <?php print $page_bottom; ?>
+  <!-- Add QR codes layers -->
+  <div id="meiyin-wechat-qr-code" style="display:none">
+    <div class="qr-code-caption">扫一扫添加 <span class="highlight">美音婚礼™ 官方客服</span></div>
+    <div class="qr-code-image-contact"><?php print $qr_code_wechat; ?></div>
+  </div>
+  <div id="meiyin-vcard-qr-code" style="display:none">
+    <div class="qr-code-caption">扫一扫快速添加 <span class="highlight">美音婚礼™ 到手机联系人</span></div>
+    <div class="qr-code-image-contact"><?php print $qr_code_vcard; ?></div>
+  </div>
 </body>
 </html>

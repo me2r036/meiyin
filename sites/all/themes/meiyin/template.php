@@ -49,6 +49,9 @@
 		return $output;
 	}
 	
+  /**
+   * Implements theme_menu_link().
+   */
   function meiyin_menu_link(&$vars) {
     $element = &$vars['element'];
     $sub_menu = '';
@@ -280,38 +283,55 @@
     if(theme_get_setting('sticky-header') == 1) {
       $vars['classes_array'][] = 'sticky-header';
     }
+
+    // Add QR codes variables to the page context
+      $wechat_data = 'http://weixin.qq.com/r/ld2stDzE8WGOrXjX94iH';
+      $vars['qr_code_wechat'] = theme('qr_codes', array('data' => $wechat_data, 'width' => '600', 'height' => '600', 'margin' => '0', 'alt' => '二维码 - 美音婚礼™ 微信客服', 'title' => '二维码 - 美音婚礼™ 微信客服',));
+
+      $vcard_data =
+'BEGIN:VCARD
+VERSION:3.0
+FN:美音婚礼™
+URL:http://meiyin.co
+EMAIL:info@meiyin.co
+TEL;TYPE=WORK:029 8754 7720
+TEL;TYPE=CELL:186 8181 6517
+ADR;TYPE=work:;秦融酒店1018;科技路1号;西安市;陕西省;710075;;
+END:VCARD';
+      $vars['qr_code_vcard'] = theme('qr_codes', array('data' => $vcard_data, 'width' => '600', 'height' => '600', 'margin' => '0', 'alt' => '二维码 - 美音婚礼™ 数字名片', 'title' => '二维码 - 美音婚礼™ 数字名片',));
+
   }
 
-	/**
-	 * Implements hook_preprocess_page().
-	 */
-	function meiyin_preprocess_page(&$vars) {
-		$theme = meiyin_get_theme();
-		$theme->page = &$vars;
-		$search_form = drupal_get_form('search_form');
-		$sidebar_left = 12 - theme_get_setting('sidebar_first_grid');
-		$sidebar_right = 12 - theme_get_setting('sidebar_second_grid');
-		$sidebar_both = 12 - (theme_get_setting('sidebar_first_grid') + theme_get_setting('sidebar_second_grid'));
-		$vars['search_form'] = (arg(0) == 'search') ? '' : drupal_render($search_form);
-		$vars['layoutWidth'] = theme_get_setting('layoutWidth');
-		if (!empty($vars['page']['sidebar_first']) && !empty($vars['page']['sidebar_second'])) {
-			$vars['content_settings'] = 'span' . $sidebar_both;
-		}
-		else if (!empty($vars['page']['sidebar_first']) && empty($vars['page']['sidebar_second'])) {
-			$vars['content_settings'] = 'span' . $sidebar_left;
-		}
-		else if (empty($vars['page']['sidebar_first']) && !empty($vars['page']['sidebar_second'])) {
-			$vars['content_settings'] = 'span' . $sidebar_right;
-		} else {
-			$vars['content_settings'] = (theme_get_setting('content_grid') !== '0') ? 'span'. theme_get_setting('content_grid') : 'span12';
-		}
+  /**
+  * Implements hook_preprocess_page().
+  */
+  function meiyin_preprocess_page(&$vars) {
+    $theme = meiyin_get_theme();
+    $theme->page = &$vars;
+    $search_form = drupal_get_form('search_form');
+    $sidebar_left = 12 - theme_get_setting('sidebar_first_grid');
+    $sidebar_right = 12 - theme_get_setting('sidebar_second_grid');
+    $sidebar_both = 12 - (theme_get_setting('sidebar_first_grid') + theme_get_setting('sidebar_second_grid'));
+    $vars['search_form'] = (arg(0) == 'search') ? '' : drupal_render($search_form);
+    $vars['layoutWidth'] = theme_get_setting('layoutWidth');
+    if (!empty($vars['page']['sidebar_first']) && !empty($vars['page']['sidebar_second'])) {
+     $vars['content_settings'] = 'span' . $sidebar_both;
+    }
+    else if (!empty($vars['page']['sidebar_first']) && empty($vars['page']['sidebar_second'])) {
+      $vars['content_settings'] = 'span' . $sidebar_left;
+    }
+    else if (empty($vars['page']['sidebar_first']) && !empty($vars['page']['sidebar_second'])) {
+      $vars['content_settings'] = 'span' . $sidebar_right;
+    } else {
+      $vars['content_settings'] = (theme_get_setting('content_grid') !== '0') ? 'span'. theme_get_setting('content_grid') : 'span12';
+    }
 
-		if (drupal_is_front_page()) { 
-			unset($vars['page']['content']['system_main']);
-			drupal_add_js(drupal_get_path('theme', 'meiyin') . '/js/TweenMax.min.js');
-		}
+    if (drupal_is_front_page()) {
+      unset($vars['page']['content']['system_main']);
+      drupal_add_js(drupal_get_path('theme', 'meiyin') . '/js/TweenMax.min.js');
+    }
 
-	}
+  }
 
   /**
    * Implements hook_preprocess_node().
@@ -358,10 +378,10 @@
 
     if ($vars['type'] == 'portfolio') {
       // Generate partner variables used in the theme layer.
-      $vars['partner_flower_art'] = get_partner_involved_picture($vars['field_flower_art']['0']['entity']->field_image[LANGUAGE_NONE]['0']);
-      $vars['partner_makeup'] = get_partner_involved_picture($vars['field_makeup']['0']['entity']->field_image[LANGUAGE_NONE]['0']);
-      $vars['partner_photography'] = get_partner_involved_picture($vars['field_photography']['0']['entity']->field_image[LANGUAGE_NONE]['0']);
-      $vars['partner_camera_shooting'] = get_partner_involved_picture($vars['field_camera_shooting']['0']['entity']->field_image[LANGUAGE_NONE]['0']);
+      $vars['partner_flower_art'] = _get_partner_involved_picture($vars['field_flower_art']['0']['entity']->field_image[LANGUAGE_NONE]['0']);
+      $vars['partner_makeup'] = _get_partner_involved_picture($vars['field_makeup']['0']['entity']->field_image[LANGUAGE_NONE]['0']);
+      $vars['partner_photography'] = _get_partner_involved_picture($vars['field_photography']['0']['entity']->field_image[LANGUAGE_NONE]['0']);
+      $vars['partner_camera_shooting'] = _get_partner_involved_picture($vars['field_camera_shooting']['0']['entity']->field_image[LANGUAGE_NONE]['0']);
     }
 
     //Generate paginator variables for Portfolio and Blog Post nodes.
@@ -425,43 +445,43 @@
 
   }
 
-	function meiyin_preprocess_region(&$vars) {		
-		$theme = meiyin_get_theme();
-		$span = theme_get_setting($vars['region'] . '_grid');
-		$css = theme_get_setting($vars['region'] . '_css');
-		$vars['classes_array'] = array('region');
-		$vars['classes_array'][] = drupal_html_id($vars['region']);
-		
-		switch ($vars['region']) {
-			case 'content': 
-				$vars['classes_array'][] = $theme->page['content_settings'];
-			break;
-			case 'header':
-				if(theme_get_setting('parallax-toggle') == 1) { $vars['classes_array'][] = 'parallax'; }
-				if ($span != '0') { $vars['classes_array'][] = 'span'.$span; }
-			break;
-	 		default: if ($span != '0') { $vars['classes_array'][] = 'span'.$span; } break;
-		}
-		
-		if (($css != 'none')) { $vars['classes_array'][] = $css; } else { die; }
-		
-	}
-	
-	function meiyin_process_region(&$vars) {
-		$theme = meiyin_get_theme();
+  function meiyin_preprocess_region(&$vars) {
+    $theme = meiyin_get_theme();
+    $span = theme_get_setting($vars['region'] . '_grid');
+    $css = theme_get_setting($vars['region'] . '_css');
+    $vars['classes_array'] = array('region');
+    $vars['classes_array'][] = drupal_html_id($vars['region']);
 
-		$vars['messages'] = $theme->page['messages'];
-		$vars['breadcrumb'] = $theme->page['breadcrumb'];
-		$vars['title_prefix'] = $theme->page['title_prefix'];
-		$vars['title'] = $theme->page['title'];
-		$vars['title_suffix'] = $theme->page['title_suffix'];
-		$vars['tabs'] = $theme->page['tabs'];
-		$vars['action_links'] = $theme->page['action_links'];
-		$vars['feed_icons'] = $theme->page['feed_icons'];
-	}
+    switch ($vars['region']) {
+     case 'content':
+     $vars['classes_array'][] = $theme->page['content_settings'];
+     break;
+     case 'header':
+     if(theme_get_setting('parallax-toggle') == 1) { $vars['classes_array'][] = 'parallax'; }
+     if ($span != '0') { $vars['classes_array'][] = 'span'.$span; }
+     break;
+     default: if ($span != '0') { $vars['classes_array'][] = 'span'.$span; } break;
+   }
+
+   if (($css != 'none')) { $vars['classes_array'][] = $css; } else { die; }
+
+ }
+
+  function meiyin_process_region(&$vars) {
+    $theme = meiyin_get_theme();
+
+    $vars['messages'] = $theme->page['messages'];
+    $vars['breadcrumb'] = $theme->page['breadcrumb'];
+    $vars['title_prefix'] = $theme->page['title_prefix'];
+    $vars['title'] = $theme->page['title'];
+    $vars['title_suffix'] = $theme->page['title_suffix'];
+    $vars['tabs'] = $theme->page['tabs'];
+    $vars['action_links'] = $theme->page['action_links'];
+    $vars['feed_icons'] = $theme->page['feed_icons'];
+  }
 
   /* Helper function */
-  function get_partner_involved_picture($picture) {
+  function _get_partner_involved_picture($picture) {
     $fallback_image_style = 'partner_involved_breakpoints_theme_meiyin_wide_1x';
     $picture_mapping = picture_mapping_load('resp_partner_involved');
     $breakpoints = picture_get_mapping_breakpoints($picture_mapping, $fallback_image_style);
