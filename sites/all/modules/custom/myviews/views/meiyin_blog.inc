@@ -859,8 +859,8 @@ $handler->display->display_options['fields']['field_image']['type'] = 'picture';
 $handler->display->display_options['fields']['field_image']['settings'] = array(
   'picture_mapping' => 'resp_blog_sidebar_small',
   'fallback_image_style' => '',
-  'lazyload' => 1,
-  'lazyload_aspect_ratio' => 1,
+  'lazyload' => 0,
+  'lazyload_aspect_ratio' => 0,
   'image_link' => 'content',
 );
 /* Field: Content: Video */
