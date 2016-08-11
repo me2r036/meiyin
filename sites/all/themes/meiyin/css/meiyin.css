@@ -54,6 +54,7 @@ a .highlight { margin: 0 3px; color: #ee4191; }
 a .highlight:hover { color: #111; }
 img.imgleft, picture[data-picture-align="left"] img { display: inline; float: left; margin-right: 20px; margin-top: 0px; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; }
 img.imgright, picture[data-picture-align="right"] img { display: inline; float: right; margin-left: 20px; margin-top: 0px; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; }
+dd, dt { line-height: 30px; }
 .rounded, .rounded img, .rounded iframe { -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px;
   -webkit-mask-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA5JREFUeNpiYGBgAAgwAAAEAAGbA+oJAAAAAElFTkSuQmCC);
      -moz-mask-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA5JREFUeNpiYGBgAAgwAAAEAAGbA+oJAAAAAElFTkSuQmCC);
@@ -537,6 +538,7 @@ border-top-right-radius: 5px; }
 .blogpost.singlepost .posttext h4.normal:before, .blogpost.smallmedia .posttext h4.normal:before { content: ''; margin-right: 0; }
 .blogpost.singlepost .posttext h4.people:before, .blogpost.smallmedia .posttext h4.people:before { content: '\f183'; }
 .blogpost.singlepost .posttext h4.female:before, .blogpost.smallmedia .posttext h4.female:before { content: '\f182'; }
+.blogpost.singlepost .posttext h4.circle:before, .blogpost.smallmedia .posttext h4.circle:before { content: '\f10c'; }
 .blogpost.singlepost .postbody  { margin-bottom: 4px; }
 .blogpost.singlepost .postmedia-slide { margin-bottom: 20px; }
 
@@ -919,7 +921,7 @@ ul.recentcomments li a:before { float: left; font-size: 13px; line-height: 13px;
 cite { display: block; font-size: 13px; color: #666; line-height: 18px; }
 cite .date-display-single { font-size: 12px; font-style: italic; }
 blockquote { font-size: 15px; line-height: 26px; color: #777; background: #eee; font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; padding: 20px; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; border: 0; }
-.carousel img { float: left; border-radius: 5px; height: 45px; margin-right: 10px; }
+.carousel img { float: left; border-radius: 5px; width: 100px; margin-right: 10px; }
 .carousel ul { list-style: none; }
 .carousel ul > li:first-child { height: 45px; }
 .carousel ul > li { height: 15px; }
