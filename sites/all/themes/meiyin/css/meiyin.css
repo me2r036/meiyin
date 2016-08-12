@@ -1555,6 +1555,7 @@ a.accordion-toggle.collapsed:hover { color: #666;
 /* ALL MOBILE SIZES */
 @media only screen and (max-width: 767px) {
   .contact-form .form-item.form-type-textfield { width: 100%; margin-left: 0; float: left; }  
+  .contact-form .form-item input[type="text"] { padding: 4px 0; }
   .page-contact .contenttable { margin-bottom: 20px; }
 
   .front .servicewrap { margin-bottom: 30px; }
