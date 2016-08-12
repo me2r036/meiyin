@@ -107,6 +107,10 @@ function _qr_codes_block_view($delta) {
   elseif (arg(0) == 'user' && is_numeric(arg(1))) {
     $data['user'] = user_load(arg(1));
   }
+  elseif (arg(0) == 'taxonomy' && arg(1) =='term' && is_numeric(arg(2))) {
+    $data['taxonomy'] = taxonomy_term_load(arg(2));
+  }
+
   $text = token_replace($text, $data);
   $alt = t('QR Code') . ' - ' . token_replace($alt, $data);
   $title = t('QR Code') . ' - ' . token_replace($title, $data);
