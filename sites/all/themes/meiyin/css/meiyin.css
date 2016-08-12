@@ -489,7 +489,7 @@ border-top-right-radius: 5px; }
 /* ------------------------------------ */
 .homeposts { float: left; margin-bottom: -1px; }
 .homepost { float: left; margin-bottom: 10px; border: 1px dashed #333; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; box-sizing: border-box; -moz-box-sizing: border-box; -webkit-box-sizing: border-box; 
-	padding-top: 18px; padding-left: 8px; padding-right: 20px; padding-bottom: 15px;
+	padding-top: 18px; padding-left: 8px; padding-right: 20px; padding-bottom: 15px; width: 100%;
 }
 .homeposts .homepost:nth-last-child(-n+2) { margin-bottom: 0px; }
 .homepost h4 { float: left; line-height: 30px; margin-top: -5px; margin-bottom: 0px; width: 100%; }
