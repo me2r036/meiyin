@@ -509,6 +509,7 @@ END:VCARD';
       $query = new EntityFieldQuery();
       $query->entityCondition('entity_type', 'node')
             ->entityCondition('bundle', $node_type)
+            ->propertyCondition('status', TRUE)
             ->propertyOrderBy('created', 'DESC');
       $result = $query->execute();
 
