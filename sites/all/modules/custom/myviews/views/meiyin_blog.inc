@@ -1221,9 +1221,9 @@ $handler->display->display_options['arguments']['tid']['field'] = 'tid';
 $handler->display->display_options['arguments']['tid']['default_action'] = 'default';
 $handler->display->display_options['arguments']['tid']['default_argument_type'] = 'taxonomy_tid';
 $handler->display->display_options['arguments']['tid']['default_argument_options']['node'] = TRUE;
+$handler->display->display_options['arguments']['tid']['default_argument_options']['anyall'] = '+';
 $handler->display->display_options['arguments']['tid']['default_argument_options']['vocabularies'] = array(
   'categories' => 'categories',
-  'tags' => 'tags',
 );
 $handler->display->display_options['arguments']['tid']['summary']['number_of_records'] = '0';
 $handler->display->display_options['arguments']['tid']['summary']['format'] = 'default_summary';
