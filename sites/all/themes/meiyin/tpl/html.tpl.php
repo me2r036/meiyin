@@ -54,7 +54,7 @@
     /_/ /_/ /_/ \___//_/ \__, //_//_/ /_/(_)\___/ \____/ 
                         /____/                           
     =====================================================
-                                    美音婚礼 | meiyin.co - tell the differences
+                                    美音婚礼™ | meiyin.co™ - tell the differences
                                     Technical support: http://meiyin.co/contact
 -->
 <head profile="<?php print $grddl_profile; ?>">
@@ -63,7 +63,7 @@
   <?php if(theme_get_setting('responsive') == 1): ?>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <?php endif; ?>
-<!-- 美音婚礼 | meiyin.co
+<!-- 美音婚礼™ | meiyin.co™
   <?php if(theme_get_setting('iphoneRegularIcon') != NULL): ?>
   <link rel="apple-touch-icon" href="<?php print file_create_url(file_load(theme_get_setting('iphoneRegularIcon'))->uri); ?>">
   <?php endif; ?>
@@ -89,8 +89,8 @@
   <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16"/>
   <link rel="manifest" href="/manifest.json"/>
   <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#ff5165"/>
-  <meta name="apple-mobile-web-app-title" content="美音婚礼"/>
-  <meta name="application-name" content="美音婚礼"/>
+  <meta name="apple-mobile-web-app-title" content="美音婚礼™"/>
+  <meta name="application-name" content="美音婚礼™"/>
   <meta name="msapplication-TileColor" content="#b91d47"/>
   <meta name="msapplication-TileImage" content="/mstile-144x144.png"/>
   <meta name="theme-color" content="#ffffff"/>
