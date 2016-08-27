@@ -1,0 +1,12 @@
+name = XML Sitemap mobile
+description = Generate XML sitemap for mobiles.
+core = 7.x
+package = XML sitemap
+dependencies[] = xmlsitemap
+
+; Information added by Drupal.org packaging script on 2015-05-12
+version = "7.x-1.x-dev"
+core = "7.x"
+project = "xmlsitemap_mobile"
+datestamp = "1431426785"
+
