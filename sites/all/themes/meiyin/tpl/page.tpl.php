@@ -163,7 +163,7 @@
         </nav><!-- /#navigation -->
         
         <div class="row mobilemenu">
-          <div class="icon-menu"><i class="fa fa-bars"></i></div>
+          <div class="icon-menu"><i class="fa fa-caret-down fa-2x"></i></div>
           <form id="responsive-menu" action="#" method="post" accept-charset="UTF-8">
             <select></select>
           </form>

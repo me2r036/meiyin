@@ -1193,7 +1193,7 @@ padding-top: 8px; padding-bottom: 7px; padding-left: 0; padding-right: 0; -webki
 .mobilemenu	select {  -webkit-appearance: none; border: 1px solid #ddd; outline: none; overflow: hidden; font: 13px "Helvetica Neue", Helvetica, Arial, sans-serif; color: #555; margin: 0; width: 100%;  max-width: 100%; display: block; height: auto; padding: 10px 10px; }
 .mobilemenu	select:before { content: '\2630'; }
 .mobilemenu	option { outline: none; border: 0; overflow: hidden; font: 13px "Helvetica Neue", Helvetica, Arial, sans-serif; color: #555; margin: 0; width: 100%; max-width: 100%; display: block; padding-left: 15px; }
-.mobilemenu .icon-menu { cursor: pointer; position: absolute; font-size: 30px; line-height: 1; background: #666; color: #fff; padding: 3px 5px; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; }
+.mobilemenu .icon-menu { cursor: pointer; position: absolute; line-height: 1; width: 40px; height: 40px; background: #666; color: #fff; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; }
 
 /* BOOTSTRAP ELEMENTS */
 /* ------------------------------------ */
@@ -1596,6 +1596,7 @@ a.accordion-toggle.collapsed:hover { color: #666;
   .header #logo, .boxedlayout .header #logo { float: left; padding: 0px; margin-left: 20px; position: absolute; }
 
   .mobilemenu, .boxedlayout .mobilemenu { padding-right: 0px; float: right; margin-top: 20px; }
+  .mobilemenu .fa { padding: 6px 12px; }
 
   .footerwrap.wide, .footerwrap, .subfooterwrap { padding-left: 20px; padding-right: 20px; margin-left: -20px; }
   .subfooterwrap.wide { margin-left: 0; }
