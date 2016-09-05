@@ -331,7 +331,7 @@ a.color:hover { color: #353535; text-decoration: none; }
 
 .block .linktext { float: right; margin-top: -35px; position: relative; z-index: 1000; }
 .block .linktext a span { float: right; line-height: 15px; }
-.block .linktext a { font-size: 15px; color: #bbb; padding-left: 10px; font-weight: 400; }
+.block .linktext a { font-size: 15px; color: #ff8492; padding-left: 10px; font-weight: 400; }
 .block .linktext a:hover { color: #111; }
 
 .contenttitle { float: left; margin-left: 0; width: 100%; margin-top: -5px; margin-bottom: 25px; padding-bottom: 0px; }
