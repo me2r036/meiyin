@@ -355,22 +355,21 @@ p { margin-bottom: 20px; text-indent: 2em; }
 /* ------------------------------------ */
 .servicemodifier { float: left; margin-bottom: -35px; }
 .servicewrap { float: left; position: relative; box-sizing:border-box; -moz-box-sizing:border-box; -webkit-box-sizing:border-box; width: 100%;}
-.serviceicon { float: left; height: 40px; width: 40px; background: #333; margin-right: 0px; -webkit-transition: all 0.2s; -moz-transition: all 0.2s; -o-transition: all 0.2s; -ms-transition: all 0.2s; transition: all 0.2s; -webkit-border-radius: 12px; -moz-border-radius: 12px; border-radius: 12px; }
+.serviceicon { float: left; height: 40px; width: 40px; background: #ed3e86; margin-right: 0px; -webkit-transition: all 0.2s; -moz-transition: all 0.2s; -o-transition: all 0.2s; -ms-transition: all 0.2s; transition: all 0.2s; -webkit-border-radius: 12px; -moz-border-radius: 12px; border-radius: 12px; }
 .serviceicon div { height: 40px; width: 40px; text-align: center; }
-a.service h1, .active-service h1 { padding-left: 60px; margin-top: 0px; margin-bottom: 2px; font-size: 24px; line-height: 24px; text-transform: none; font-weight: 300; text-align: left; -webkit-transition: all 0.2s; -moz-transition: all 0.2s; -o-transition: all 0.2s; -ms-transition: all 0.2s; transition: all 0.2s; box-sizing:border-box; -moz-box-sizing:border-box; -webkit-box-sizing:border-box; width: 100%; }
-a.service h2, .active-service h2 { padding-left: 60px; margin-top: 0px; margin-bottom: 2px; font-size: 20px; line-height: 20px; text-transform: none; font-weight: 300; text-align: left; -webkit-transition: all 0.2s; -moz-transition: all 0.2s; -o-transition: all 0.2s; -ms-transition: all 0.2s; transition: all 0.2s; box-sizing:border-box; -moz-box-sizing:border-box; -webkit-box-sizing:border-box; width: 100%; }
-a.service h5, .active-service h5 { padding-left: 60px; font-weight: 300; color: #666; -webkit-transition: all 0.2s; -moz-transition: all 0.2s; -o-transition: all 0.2s; -ms-transition: all 0.2s; transition: all 0.2s; box-sizing:border-box; -moz-box-sizing:border-box; -webkit-box-sizing:border-box; width: 100%; }
+a.service h1, .active-service h1 { padding-left: 60px; margin-top: 0px; margin-bottom: 2px; font-size: 24px; color: #ed3e86; line-height: 24px; text-transform: none; font-weight: 300; text-align: left; -webkit-transition: all 0.2s; -moz-transition: all 0.2s; -o-transition: all 0.2s; -ms-transition: all 0.2s; transition: all 0.2s; box-sizing:border-box; -moz-box-sizing:border-box; -webkit-box-sizing:border-box; width: 100%; }
+a.service h2, .active-service h2 { padding-left: 60px; margin-top: 0px; margin-bottom: 2px; font-size: 20px; color: #ed3e86; line-height: 20px; text-transform: none; font-weight: 300; text-align: left; -webkit-transition: all 0.2s; -moz-transition: all 0.2s; -o-transition: all 0.2s; -ms-transition: all 0.2s; transition: all 0.2s; box-sizing:border-box; -moz-box-sizing:border-box; -webkit-box-sizing:border-box; width: 100%; }
+a.service h5, .active-service h5 { padding-left: 60px; font-weight: 300; color: #ed3e86; -webkit-transition: all 0.2s; -moz-transition: all 0.2s; -o-transition: all 0.2s; -ms-transition: all 0.2s; transition: all 0.2s; box-sizing:border-box; -moz-box-sizing:border-box; -webkit-box-sizing:border-box; width: 100%; }
 .front a.service, a.service, .active-service { float: left; margin-bottom: 20px; margin-top: -3px; text-align: left; color: #777; text-decoration: none; -webkit-transition: color 0.2s; -moz-transition: color 0.2s; -o-transition: color 0.2s; -ms-transition: color 0.2s; transition: color 0.2s; box-sizing:border-box; -moz-box-sizing:border-box; -webkit-box-sizing:border-box; width: 100%; }
 a.service .text, .active-service .text { padding-left: 60px; float: left; -webkit-transition: all 0.2s; -moz-transition: all 0.2s; -o-transition: all 0.2s; -ms-transition: all 0.2s; transition: all 0.2s; box-sizing:border-box; -moz-box-sizing:border-box; -webkit-box-sizing:border-box; width: 100%; }
 .active-service .text { padding-left: 0; }
-a.service:hover .text {  }
-a.service:hover h1 { color: #f48cb7; }
-a.service:hover h2 { color: #f48cb7; }
-a.service:hover h4 { color: #f48cb7; }
-a.service:hover h5 { color: #f48cb7; }
+a.service:hover h1 { color: #333; }
+a.service:hover h2 { color: #333; }
+a.service:hover h4 { color: #333; }
+a.service:hover h5 { color: #666; }
 a.service p { margin-bottom: 0; }
 a.service .serviceicon, .active-service .serviceicon { font-size: 20px; line-height:38px; color: #fff; }
-a.service:hover .serviceicon { background: #8baa2b; }
+a.service:hover .serviceicon { background: #333; }
 span.hlink { color: #8baa2b; float: left; margin-top: 8px; -webkit-transition: all 0.2s; -moz-transition: all 0.2s; -o-transition: all 0.2s; -ms-transition: all 0.2s; transition: all 0.2s;}
 span.hlink:hover { color: #111; }
 
@@ -925,7 +924,7 @@ blockquote { font-size: 15px; line-height: 26px; color: #777; background: #eee; 
 .carousel ul { list-style: none; }
 .carousel ul > li:first-child { height: 45px; }
 .carousel ul > li { height: 15px; }
-.carousel .fa { float: left; color: #f45858; padding-left: 20px; margin-right: 5px; }
+.carousel .fa { float: left; color: #ff5165; padding-left: 20px; margin-right: 5px; }
 
 /* PORTFOLIO */
 /* ------------------------------------ */

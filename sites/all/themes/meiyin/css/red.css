@@ -9,7 +9,7 @@ body.fullwidthlayout { border-top: 3px solid #f9bad4; }
 /*::-moz-selection { background: #ff5165; } /* Firefox */
 
 .colored .pagetitlewrap, .progress-success .bar,
-a.service:hover .serviceicon, .pricing .highlight .thead, .btn-primary:hover { 
+.pricing .highlight .thead, .btn-primary:hover { 
   background: #f48cb7;
 }
 
@@ -30,7 +30,7 @@ a.service:hover .serviceicon, .pricing .highlight .thead, .btn-primary:hover {
 .foliotextholder .itemcategories a:hover { background: #f48cb7; }
 	
 /* TEXT COLORS */
-.themecolor, .notfounderror, a, a.color, a.service:hover h4, a.service:hover h5, span.hlink, .pricing .price, 
+.themecolor, .notfounderror, a, a.color, span.hlink, .pricing .price, 
 .pricing .price .dollar, .blogpost.sticky h2 a, .blogpost.sticky .month, .blogpost.sticky .month, .blogpost.sticky .day, 
 .blogpost.sticky .day, .block-archive ul li a:before, .block-categories ul li a:before, .block-archive ul li a:before, 
 .block-categories ul li a:before, ul.recentcomments li a.username,
