@@ -118,7 +118,7 @@
     <div class="qr-code-caption">扫一扫快速添加 <span class="highlight">美音婚礼™ 到手机联系人</span></div>
     <div class="qr-code-image-contact"><?php print $qr_code_vcard; ?></div>
   </div>
-  <!-- Baidu AutoSubmitting starts here -->
+  <!-- Baidu AutoSubmiting starts here -->
   <script>(function(){var bp = document.createElement('script');var curProtocol = window.location.protocol.split(':')[0];if (curProtocol === 'https'){bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';}else {bp.src = 'http://push.zhanzhang.baidu.com/push.js';}var s = document.getElementsByTagName("script")[0];s.parentNode.insertBefore(bp, s);})();</script>
   <!-- Baidu Analytics start here -->
   <script>var _hmt=_hmt || [];(function() { var hm = document.createElement("script"); hm.src = "//hm.baidu.com/hm.js?08caffd77952fda78937241d780a2909"; var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(hm, s); })();</script>
