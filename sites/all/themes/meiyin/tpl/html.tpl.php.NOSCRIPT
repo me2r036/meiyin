@@ -62,7 +62,7 @@
   <title><?php print $head_title; ?></title>
   <?php if(theme_get_setting('responsive') == 1): ?>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <meta name="applicable-device" content="pc, mobile"/>
+    <meta name="applicable-device" content="pc,mobile"/>
   <?php endif; ?>
 <!-- 美音婚礼™ | meiyin.co™
   <?php if(theme_get_setting('iphoneRegularIcon') != NULL): ?>
