@@ -7,13 +7,13 @@
 /**
  * Implements hook_xmlsitemap_root_attributes_alter().
  */
-function xmlsitemap_mobile_xmlsitemap_root_attributes_alter(&$attributes, $sitemap) {
+function my_xmlsitemap_mobile_xmlsitemap_root_attributes_alter(&$attributes, $sitemap) {
   $attributes['xmlns:mobile'] = 'http://www.google.com/schemas/sitemap-mobile/1.0';
 }
 
 /**
  * Implements hook_xmlsitemap_element_alter().
  */
-function xmlsitemap_mobile_xmlsitemap_element_alter(array &$element, array $link, $sitemap) {
+function my_xmlsitemap_mobile_xmlsitemap_element_alter(array &$element, array $link, $sitemap) {
   $element[] = array('key' => 'mobile:mobile', 'attributes' => array('type' => 'htmladapt'));
 }

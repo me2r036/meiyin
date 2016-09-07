@@ -1,0 +1,5 @@
+name = My XML sitemap mobile
+description = Generate XML sitemap capable for mobiles (ESP. for Baidu).
+core = 7.x
+package = XML sitemap
+dependencies[] = xmlsitemap
