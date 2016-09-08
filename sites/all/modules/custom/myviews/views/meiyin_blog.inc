@@ -26,13 +26,27 @@ $handler->display->display_options['pager']['options']['quantity'] = '9';
 $handler->display->display_options['style_plugin'] = 'default';
 $handler->display->display_options['row_plugin'] = 'fields';
 $handler->display->display_options['row_options']['default_field_elements'] = FALSE;
+/* Field: Content: Video */
+$handler->display->display_options['fields']['field_video']['id'] = 'field_video';
+$handler->display->display_options['fields']['field_video']['table'] = 'field_data_field_video';
+$handler->display->display_options['fields']['field_video']['field'] = 'field_video';
+$handler->display->display_options['fields']['field_video']['label'] = '';
+$handler->display->display_options['fields']['field_video']['exclude'] = TRUE;
+$handler->display->display_options['fields']['field_video']['alter']['alter_text'] = TRUE;
+$handler->display->display_options['fields']['field_video']['alter']['text'] = '<i class="fa fa-youtube-play"></i>';
+$handler->display->display_options['fields']['field_video']['element_label_colon'] = FALSE;
+$handler->display->display_options['fields']['field_video']['element_default_classes'] = FALSE;
+$handler->display->display_options['fields']['field_video']['click_sort_column'] = 'video_url';
+$handler->display->display_options['fields']['field_video']['settings'] = array(
+  'video_style' => 'normal',
+);
 /* Field: Content: Title */
 $handler->display->display_options['fields']['title']['id'] = 'title';
 $handler->display->display_options['fields']['title']['table'] = 'node';
 $handler->display->display_options['fields']['title']['field'] = 'title';
 $handler->display->display_options['fields']['title']['label'] = '';
 $handler->display->display_options['fields']['title']['alter']['alter_text'] = TRUE;
-$handler->display->display_options['fields']['title']['alter']['text'] = '<span class="icon_wrap"><i class="fa fa-angle-right"></i>[title]</span>';
+$handler->display->display_options['fields']['title']['alter']['text'] = '<span class="icon_wrap"><i class="fa fa-angle-right"></i>[title][field_video]</span>';
 $handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
 $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
 $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
@@ -800,6 +814,20 @@ $handler->display->display_options['fields']['title']['element_label_type'] = '0
 $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
 $handler->display->display_options['fields']['title']['element_wrapper_type'] = '0';
 $handler->display->display_options['fields']['title']['element_default_classes'] = FALSE;
+/* Field: Content: Video */
+$handler->display->display_options['fields']['field_video_1']['id'] = 'field_video_1';
+$handler->display->display_options['fields']['field_video_1']['table'] = 'field_data_field_video';
+$handler->display->display_options['fields']['field_video_1']['field'] = 'field_video';
+$handler->display->display_options['fields']['field_video_1']['label'] = '';
+$handler->display->display_options['fields']['field_video_1']['exclude'] = TRUE;
+$handler->display->display_options['fields']['field_video_1']['alter']['alter_text'] = TRUE;
+$handler->display->display_options['fields']['field_video_1']['alter']['text'] = '<i class="fa fa-youtube-play"></i>';
+$handler->display->display_options['fields']['field_video_1']['element_label_colon'] = FALSE;
+$handler->display->display_options['fields']['field_video_1']['element_default_classes'] = FALSE;
+$handler->display->display_options['fields']['field_video_1']['click_sort_column'] = 'video_url';
+$handler->display->display_options['fields']['field_video_1']['settings'] = array(
+  'video_style' => 'normal',
+);
 /* Field: User: Name */
 $handler->display->display_options['fields']['name']['id'] = 'name';
 $handler->display->display_options['fields']['name']['table'] = 'users';
@@ -907,7 +935,7 @@ $handler->display->display_options['fields']['body']['alter']['text'] = '<sectio
 [field_slider_block]
 <section class="postbody[field_template]">
 <div class="date">[created]</div>
-<h2>[title]</h2>
+<h2>[title][field_video_1]</h2>
 [comment_count]
 <div class="posttext">[body]...</div>
 </section>
@@ -1009,6 +1037,20 @@ $handler->display->display_options['fields']['title']['alter']['word_boundary'] 
 $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
 $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
 $handler->display->display_options['fields']['title']['element_default_classes'] = FALSE;
+/* Field: Content: Video */
+$handler->display->display_options['fields']['field_video']['id'] = 'field_video';
+$handler->display->display_options['fields']['field_video']['table'] = 'field_data_field_video';
+$handler->display->display_options['fields']['field_video']['field'] = 'field_video';
+$handler->display->display_options['fields']['field_video']['label'] = '';
+$handler->display->display_options['fields']['field_video']['exclude'] = TRUE;
+$handler->display->display_options['fields']['field_video']['alter']['alter_text'] = TRUE;
+$handler->display->display_options['fields']['field_video']['alter']['text'] = '<i class="fa fa-youtube-play"></i>';
+$handler->display->display_options['fields']['field_video']['element_label_colon'] = FALSE;
+$handler->display->display_options['fields']['field_video']['element_default_classes'] = FALSE;
+$handler->display->display_options['fields']['field_video']['click_sort_column'] = 'video_url';
+$handler->display->display_options['fields']['field_video']['settings'] = array(
+  'video_style' => 'normal',
+);
 /* Field: Content: Comment count */
 $handler->display->display_options['fields']['comment_count']['id'] = 'comment_count';
 $handler->display->display_options['fields']['comment_count']['table'] = 'node_comment_statistics';
@@ -1049,7 +1091,7 @@ $handler->display->display_options['fields']['body_1']['field'] = 'body';
 $handler->display->display_options['fields']['body_1']['label'] = '';
 $handler->display->display_options['fields']['body_1']['alter']['alter_text'] = TRUE;
 $handler->display->display_options['fields']['body_1']['alter']['text'] = '<div class="postbody">
-<h4>[title]</h4>
+<h4>[title][field_video]</h4>
 <div class="postinfo"><div class="categories">[field_categories]</div>[comment_count]</div>
 <div class="posttext">[body] ...</div>
 </div>';
@@ -1072,12 +1114,39 @@ $handler->display->display_options['defaults']['style_plugin'] = FALSE;
 $handler->display->display_options['style_plugin'] = 'list';
 $handler->display->display_options['style_options']['default_row_class'] = FALSE;
 $handler->display->display_options['style_options']['row_class_special'] = FALSE;
+$handler->display->display_options['style_options']['class'] = 'popposts';
 $handler->display->display_options['style_options']['wrapper_class'] = '';
 $handler->display->display_options['defaults']['style_options'] = FALSE;
 $handler->display->display_options['defaults']['row_plugin'] = FALSE;
 $handler->display->display_options['row_plugin'] = 'fields';
 $handler->display->display_options['row_options']['default_field_elements'] = FALSE;
 $handler->display->display_options['defaults']['row_options'] = FALSE;
+$handler->display->display_options['defaults']['fields'] = FALSE;
+/* Field: Content: Video */
+$handler->display->display_options['fields']['field_video']['id'] = 'field_video';
+$handler->display->display_options['fields']['field_video']['table'] = 'field_data_field_video';
+$handler->display->display_options['fields']['field_video']['field'] = 'field_video';
+$handler->display->display_options['fields']['field_video']['label'] = '';
+$handler->display->display_options['fields']['field_video']['exclude'] = TRUE;
+$handler->display->display_options['fields']['field_video']['alter']['alter_text'] = TRUE;
+$handler->display->display_options['fields']['field_video']['alter']['text'] = '<i class="fa fa-youtube-play"></i>';
+$handler->display->display_options['fields']['field_video']['element_label_colon'] = FALSE;
+$handler->display->display_options['fields']['field_video']['element_default_classes'] = FALSE;
+$handler->display->display_options['fields']['field_video']['click_sort_column'] = 'video_url';
+$handler->display->display_options['fields']['field_video']['settings'] = array(
+  'video_style' => 'normal',
+);
+/* Field: Content: Title */
+$handler->display->display_options['fields']['title']['id'] = 'title';
+$handler->display->display_options['fields']['title']['table'] = 'node';
+$handler->display->display_options['fields']['title']['field'] = 'title';
+$handler->display->display_options['fields']['title']['label'] = '';
+$handler->display->display_options['fields']['title']['alter']['alter_text'] = TRUE;
+$handler->display->display_options['fields']['title']['alter']['text'] = '<span class="icon_wrap"><i class="fa fa-angle-right"></i>[title][field_video]</span>';
+$handler->display->display_options['fields']['title']['alter']['word_boundary'] = FALSE;
+$handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
+$handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
+$handler->display->display_options['fields']['title']['element_default_classes'] = FALSE;
 $handler->display->display_options['defaults']['sorts'] = FALSE;
 /* Sort criterion: Content statistics: Total views */
 $handler->display->display_options['sorts']['totalcount']['id'] = 'totalcount';
@@ -1151,6 +1220,20 @@ $handler->display->display_options['fields']['title']['alter']['word_boundary'] 
 $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
 $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
 $handler->display->display_options['fields']['title']['element_default_classes'] = FALSE;
+/* Field: Content: Video */
+$handler->display->display_options['fields']['field_video']['id'] = 'field_video';
+$handler->display->display_options['fields']['field_video']['table'] = 'field_data_field_video';
+$handler->display->display_options['fields']['field_video']['field'] = 'field_video';
+$handler->display->display_options['fields']['field_video']['label'] = '';
+$handler->display->display_options['fields']['field_video']['exclude'] = TRUE;
+$handler->display->display_options['fields']['field_video']['alter']['alter_text'] = TRUE;
+$handler->display->display_options['fields']['field_video']['alter']['text'] = '<i class="fa fa-youtube-play"></i>';
+$handler->display->display_options['fields']['field_video']['element_label_colon'] = FALSE;
+$handler->display->display_options['fields']['field_video']['element_default_classes'] = FALSE;
+$handler->display->display_options['fields']['field_video']['click_sort_column'] = 'video_url';
+$handler->display->display_options['fields']['field_video']['settings'] = array(
+  'video_style' => 'normal',
+);
 /* Field: Content: Categories */
 $handler->display->display_options['fields']['field_categories']['id'] = 'field_categories';
 $handler->display->display_options['fields']['field_categories']['table'] = 'field_data_field_categories';
@@ -1198,7 +1281,7 @@ $handler->display->display_options['fields']['body_1']['field'] = 'body';
 $handler->display->display_options['fields']['body_1']['label'] = '';
 $handler->display->display_options['fields']['body_1']['alter']['alter_text'] = TRUE;
 $handler->display->display_options['fields']['body_1']['alter']['text'] = '<div class="postbody">
-<h4>[title]</h4>
+<h4>[title][field_video]</h4>
 <div class="postinfo"><div class="categories">[field_categories]</div>[comment_count]</div>
 <div class="posttext">[body] ...</div>
 </div>';
@@ -1256,6 +1339,7 @@ $handler->display->display_options['defaults']['style_plugin'] = FALSE;
 $handler->display->display_options['style_plugin'] = 'list';
 $handler->display->display_options['style_options']['default_row_class'] = FALSE;
 $handler->display->display_options['style_options']['row_class_special'] = FALSE;
+$handler->display->display_options['style_options']['class'] = 'recentposts';
 $handler->display->display_options['style_options']['wrapper_class'] = '';
 $handler->display->display_options['defaults']['style_options'] = FALSE;
 $handler->display->display_options['defaults']['row_plugin'] = FALSE;
@@ -1377,7 +1461,8 @@ $translatables['meiyin_blog'] = array(
   t('‹ previous'),
   t('next ›'),
   t('last »'),
-  t('<span class="icon_wrap"><i class="fa fa-angle-right"></i>[title]</span>'),
+  t('<i class="fa fa-youtube-play"></i>'),
+  t('<span class="icon_wrap"><i class="fa fa-angle-right"></i>[title][field_video]</span>'),
   t('Page: Large Media Wide'),
   t('Blog - Large Media Wide'),
   t('author'),
@@ -1467,7 +1552,7 @@ $translatables['meiyin_blog'] = array(
 [field_slider_block]
 <section class="postbody[field_template]">
 <div class="date">[created]</div>
-<h2>[title]</h2>
+<h2>[title][field_video_1]</h2>
 [comment_count]
 <div class="posttext">[body]...</div>
 </section>
@@ -1486,7 +1571,7 @@ $translatables['meiyin_blog'] = array(
 </div>'),
   t('<div class="comments">[comment_count]</div>'),
   t('<div class="postbody">
-<h4>[title]</h4>
+<h4>[title][field_video]</h4>
 <div class="postinfo"><div class="categories">[field_categories]</div>[comment_count]</div>
 <div class="posttext">[body] ...</div>
 </div>'),
