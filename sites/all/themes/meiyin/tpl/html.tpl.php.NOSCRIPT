@@ -63,6 +63,7 @@
   <?php if(theme_get_setting('responsive') == 1): ?>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="applicable-device" content="pc,mobile"/>
+    <meta name="location" content="province=陕西;city=西安;coord=34.2301380000,108.9055550000"/>
   <?php endif; ?>
 <!-- 美音婚礼™ | meiyin.co™
   <?php if(theme_get_setting('iphoneRegularIcon') != NULL): ?>
