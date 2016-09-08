@@ -127,6 +127,12 @@ $handler->display->display_options['filters']['type']['field'] = 'type';
 $handler->display->display_options['filters']['type']['value'] = array(
   'portfolio' => 'portfolio',
 );
+/* Filter criterion: Content: Post date */
+$handler->display->display_options['filters']['created']['id'] = 'created';
+$handler->display->display_options['filters']['created']['table'] = 'node';
+$handler->display->display_options['filters']['created']['field'] = 'created';
+$handler->display->display_options['filters']['created']['operator'] = '>';
+$handler->display->display_options['filters']['created']['value']['value'] = '2012-12-31 23:59:59';
 
 /* Display: Portfolio - 5 Columns */
 $handler = $view->new_display('page', 'Portfolio - 5 Columns', 'page');
@@ -346,6 +352,28 @@ $handler->display->display_options['fields']['title']['alter']['word_boundary'] 
 $handler->display->display_options['fields']['title']['alter']['ellipsis'] = FALSE;
 $handler->display->display_options['fields']['title']['element_label_colon'] = FALSE;
 $handler->display->display_options['fields']['title']['link_to_node'] = FALSE;
+$handler->display->display_options['defaults']['filter_groups'] = FALSE;
+$handler->display->display_options['defaults']['filters'] = FALSE;
+/* Filter criterion: Content: Published */
+$handler->display->display_options['filters']['status']['id'] = 'status';
+$handler->display->display_options['filters']['status']['table'] = 'node';
+$handler->display->display_options['filters']['status']['field'] = 'status';
+$handler->display->display_options['filters']['status']['value'] = 1;
+$handler->display->display_options['filters']['status']['group'] = 1;
+$handler->display->display_options['filters']['status']['expose']['operator'] = FALSE;
+/* Filter criterion: Content: Type */
+$handler->display->display_options['filters']['type']['id'] = 'type';
+$handler->display->display_options['filters']['type']['table'] = 'node';
+$handler->display->display_options['filters']['type']['field'] = 'type';
+$handler->display->display_options['filters']['type']['value'] = array(
+  'portfolio' => 'portfolio',
+);
+/* Filter criterion: Content: Post date */
+$handler->display->display_options['filters']['created']['id'] = 'created';
+$handler->display->display_options['filters']['created']['table'] = 'node';
+$handler->display->display_options['filters']['created']['field'] = 'created';
+$handler->display->display_options['filters']['created']['operator'] = '>';
+$handler->display->display_options['filters']['created']['value']['value'] = '2012-12-31 23:59:59';
 $handler->display->display_options['path'] = 'portfolio';
 $handler->display->display_options['menu']['type'] = 'normal';
 $handler->display->display_options['menu']['title'] = '案例';
