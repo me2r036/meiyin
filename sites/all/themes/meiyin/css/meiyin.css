@@ -153,7 +153,7 @@ a.color:hover { color: #353535; text-decoration: none; }
 .social ul li a.so_weibo:hover { background: #f8c300; }
 .social ul li a.so_tweibo:hover { background: #1098eb; }
 .social ul li a.so_qq:hover { background: #ff5165; }
-.social ul li a.so_youku:hover { background: #06a7e1; }
+.social ul li a.so_youku:hover { background: #3be; }
 .social ul li a.so_vcard:hover { background: #ff5165; }
 .social ul li a.so_rss:hover { background: #f8c300; }
 
@@ -753,6 +753,9 @@ ul.inline .comment-add { padding: 0px; }
 .subfooter .righttext .first {float: right;}
 .subfooter .spacer {padding-right: 15px; }
 .subfooter .textwidget { margin-top: 10px; }
+.subfooter .icon_wrap { margin-left: 20px; }
+.subfooter .mobile .icon_wrap { margin-left: 10px; }
+.subfooter .icon_wrap .fa { color: #3be; }
 .subfooter #logo-gray { margin-top: -6px; margin-right: 8px; } 
 
 /* WIDGETS */
@@ -1713,7 +1716,7 @@ a.accordion-toggle.collapsed:hover { color: #666;
   .sidebar .block-posts ul li:first-child { padding-top: 7px; }
   .sidebar .block ul.services { padding-left: 20px; width: 90%; }
 
-  .qr-code-image img { max-width: 300px; }
+  .qr-code-image img { max-width: 270px; }
 }
 
 @media only screen and (min-width: 480px) and (max-width: 767px) {
