@@ -7,12 +7,12 @@
 ?>
 
 <?php if ($content): ?>
-	<div class="<?php print $classes; ?>">
-		<div class="headerleftwrap">
-			<div class="headerleftinner">
-				<?php print $content; ?>
-			</div>
-		</div>
-		<div class="clear"></div>
-	</div>
+  <div class="<?php print $classes; ?>">
+    <div class="headerleftwrap">
+      <div class="headerleftinner">
+        <?php print $content; ?>
+      </div>
+    </div>
+    <div class="clear"></div>
+  </div>
 <?php endif; ?>
