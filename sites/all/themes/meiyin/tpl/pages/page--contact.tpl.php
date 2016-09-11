@@ -83,7 +83,7 @@
 				</nav><!-- /#navigation -->
 				
 				<div class="row mobilemenu">
-					<div class="icon-menu"><i class="fa fa-bars"></i></div>
+					<div class="icon-menu"><img src="/sites/all/themes/meiyin/img/ico_menu.png" /></div>
 					<form id="responsive-menu" action="#" method="post" accept-charset="UTF-8">
 						<select></select>
 					</form>
