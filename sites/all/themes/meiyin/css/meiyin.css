@@ -1434,6 +1434,7 @@ a.accordion-toggle.collapsed:hover { color: #666;
   .pricing.threecols .pricecol .pricewrap { width: 31.4%; }
   
   #revolution_slider_2 .slotholder { top: -59px; }
+  #backtotop { bottom: 350px !important; }
 }
 
 /* Footer for small screens */
@@ -1993,7 +1994,7 @@ ul.retina-icons li i {
 .thumbholder:hover .thumboverlay { visibility: visible; }
 
 /* Quick links */
-.html #backtotop {
+#backtotop {
   background: url(/sites/all/themes/meiyin/img/quick-links.png) no-repeat left -150px;
   height: 40px;
   width: 40px;
@@ -2002,11 +2003,11 @@ ul.retina-icons li i {
   display: none;
   text-indent: -9999px;
   cursor: pointer;
-  bottom: 48px;
+  bottom: 90px;
   z-index: 8051;
 }
 
-.html #backtotop:hover {
+#backtotop:hover {
   background-position-y: -350px;
 }
 
