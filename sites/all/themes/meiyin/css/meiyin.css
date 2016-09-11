@@ -743,7 +743,7 @@ ul.inline .comment-add { padding: 0px; }
 /* SUBFOOTER */
 /* ------------------------------------ */
 .subfooterwrap { position: relative; width: 1170px;  left: 50%; margin-left: -585px; padding: 0px; padding-top: 4px; padding-bottom: 9px; background: #151515; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; }
-.subfooterwrap.wide { position: relative; width: 100%;  left: 0; margin-left: 0; padding: 0px; padding-top: 4px; padding-bottom: 7px; background: #151515; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; border-top: 1px solid; border-bottom: 3px solid; }
+.subfooterwrap.wide { position: relative; width: 100%;  left: 0; margin-left: 0; padding: 0px; padding-top: 4px; padding-bottom: 7px; background: #151515; -webkit-border-radius: 5px; -moz-border-radius: 5px; border-radius: 5px; border-top: 1px solid; }
 .subfooter { margin-left: 30px; color: #999; font-size: 13px; line-height: 22px; margin: 0 auto; width: 1170px;  }
 .subfooterwrap.wide .subfooter { margin: 0 auto; width: 1170px; }
 .subfooter a { color: #999; background: none; }
