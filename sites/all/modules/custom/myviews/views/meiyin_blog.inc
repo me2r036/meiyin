@@ -1303,8 +1303,10 @@ $handler->display->display_options['arguments']['tid']['table'] = 'taxonomy_inde
 $handler->display->display_options['arguments']['tid']['field'] = 'tid';
 $handler->display->display_options['arguments']['tid']['default_action'] = 'default';
 $handler->display->display_options['arguments']['tid']['default_argument_type'] = 'taxonomy_tid';
+$handler->display->display_options['arguments']['tid']['default_argument_options']['term_page'] = FALSE;
 $handler->display->display_options['arguments']['tid']['default_argument_options']['node'] = TRUE;
 $handler->display->display_options['arguments']['tid']['default_argument_options']['anyall'] = '+';
+$handler->display->display_options['arguments']['tid']['default_argument_options']['limit'] = TRUE;
 $handler->display->display_options['arguments']['tid']['default_argument_options']['vocabularies'] = array(
   'categories' => 'categories',
 );
