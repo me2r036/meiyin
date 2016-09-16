@@ -387,11 +387,15 @@ function menuHandler() {
     else
       if (par==2)
         var newtxt=jQuery("<div>&nbsp;&nbsp;&nbsp;"+atext+"</div>").text();
-      else
-        if (par==4)
-          var newtxt=jQuery("<div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+atext+"</div>").text();
+    else
+      if (par==4)
+        var newtxt=jQuery("<div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+atext+"</div>").text();
 
-     jQuery('#responsive-menu select').append(new Option(newtxt,a.attr('href')) );
+    jQuery('#responsive-menu select').append(new Option(newtxt,a.attr('href')) );
+
+    // Determine where we are
+    if(jQuery(this).hasClass('active'))
+      jQuery('#responsive-menu select option:last').attr('selected', true);
   });
 }
 
