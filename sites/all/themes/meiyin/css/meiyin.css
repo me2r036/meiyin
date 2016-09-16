@@ -932,7 +932,7 @@ blockquote { font-size: 15px; line-height: 26px; color: #777; background: #eee; 
 /* PORTFOLIO */
 /* ------------------------------------ */
 .portfolio > .view-content { width: 1170px; margin: 0; padding: 0; }
-.portfolio .isotope-container { overflow: hidden; position: relative; margin-left: -10px; margin-bottom: -10px; margin-top: -10px; width: 100%; }
+.portfolio .isotope-container { overflow: hidden; position: relative; margin-left: -10px; width: 100%; }
 .portfolio img { width: 100%; max-width: none !important; height: auto; }
 .threecol .isotope-element { width: 396px; float: left; overflow: hidden; position: relative; }
 .fourcol .isotope-element { width: 297px; float: left; overflow: hidden; position: relative; }
@@ -1611,7 +1611,6 @@ a.accordion-toggle.collapsed:hover { color: #666;
   .headertop .headerrighttext > div, .headertop .headerlefttext > div { float: none; }
   .front #firstcontentcontainer { overflow-x: visible; }
   .region.header > .block { position: relative; margin-left: -20px; margin-right: -20px; }
-  .mediaholder { overflow: visible; }
   .headerwrap, .boxedlayout .headerwrap { width: 100%; margin: 0; margin-bottom: 0px; margin-left: -20px; padding-right: 40px; left: 0; }
   .header, .boxedlayout .header { width: 100%; z-index: 500; height: 75px; margin-left: 0; left: 0; }
   .header #logo, .boxedlayout .header #logo { float: left; padding: 0px; margin: 10px 0 10px 20px; }
@@ -1625,7 +1624,7 @@ a.accordion-toggle.collapsed:hover { color: #666;
   .portfolio .isotope-container { margin-left: -20px; padding-left: 20px; padding-right: 20px; }
 
   .portfolio .isotope-element { width: 100%; margin-left: -20px; padding-left: 20px; padding-right: 20px; }
-  .holderwrap { margin-left: -20px; margin-right: -20px; }
+  .holderwrap { margin: 10px -20px 0 -20px; }
 
   .view-display-id-page_1.portfolio .isotope-element { padding-left: 0; padding-right: 0; }
   .view-display-id-page_1 .holderwrap { margin-left: 0; margin-right: 0; }
@@ -1635,6 +1634,7 @@ a.accordion-toggle.collapsed:hover { color: #666;
 
   .view-meiyin-blog .blogpost .postmedia .scalevid { margin-left: 0; margin-right: 0; }
 
+  .mediaholder { -webkit-border-radius: 5px 5px 5px 5px; -moz-border-radius: 5px 5px 5px 5px; border-radius: 5px 5px 5px 5px; }
   .mediaholder .show, .mediaholder .itemcategories, .mediaholder .cover, .mediaholder .itemtitle { display: none; }
   .mediaholder .link  { cursor:pointer; position:absolute; left:0; top:0; color: transparent; background: transparent; width:100%; height:100%; margin-top:0px; margin-left:0px; -webkit-transition: all 0.2s; -moz-transition: all 0.2s; -o-transition: all 0.2s; -ms-transition: all 0.2s; -moz-opacity:1; filter:alpha(opacity=100); opacity:1; -webkit-border-radius: 0px; -moz-border-radius: 0px; -o-border-radius: 0px; border-radius: 0px; }
   .link.notalone { left:0; margin-left:0;}
@@ -1647,6 +1647,7 @@ a.accordion-toggle.collapsed:hover { color: #666;
     filter: none;
     -webkit-filter: grayscale(40%);
   }
+  .foliotextholder { margin-bottom: 0; border-bottom: none; }
 
   a.service { margin-bottom: 30px; }
   .span4:last-child a.service { margin-bottom: 0; }
