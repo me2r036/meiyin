@@ -1203,10 +1203,16 @@ padding-top: 8px; padding-bottom: 7px; padding-left: 0; padding-right: 0; -webki
 .mobile-submenu ul li { float: left; width: 25%; text-align: center; }
 .mobile-submenu ul li a { color: #111; }
 
-.mobile-submenu .fa-television { color: #ed3e86; }
-.mobile-submenu .fa-youtube-play { color: #3be; }
-.mobile-submenu .fa-clone { color: #ff5165; }
-.mobile-submenu .fa-leaf { color: #12b751; }
+.mobile-submenu .fa-television:not(.fa-inverse) { color: #ed3e86; }
+.mobile-submenu .fa-youtube-play:not(.fa-inverse) { color: #3be; }
+.mobile-submenu .fa-clone:not(.fa-inverse) { color: #ff5165; }
+.mobile-submenu .fa-leaf:not(.fa-inverse) { color: #12b751; }
+
+/* Mobile Submenu BigIcon */
+#mobile-submenu-television { color: #ed3e86; }
+#mobile-submenu-youtube { color: #3be; }
+#mobile-submenu-clone { color: #ff5165; }
+#mobile-submenu-leaf { color: #12b751; }
 
 .front .prescript-first { margin: 20px 0 0; }
 
