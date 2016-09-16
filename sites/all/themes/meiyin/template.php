@@ -239,7 +239,15 @@
           }
         }
       }
+
+      // Remove servies view from front page if the device is mobile
+      if (drupal_is_front_page() && $view->name == 'meiyin_services') {
+        foreach ($view->result as $result) {
+          unset($view->result);
+        }
+      }
     }
+
   }
 
   /**
