@@ -114,7 +114,7 @@
     <section class="headerwrap">
       <div class="header span12">
         <?php if ($logo): ?>
-          <a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>" rel="home" id="logo">
+          <a href="<?php print $front_page; ?>" title="西安婚庆公司" rel="home" id="logo">
             <picture>
               <!--[if IE 9]><video style="display: none;"><![endif]-->
               <source srcset="<?php print ($GLOBALS['base_url'] . '/' . drupal_get_path('theme', 'meiyin') . '/logo.png'); ?> 1x, <?php print ($GLOBALS['base_url'] . '/' . drupal_get_path('theme', 'meiyin') . '/logo@2x.png'); ?> 2x" media="(min-width: 0px)">
@@ -220,6 +220,12 @@
     <div class="row-fluid">
       <?php if ($page['sidebar_first']): ?>
         <?php print render($page['sidebar_first']); ?>
+      <?php endif; ?>
+
+      <?php if ($messages): ?>
+        <div id="messages">
+          <?php print $messages; ?>
+        </div><!-- /.section, /#messages -->
       <?php endif; ?>
 
       <?php print render($page['content']); ?>
