@@ -79,7 +79,6 @@ function qr_codes_menu() {
       );
     }
   }
-
   return $items;
 }
 

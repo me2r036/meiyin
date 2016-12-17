@@ -1,8 +1,4 @@
-name = "QR Codes"
-description = "This modules allows for the creation of two dimensional (2D) QR barcodes."
-core = "7.x"
-package = "QR Codes"
-
-files[] = qr_codes.admin.inc
-files[] = qr_codes.install
-files[] = qr_codes.module
+name = QR Codes
+description = This modules allows for the creation of two dimensional (2D) QR barcodes.
+core = 7.x
+package = QR Codes

@@ -8,7 +8,7 @@
  */
 
 /**
- * Settings callback for 'admin/config/qr_codes' path.
+ * Settings callback for 'admin/config/media/qr_codes' path.
  */
 function qr_codes_settings($form, &$form_state) {
   $form = array();
