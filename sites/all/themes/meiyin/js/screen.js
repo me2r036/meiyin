@@ -184,12 +184,12 @@ jQuery(document).ready(function($) {
           $('.headerwrap').css('margin-top', 'inherit');
           $isSticked = false;
         }
-      });   
+      });
     }
   })(jQuery);
 
   /* Webform component background color. */
-  jQuery('.webform-component').click(function() {
+  jQuery('.webform-component, #profile2-edit-personal-data-form .form-wrapper, .page-coworker #edit-account .form-item, .page-coworker-advanced #edit-account .form-item, .page-user-edit #edit-account .form-item, #edit-profile-personal-data .form-wrapper, #wedding-node-form .fieldset-wrapper .form-wrapper').click(function() {
     var $item = $(this);
     if (!$item.hasClass('webform-focus')) {
       jQuery('.webform-focus').removeClass('webform-focus');
@@ -209,6 +209,23 @@ jQuery(document).ready(function($) {
       this.width = 300;
       this.height = 300;
     }
+  });
+
+  // User menu accessibility.
+  $('#block-system-user-menu .spot > a').focus(function (e) {
+    this.parentElement.classList.add('expanded');
+  }).click(function (e) {
+    this.parentElement.classList.toggle('expanded');
+    e.preventDefault();
+  }).parent().find('a').andSelf().blur(function () {
+    // Wait for next element to gain focus.
+    setTimeout(function () {
+      var trigger = document.querySelector('#block-system-user-menu .spot.expanded');
+      // Check if focused element is still in the expanded menu.
+      if (trigger !== null && !trigger.contains(document.activeElement)) {
+        trigger.classList.remove('expanded');
+      }
+    }, 10);
   });
 
 });

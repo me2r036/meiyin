@@ -22,7 +22,7 @@ $url = url($path, $options);
 
   <?php if(!empty($content['field_description'])): ?>
     <div class="field-items webform-description">
-      <h4><?php print $node->field_description[LANGUAGE_NONE]['0']['value']; ?></h4>
+      <h4><?php print $node->field_description[LANGUAGE_NONE][0]['value']; ?></h4>
     </div>
   <?php endif; ?>
 
@@ -33,7 +33,7 @@ $url = url($path, $options);
   <?php endif; ?>
 
   <?php if(!empty($content['field_image'])): ?>
-    <div class="webform-background-wrapper" style="background:url(<?php print file_create_url($node->field_image[LANGUAGE_NONE]['0']['uri']); ?>) no-repeat;">
+    <div class="webform-background-wrapper" style="background:url(<?php print file_create_url($node->field_image[LANGUAGE_NONE][0]['uri']); ?>) no-repeat;">
   <?php endif; ?>
 
   <?php
@@ -50,14 +50,16 @@ $url = url($path, $options);
     </div> 
   <?php endif; ?>
 
-  <!-- Baidu Share -->
-  <div class="bdsharebuttonbox">
-    <h6>分享到：</h6>
-    <a href="#" class="bds_weixin" data-cmd="weixin"></a>
-    <a href="#" class="bds_tsina" data-cmd="tsina"></a>
-    <a href="#" class="bds_tqq" data-cmd="tqq"></a>
-    <a href="#" class="bds_sqq" data-cmd="sqq"></a>
-    <a href="#" class="bds_qzone" data-cmd="qzone"></a>
-    <a href="#" class="bds_more" data-cmd="more"></a>
-  </div>
+  <?php if($node->nid == '47'): ?>
+    <!-- Baidu Share -->
+    <div class="bdsharebuttonbox">
+      <h6>分享到：</h6>
+      <a href="#" class="bds_weixin" data-cmd="weixin"></a>
+      <a href="#" class="bds_tsina" data-cmd="tsina"></a>
+      <a href="#" class="bds_tqq" data-cmd="tqq"></a>
+      <a href="#" class="bds_sqq" data-cmd="sqq"></a>
+      <a href="#" class="bds_qzone" data-cmd="qzone"></a>
+      <a href="#" class="bds_more" data-cmd="more"></a>
+    </div>
+  <?php endif; ?>
 </div>

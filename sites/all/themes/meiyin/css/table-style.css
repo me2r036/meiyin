@@ -1,0 +1,122 @@
+.view-filters {
+  background: #d9e6f2;
+  padding: 0 20px;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .15);
+}
+
+.views-exposed-form .views-exposed-widget .form-submit { margin-top: 1.9em; }
+
+p {
+  margin: 20px 0; 
+}
+table a:hover {
+  color: #3be;
+}
+
+/* 
+Generic Styling, for Desktops/Laptops 
+*/
+table { 
+  width: 100%; 
+  border-collapse: collapse; 
+  margin: 0 0 20px 0;
+}
+/* Zebra striping */
+tr:nth-of-type(odd) { 
+  background: #eee; 
+}
+th { 
+  background: #333; 
+  color: white; 
+  font-weight: bold; 
+}
+td, th { 
+  padding: 6px; 
+  border: 1px solid #ccc; 
+  text-align: left; 
+}
+
+.submission-status { color: #fff; background: #ff5165; padding: 2px 2px; -webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; }
+.submission-status.success { background: #0bbc06; }
+.submission-status.process { background: #3be; }
+.submission-status.completed { background: #aaa; }
+
+/* 
+Max width before this PARTICULAR table gets nasty
+This query will take effect for any screen smaller than 760px
+and also iPads specifically.
+*/
+@media only screen and (max-width: 767px) {
+
+  /* Force table to not be like tables anymore */
+  table, thead, tbody, th, td, tr { 
+    display: block; 
+  }
+
+  table select { width: 40%; }
+  
+  /* Hide table headers (but not display: none;, for accessibility) */
+  thead tr { 
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+  
+  tr { border: 1px solid #ccc; }
+  
+  td { 
+    /* Behave  like a "row" */
+    border: none;
+    border-bottom: 1px solid #eee; 
+    position: relative;
+    padding-left: 50%; 
+  }
+  
+  td:before { 
+    /* Now like a table header */
+    position: absolute;
+    /* Top/left values mimic padding */
+    top: 6px;
+    left: 6px;
+    width: 45%; 
+    padding-right: 10px; 
+    white-space: nowrap;
+  }
+
+  .view-filters select { width: 150px; }
+
+  /*
+  Label the data
+  */
+  .page-my-customers td:nth-of-type(1):before { content: "提交ID"; }
+  .page-my-customers td:nth-of-type(2):before { content: "提交时间"; }
+  .page-my-customers td:nth-of-type(3):before { content: "提交用户"; }
+  .page-my-customers td:nth-of-type(4):before { content: "男方姓名"; }
+  .page-my-customers td:nth-of-type(5):before { content: "女方姓名"; }
+  .page-my-customers td:nth-of-type(6):before { content: "手机号码"; }
+  .page-my-customers td:nth-of-type(7):before { content: "婚礼日期"; }
+  .page-my-customers td:nth-of-type(8):before { content: "客户状态"; }
+  .page-my-customers td:nth-of-type(9):before { content: "佣金状态"; }
+
+  .page-referral-customers td:nth-of-type(1):before { content: "提交ID"; }
+  .page-referral-customers td:nth-of-type(2):before { content: "提交时间"; }
+  .page-referral-customers td:nth-of-type(3):before { content: "提交用户"; }  
+  .page-referral-customers td:nth-of-type(4):before { content: "男方姓名"; }
+  .page-referral-customers td:nth-of-type(5):before { content: "女方姓名"; }
+  .page-referral-customers td:nth-of-type(6):before { content: "手机号码"; }
+  .page-referral-customers td:nth-of-type(7):before { content: "婚礼日期"; }
+  .page-referral-customers td:nth-of-type(8):before { content: "客户状态"; }
+  .page-referral-customers td:nth-of-type(9):before { content: "佣金状态"; }
+}
+
+@media only screen and (min-width: 376px) and (max-width: 479px) {
+  .view-filters select { width: 220px; }
+}
+
+@media only screen and (min-width: 302px) and (max-width: 375px) {
+  .view-filters select { width: 150px; }
+}
+
+@media only screen and (max-width: 301px) {
+  .view-filters select { width: 120px; }
+}

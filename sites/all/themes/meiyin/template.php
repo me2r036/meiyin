@@ -56,14 +56,23 @@
     $element = &$vars['element'];
     $sub_menu = '';
 
-    if($element['#href'] == '<front>' && drupal_is_front_page()) {
+    if ($element['#href'] == '<front>' && drupal_is_front_page()) {
       $element['#attributes']['class'][] = 'active';
 		}
     
-    if($element['#href'] == current_path()) {
+    if ($element['#href'] == current_path()) {
       $element['#attributes']['class'][] = 'active';
     }
-	
+
+    // Hide 'refer new customer' menu item on user menu for other users.
+    if ($element['#href'] == 'node/106') {
+      $allowed_roles = array('coworker', 'coworker advanced', 'administrator');
+      if (!array_intersect($allowed_roles, $GLOBALS['user']->roles)) {
+        //$element['#attributes']['class'][] = 'hidden';
+        return NULL;
+      }
+    }
+
     //if($element['#below']) {
     //  $sub_menu = drupal_render($element['#below']);
     //}
@@ -137,18 +146,22 @@
       }
     }
     // Save our modifications, and call core theme_menu_link().
-    $var['element'] = $element;
-    return theme_menu_link($var);
+    // $vars['element'] = $element;
+    return theme_menu_link($vars);
     // return '<li' . drupal_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
   }
-	
+
   function meiyin_menu_tree(&$vars) {
     return '<ul>' . $vars['tree'] . '</ul>';
   }
-	
-	/**
-	 * Implements theme_breadcrumb().
-	 */
+
+  function meiyin_menu_tree__user_menu(&$vars) {
+    return '<div id="block-system-user-menu" class="block block-system block-menu"><ul><li class="spot default"><a href="#block-system-user-menu" title="美音婚礼™ 我的账户"><i class="fa fa-user"></i></a><ul>' . $vars['tree'] . '</ul></li></ul></div>';
+  }
+
+  /**
+   * Implements theme_breadcrumb().
+   */
   function meiyin_breadcrumb(&$vars) {
     $breadcrumb = &$vars['breadcrumb'];
 
@@ -165,7 +178,10 @@
    * Implements hook_form_alter().
    */
   function meiyin_form_alter(&$form, &$form_state, $form_id) {
+    $form['actions']['draft']['#attributes']['class'][] = 'btn btn-primary';
     $form['actions']['submit']['#attributes']['class'][] = 'btn btn-primary';
+    $form['actions']['delete']['#attributes']['class'][] = 'btn btn-primary';
+
     if($form_id == 'search_form' && (arg(0) !== 'search')) {
       $form['basic']['submit'] = array('#attributes' => array('class' => array('element-invisible')));
       $form['basic']['keys'] = array(
@@ -193,13 +209,24 @@
     }
 
     if ($form_id == 'webform_client_form_47') {
+      $form['actions']['draft']['#value'] = decode_entities('&#xf0c7;') . ' 保存草稿';
       $form['actions']['submit']['#value'] = decode_entities('&#xf1d8;') . ' 提交预约';
     }
-
   }
 
   /**
-   * Implements hook_field().
+   * Implements hook_form_FORM_ID_alter().
+   *
+   * Profile2 data can be accessed here (in the later processing), which can not be accessed in wedding_commission module.
+   */
+  function meiyin_form_user_register_form_alter(&$form, &$form_state, $form_id) {
+    if (current_path() == 'user/register') {
+      unset($form['profile_personal_data']);
+    }
+  }
+
+  /**
+   * Implements theme_field().
    */
   function meiyin_field__video_embed_field(&$vars) {
     $output ='';
@@ -248,6 +275,10 @@
       }
     }
 
+    // Adds table style file
+    if ($view->name == 'meiyin_webform_submissions' || $view->name == 'meiyin_my_referrals') {
+      drupal_add_css(drupal_get_path('theme', 'meiyin') . '/css/table-style.css');
+    }
   }
 
   /**
@@ -368,7 +399,134 @@
   }
 
   /**
-   * Implements hook_preprocess_html().
+   * Implements theme_form_element().
+   *   Moves form discription above input.
+   *
+   * Returns HTML for a form element.
+   *
+   * Each form element is wrapped in a DIV container having the following CSS
+   * classes:
+   * - form-item: Generic for all form elements.
+   * - form-type-#type: The internal element #type.
+   * - form-item-#name: The internal form element #name (usually derived from the
+   *   $form structure and set via form_builder()).
+   * - form-disabled: Only set if the form element is #disabled.
+   *
+   * In addition to the element itself, the DIV contains a label for the element
+   * based on the optional #title_display property, and an optional #description.
+   *
+   * The optional #title_display property can have these values:
+   * - before: The label is output before the element. This is the default.
+   *   The label includes the #title and the required marker, if #required.
+   * - after: The label is output after the element. For example, this is used
+   *   for radio and checkbox #type elements as set in system_element_info().
+   *   If the #title is empty but the field is #required, the label will
+   *   contain only the required marker.
+   * - invisible: Labels are critical for screen readers to enable them to
+   *   properly navigate through forms but can be visually distracting. This
+   *   property hides the label for everyone except screen readers.
+   * - attribute: Set the title attribute on the element to create a tooltip
+   *   but output no label element. This is supported only for checkboxes
+   *   and radios in form_pre_render_conditional_form_element(). It is used
+   *   where a visual label is not needed, such as a table of checkboxes where
+   *   the row and column provide the context. The tooltip will include the
+   *   title and required marker.
+   *
+   * If the #title property is not set, then the label and any required marker
+   * will not be output, regardless of the #title_display or #required values.
+   * This can be useful in cases such as the password_confirm element, which
+   * creates children elements that have their own labels and required markers,
+   * but the parent element should have neither. Use this carefully because a
+   * field without an associated label can cause accessibility challenges.
+   *
+   * @param $variables
+   *   An associative array containing:
+   *   - element: An associative array containing the properties of the element.
+   *     Properties used: #title, #title_display, #description, #id, #required,
+   *     #children, #type, #name.
+   *
+   * @ingroup themeable
+   */
+  function meiyin_form_element($variables) {
+    $element = &$variables['element'];
+
+    // This function is invoked as theme wrapper, but the rendered form element
+    // may not necessarily have been processed by form_builder().
+    $element += array(
+      '#title_display' => 'before',
+    );
+
+    // Add element #id for #type 'item'.
+    if (isset($element['#markup']) && !empty($element['#id'])) {
+      $attributes['id'] = $element['#id'];
+    }
+    // Add element's #type and #name as class to aid with JS/CSS selectors.
+    $attributes['class'] = array('form-item');
+    if (!empty($element['#type'])) {
+      $attributes['class'][] = 'form-type-' . strtr($element['#type'], '_', '-');
+    }
+    if (!empty($element['#name'])) {
+      $attributes['class'][] = 'form-item-' . strtr($element['#name'], array(' ' => '-', '_' => '-', '[' => '-', ']' => ''));
+    }
+    // Add a class for disabled elements to facilitate cross-browser styling.
+    if (!empty($element['#attributes']['disabled'])) {
+      $attributes['class'][] = 'form-disabled';
+    }
+    $output = '<div' . drupal_attributes($attributes) . '>' . "\n";
+
+    // If #title is not set, we don't display any label or required marker.
+    if (!isset($element['#title'])) {
+      $element['#title_display'] = 'none';
+    }
+    $prefix = isset($element['#field_prefix']) ? '<span class="field-prefix">' . $element['#field_prefix'] . '</span> ' : '';
+    $suffix = isset($element['#field_suffix']) ? ' <span class="field-suffix">' . $element['#field_suffix'] . '</span>' : '';
+
+    switch ($element['#title_display']) {
+      case 'before':
+      case 'invisible':
+        $output .= ' ' . theme('form_element_label', $variables);
+
+        if (!empty($element['#description'])) {
+          $output .= '<div class="description">' . $element['#description'] . "</div>\n";
+        }
+
+        $output .= ' ' . $prefix . $element['#children'] . $suffix . "\n";
+        break;
+
+      case 'after':
+        $output .= ' ' . $prefix . $element['#children'] . $suffix;
+        $output .= ' ' . theme('form_element_label', $variables) . "\n";
+        break;
+
+      case 'none':
+      case 'attribute':
+        // Output no label and no required marker, only the children.
+        $output .= ' ' . $prefix . $element['#children'] . $suffix . "\n";
+        break;
+    }
+
+    $output .= "</div>\n";
+
+    return $output;
+  }
+
+  /**
+   * Implements template_preprocess_user_profile().
+   */
+  function meiyin_preprocess_user_profile(&$vars){
+    if(isset($vars['user_profile']['Referrals'])) {
+      //$vars['user_profile']['Referrals']['#weight'] = 0;
+      $vars['user_profile']['Referrals']['#title'] = '隶属专员';
+      $vars['user_profile']['Referrals'][0]['#title'] = '推荐链接';
+      $vars['user_profile']['Referrals'][0]['#prifix'] = '<span class="referral_link">';
+      $vars['user_profile']['Referrals'][0]['#suffix'] = '</span>';
+      $vars['user_profile']['Referrals'][1]['#title'] = '';
+      $vars['user_profile']['Referrals'][1]['#markup'] = '<a href="/my-referrals">查看我推荐的专员</a>';
+    }
+  }
+
+  /**
+   * Implements template_preprocess_html().
    */
   function meiyin_preprocess_html(&$vars) {
     if(theme_get_setting('layoutcolor') !== 'green') {
@@ -428,7 +586,7 @@ END:VCARD';
   }
 
   /**
-  * Implements hook_preprocess_page().
+  * Implements template_preprocess_page().
   */
   function meiyin_preprocess_page(&$vars) {
     $theme = meiyin_get_theme();
@@ -442,12 +600,13 @@ END:VCARD';
     if (!empty($vars['page']['sidebar_first']) && !empty($vars['page']['sidebar_second'])) {
      $vars['content_settings'] = 'span' . $sidebar_both;
     }
-    else if (!empty($vars['page']['sidebar_first']) && empty($vars['page']['sidebar_second'])) {
+    elseif (!empty($vars['page']['sidebar_first']) && empty($vars['page']['sidebar_second'])) {
       $vars['content_settings'] = 'span' . $sidebar_left;
     }
-    else if (empty($vars['page']['sidebar_first']) && !empty($vars['page']['sidebar_second'])) {
+    elseif (empty($vars['page']['sidebar_first']) && !empty($vars['page']['sidebar_second'])) {
       $vars['content_settings'] = 'span' . $sidebar_right;
-    } else {
+    }
+    else {
       $vars['content_settings'] = (theme_get_setting('content_grid') !== '0') ? 'span'. theme_get_setting('content_grid') : 'span12';
     }
 
@@ -455,11 +614,10 @@ END:VCARD';
       unset($vars['page']['content']['system_main']);
       drupal_add_js(drupal_get_path('theme', 'meiyin') . '/js/TweenMax.min.js');
     }
-
   }
 
   /**
-   * Implements hook_preprocess_node().
+   * Implements template_preprocess_node().
   */
   function meiyin_preprocess_node(&$vars) {
     // Load the currently logged in user
@@ -467,9 +625,9 @@ END:VCARD';
     $roles = $user->roles;
     // Hide the link statistics if current user is not admin or editor.
     if (module_exists('statistics')) {
-      if(!in_array("editor", array_values($roles)) && !in_array("administrator", array_values($roles))) {
+      if (!in_array("editor", array_values($roles)) && !in_array("administrator", array_values($roles))) {
         unset($vars['content']['links']['statistics']['#links']['statistics_counter']);
-      } 
+      }
     }
 
     /* To check if the current user has a single role or any of multiple roles, a great way is to do:
@@ -481,9 +639,9 @@ END:VCARD';
 
     if (user_has_role(array('moderator', 'administrator'))) {
       // $user is admin or moderator
-    } else if(user_has_role('tester')){
+    } elseif (user_has_role('tester')){
       // $user is tester
-    } else{
+    } else {
       // $user is not admin and not moderator
     }*/
 
@@ -496,7 +654,7 @@ END:VCARD';
       $vars['content']['container']['field_image'] = $vars['content']['field_image'];
       unset($vars['content']['field_image']);
 
-      if($vars['field_dotted_overlay'][LANGUAGE_NONE][0]['value']) {
+      if ($vars['field_dotted_overlay'][LANGUAGE_NONE][0]['value']) {
         $vars['content']['container']['#attributes']['class'] .= ' dot-overlay';
       }
     }
@@ -510,7 +668,7 @@ END:VCARD';
     }
 
     //Generate paginator variables for Portfolio and Blog Post nodes.
-    if($vars['type'] == 'portfolio' || $vars['type'] == 'blog_post') {
+    if ($vars['type'] == 'portfolio' || $vars['type'] == 'blog_post') {
       $node_type = $vars['type'];
 
       /* Query Portfolio or Blog Post Nodes */
@@ -526,7 +684,7 @@ END:VCARD';
       $last = end($result['node']);
       $first = reset($result['node']);
 
-      switch($nid) {
+      switch ($nid) {
         case $first->nid:
         $prev = $last->nid;
         $next = next($result['node'])->nid;
@@ -559,7 +717,7 @@ END:VCARD';
     }
 
     // Baidu share script added here
-    if ($vars['type'] == 'portfolio' || $vars['type'] == 'blog_post' || $vars['type'] == 'webform' || $vars['type'] == 'service' || $vars['node']->nid == '31' || $vars['node']->nid == '105'){
+    if ($vars['type'] == 'portfolio' || $vars['type'] == 'blog_post' || $vars['type'] == 'service' || $vars['node']->nid == '47' || $vars['node']->nid == '31' || $vars['node']->nid == '105'){
       $data = 'window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdPic":"","bdStyle":"1"},
               "share":{"bdSize":"24"},
               "image":{"viewList":["weixin","tsina","tqq","sqq","qzone"],"viewText":"分享到：","viewPos":"top","viewSize":"16"},
@@ -568,7 +726,6 @@ END:VCARD';
               .src=\'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=\'+~(-new Date()/36e5)];';
       drupal_add_js($data, array('type' => 'inline', 'group' => JS_THEME));
     }
-
   }
 
   function meiyin_preprocess_region(&$vars) {
@@ -580,23 +737,24 @@ END:VCARD';
 
     switch ($vars['region']) {
      case 'content':
-     $vars['classes_array'][] = $theme->page['content_settings'];
-     break;
+       $vars['classes_array'][] = $theme->page['content_settings'];
+       break;
      case 'header':
-     if(theme_get_setting('parallax-toggle') == 1) { $vars['classes_array'][] = 'parallax'; }
-     if ($span != '0') { $vars['classes_array'][] = 'span'.$span; }
-     break;
-     default: if ($span != '0') { $vars['classes_array'][] = 'span'.$span; } break;
+       if (theme_get_setting('parallax-toggle') == 1) { $vars['classes_array'][] = 'parallax'; }
+       if ($span != '0') { $vars['classes_array'][] = 'span'. $span; }
+       break;
+     default: if ($span != '0') { $vars['classes_array'][] = 'span'. $span; } break;
    }
 
    if (($css != 'none')) { $vars['classes_array'][] = $css; } else { die; }
-
  }
 
   function meiyin_process_region(&$vars) {
     $theme = meiyin_get_theme();
 
-    $vars['messages'] = $theme->page['messages'];
+    if ($vars['elements']['#region'] == 'content') {
+      $vars['messages'] = $theme->page['messages'];
+    }
     $vars['breadcrumb'] = $theme->page['breadcrumb'];
     $vars['title_prefix'] = $theme->page['title_prefix'];
     $vars['title'] = $theme->page['title'];

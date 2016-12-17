@@ -1,0 +1,1361 @@
+<?php
+
+/**
+ * @file
+ * This module processes wedding commission.
+ *
+ * @author Jinfeng Ren (j.ren@meiyin.co) on 2016.09.30
+ */
+
+define('REF_CUST_WEBFORM_NID', '106');
+define('PROFILE_TYPE', 'personal_data');
+
+/**
+ * Implements hook_help().
+ *
+ * Displays help and module information.
+ *
+ * @param path 
+ *   Which path of the site we're using to display help
+ * @param arg 
+ *   Array that holds the current path as returned from arg() function
+ */
+function wedding_commission_help($path, $arg) {
+  switch ($path) {
+  	case 'admin/help#wedding_commission':
+   	  $output = '<h3>' . t('About') . '</h3>';
+   	  $output .= '<p>' . t('This module deals with wedding commission on my Drupal site.') . '</p>';
+   	  return $output;
+   	  break;
+  }
+}
+
+/**
+ * Implements hook_menu().
+ *
+ * @see: http://api.drupal.org/api/function/hook_menu/7
+ */
+function wedding_commission_menu() {
+  $items = array();
+  $items['admin/config/content/wedding_commission'] = array(
+    'type' => MENU_NORMAL_ITEM,
+    'title' => 'Wedding commission',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('wedding_commission_settings'),
+    'access arguments' => array('administer wedding_commission'),
+    'file' => 'wedding_commission.admin.inc',
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_form_alter().
+ *
+ * Deals with field_commission access on register and profile edit page for coworkers.
+ */
+function wedding_commission_form_alter(&$form, &$form_state, $form_id) {
+  $is_admin = in_array('administrator', array_values($GLOBALS['user']->roles));
+
+  if ($form_id == 'user_register_form') {
+    if (!$is_admin) {
+      // User don't have access to commission except administrator
+      $form['profile_personal_data']['field_commission']['#access'] = FALSE;
+    }
+    $form['actions']['submit']['#value'] = decode_entities('&#xf234;') . ' ' . $form['actions']['submit']['#value'];
+    
+    // Add submit handler to set the initial commission amount for the registering user
+    array_unshift($form['#submit'], 'wedding_commission_amount_generator_submit');
+  }
+
+  // Effective on profile2 edit-form mode ONLY.
+  //   Modifications ought to apear anywhere with profile2 form should go to wedding_commission_form_profile2_form_alter().
+  if ($form_id == 'profile2_edit_personal_data_form') {
+    if(!$is_admin) {
+      if (isset($form['profile_personal_data']['field_coworker'])) {
+        // Once set, modification of user's real name is not allowed except by administrators
+        //   In other words, effective on profile2 edit-form mode only (not register form)
+        $form['profile_personal_data']['field_coworker']['#disabled'] = TRUE;
+      }
+    }
+
+    $form['profile_personal_data']['field_commission'][LANGUAGE_NONE][0]['value']['#required'] = FALSE;
+    $form['actions']['submit']['#value'] = decode_entities('&#xf0c7;') . ' 保存更改';
+    $form['actions']['delete']['#value'] = decode_entities('&#xf1f8;') . ' ' . $form['actions']['delete']['#value'];
+
+    array_unshift($form['#submit'], 'wedding_commission_update_profile_success_rate_submit');
+  }
+
+  // Validates referring customer
+  if ($form_id == 'webform_client_form_106') {
+    $form['actions']['draft']['#value'] = decode_entities('&#xf0c7;') . ' 保存草稿';
+    $form['actions']['submit']['#value'] = decode_entities('&#xf1d8;') . ' 提交推荐';
+
+    $form['#validate'][] = 'wedding_commission_refer_customer_validate';
+  }
+
+  // Edit user profile (user-profile-form)
+  if ($form_id == 'user_profile_form') {
+    $form['actions']['submit']['#value'] = decode_entities('&#xf0c7;') . ' 保存更改';
+  }
+}
+
+/**
+ * Implements hook_form_profile2_form_alter().
+ *
+ * Alters profile2 forms.
+ *
+ * Modules may alter the profile2 entity form regardless to which form it is
+ * attached by making use of this hook or the profile type specifiy
+ * hook_form_profile2_edit_PROFILE_TYPE_form_alter(). #entity_builders may be
+ * used in order to copy the values of added form elements to the entity, just
+ * as described by entity_form_submit_build_entity().
+ *
+ * @param $form
+ *   Nested array of form elements that comprise the form.
+ * @param $form_state
+ *   A keyed array containing the current state of the form.
+ *
+ * @see profile2_attach_form()
+ */
+function wedding_commission_form_profile2_form_alter(&$form, &$form_state) {
+  $is_admin = in_array('administrator', array_values($GLOBALS['user']->roles));
+
+  // Set access of special fields
+  if (!$is_admin) {
+    // User don't have access to commission except administrator
+    $form['profile_personal_data']['field_commission']['#access'] = FALSE;
+    $form['profile_personal_data']['field_success_rate']['#access'] = FALSE;
+    $form['profile_personal_data']['field_performance']['#access'] = FALSE;
+    $form['profile_personal_data']['field_income']['#access'] = FALSE;
+  }
+
+  // Remove label of fieldset 'group_bank_account'
+  $form['profile_personal_data']['#groups']['group_bank_account']->label = '';
+  $form['#validate'][] = 'wedding_commission_personal_data_validate';
+}
+
+/**
+ * Implements customer submit handler.
+ *
+ * Determine commission amount according to profession and possibly specific working place for coworkers.
+ */
+function wedding_commission_amount_generator_submit($form, &$form_state) {
+  if (isset($form_state['values']['profile_personal_data'])) {
+    $commission = &$form_state['values']['profile_personal_data']['field_commission'][LANGUAGE_NONE][0]['value'];
+    $professions_amount = list_extract_allowed_values(variable_get('wedding_commission_professions_amount', ''), 'list_integer', FALSE);
+    $profession = $form_state['values']['profile_personal_data']['field_profession'][LANGUAGE_NONE][0]['value'];
+    $commission = $professions_amount[$profession];
+
+    // Sets commission amount of referral's referer.
+    $form_state['values']['profile_personal_data']['field_commission'][LANGUAGE_NONE][1]['value'] = $professions_amount['referer'];
+  }
+}
+
+/**
+ * Implements wedding_commission_update_profile_success_rate_submit().
+ *
+ * Update user submission success rate on profile edit form.
+ */
+function wedding_commission_update_profile_success_rate_submit($form, &$form_state) {
+  $success = $form_state['values']['profile_personal_data']['field_performance'][LANGUAGE_NONE][0]['value'];
+  $total = $form_state['values']['profile_personal_data']['field_performance'][LANGUAGE_NONE][1]['value'];
+  $form_state['values']['profile_personal_data']['field_success_rate'][LANGUAGE_NONE][0]['value']
+    = _wedding_commission_calculate_success_rate($success, $total);
+}
+
+/**
+ * Implements wedding_commission_personal_data_validate().
+ *
+ * Validates profile_personal_data, formats mobile numbers.
+ */
+function wedding_commission_personal_data_validate($form, &$form_state) {
+  $values = $form_state['values'];
+  $mobile = $values['profile_personal_data']['field_mobile'][LANGUAGE_NONE][0]['value'];
+  if (!_wedding_commission_valid_mobile($mobile)) {
+    form_set_error('profile_personal_data][field_mobile', '请确认输入正确的11位手机号码。');
+  }
+}
+
+/**
+ * Helper function
+ *
+ *  Validates mobile number.
+ */
+function _wedding_commission_valid_mobile($mobile) {
+  if (!preg_match('/^1\d{10}$/', $mobile)) {
+    return FALSE;
+  }
+  return TRUE;
+}
+
+/**
+ * Implements wedding_commission_refer_customer_validate().
+ *
+ * Checks whether the referred wedding has been referred by this referer, or has been referred by anyone else.
+ */
+function wedding_commission_refer_customer_validate(&$form, &$form_state) {
+  $update_profile = TRUE;
+  $values = $form_state['values']['submitted'];
+
+  // Validates mobile number
+  if (!preg_match('/^\d{4}$/', $values['mobile'])) {
+    $update_profile = FALSE;
+    form_set_error('submitted][mobile', '请输入男方或女方手机号码后四位。');
+  }
+
+  // If the customer's wedding is already there, prevent the referer from submitting
+  if (_wedding_commission_wedding_exists($values)) {
+    $update_profile = FALSE;
+    form_set_error('submitted][male_name', 
+      '系统已存在此客户的婚礼订单，请推荐其他客户。(匹配的手机号码: ' . _wedding_commission_mobile_format($values['mobile']) . ')。');
+    form_set_error('submitted][female_name', '');
+    form_set_error('submitted][mobile', '');
+  }
+
+  // Checks if customer is already referred by any referer.
+  //   If the referred customer is arealdy there, inform about that
+  module_load_include('inc', 'webform', 'includes/webform.submissions');
+
+  // Validation ignores all draft submissions
+  $existing_submissions = webform_get_submissions(array('nid' => REF_CUST_WEBFORM_NID, 'is_draft' => 0));
+  foreach ($existing_submissions as $sid => $submission) {
+    if ($submission->data[1][0] == $values['male_name'] && $submission->data[2][0] == $values['female_name']) {
+      $current_user = $GLOBALS['user'];
+      $customer_name = $values['male_name'] . '&' . $values['female_name'];
+
+      if ($submission->uid == $current_user->uid) {
+        $update_profile = FALSE;
+        form_set_error('submitted][male_name', '系统已存在你推荐的客户<em>' . $customer_name . '</em>，请推荐其他客户。');
+        form_set_error('submitted][female_name', '');
+      }
+      else {
+        drupal_set_message('已有其他联属专员推荐了客户<em>' . $customer_name . '</em>。美音婚礼™ 将审核此次推荐以确定佣金归属。请确定仅推荐你负责跟进的客户。', 'warning', FALSE);
+      }
+    }
+  }
+
+  // Effected on referring new customer page only (rather than on edit page)
+  if ($form['#action'] == '/referral/customer' && $update_profile) {
+    $form['#submit'][] = 'wedding_commission_update_profile_submit';
+  }
+}
+
+/**
+ * Implements wedding_commission_update_profile_submit().
+ *
+ * Updates user profile when submitting refering customer form.
+ */
+function wedding_commission_update_profile_submit($form, &$form_state) {
+  // Counts the submission if it is not saved as a draft
+  if ($form_state['triggering_element']['#id'] == 'edit-submit') {
+    dpm($form);
+    dpm($form_state);
+    _wedding_commission_update_profile($form['details']['uid']['#value']);
+  }
+}
+
+/**
+ * Helper function
+ *
+ * Checks if this wedding is already exists.
+ */
+function _wedding_commission_wedding_exists(&$values) {
+  $submission = new stdClass;
+  $submission->data[1][0] = $values['male_name'];
+  $submission->data[2][0] = $values['female_name'];
+  $submission->data[3][0] = $values['mobile'];
+
+  $weddings = _wedding_commission_get_weddings();
+  foreach ($weddings as $wedding) {
+    if (_wedding_commission_wedding_is_referred_by_submission($wedding, $submission)) {
+      $groom_mobile = $wedding->field_groom_mobile[LANGUAGE_NONE][0]['value'];
+      $values['mobile'] == substr($groom_mobile, -4) ? 
+        $values['mobile'] = _wedding_commission_mobile_format($groom_mobile) : 
+        $values['mobile'] = _wedding_commission_mobile_format($wedding->field_bride_mobile[LANGUAGE_NONE][0]['value']);
+      return TRUE;
+    }
+  }
+  return FALSE;
+}
+
+/**
+ * Helper function
+ *
+ * Returns an array of all weddings.
+ */
+function _wedding_commission_get_weddings() {
+  $nids = db_select('node', 'n')
+    ->fields('n', array('nid'))
+    ->condition('type', 'wedding')
+    ->execute()
+    ->fetchCol();
+
+  return node_load_multiple($nids);
+}
+
+/**
+ * Helper function
+ *
+ * Formats mobile phone number display as: "139 9281 5903".
+ */
+function _wedding_commission_mobile_format($mobile) {
+  return substr($mobile, 0, 3) . ' ' . substr($mobile, 3, 4) . ' ' . substr($mobile, 7, 4);
+}
+
+/**
+ * Implements hook_preprocess_entity().
+ *
+ * Runs an entity specific preprocess function, if it exists.
+ */
+function wedding_commission_preprocess_entity(&$vars) {
+  $function = __FUNCTION__ . '__' . $vars['elements']['#entity_type'];
+  if (function_exists($function)) {
+    $function($vars);
+  }
+}
+
+function wedding_commission_preprocess_entity__profile2 (&$vars) {
+  $account_uid = $vars['profile2']->uid;
+  $user_roles = user_load($vars['profile2']->uid)->roles;
+  $is_coworker_advanced = in_array('coworker advanced', array_values($user_roles)) ||
+    in_array('administrator', array_values($user_roles));
+
+  // Formats field_commission display
+  if (isset($vars['content']['field_commission'])) {
+    // Deals with percentage mode / amount mode of commission
+    if ($vars['field_commission'][0]['value'] < 100) {
+      $vars['content']['field_commission'][0]['#suffix'] = '% / 婚礼订单';
+    }
+    else {
+      $vars['content']['field_commission'][0]['#suffix'] = '元 / 订单';
+    }
+
+    if ($is_coworker_advanced) {
+      $vars['content']['field_coworker'][0]['#suffix'] = '<div class="coworker-advanced">高级联属专员</div>';
+      $vars['content']['field_commission'][1]['#suffix'] = '元 / 推荐专员订单';
+    }
+    else {
+      $vars['content']['field_coworker'][0]['#suffix'] = '<div class="coworker-general">联属专员</div>';
+      unset($vars['content']['field_commission'][1]);
+    }
+  }
+
+  // Removes label of fieldgroup
+  $vars['elements']['#groups']['group_glance']->label = '';
+
+  // Formats field_performance display
+  if (isset($vars['content']['field_performance'])) {
+    $field_performance_success = '<a href="/my-customers/106/' . $account_uid . '?data=All&data_1=2">' . $vars['content']['field_performance'][0]['#markup'] . '</a>';
+    if (isset($vars['content']['field_performance'][1])) {
+      $field_performance_total = '<a href="/my-customers/106/' . $account_uid . '">' . $vars['content']['field_performance'][1]['#markup'] . '</a>';
+    }
+    else {
+      $field_performance_total = '<a href="/my-customers/106/' . $account_uid . '">0</a>';
+      // Needs to specify this in order to get item 1 printed out
+      $vars['content']['field_performance']['#items'][1]['value'] = '0';
+    }
+
+    $vars['content']['field_performance'][0]['#markup'] =  $field_performance_success . ' / ' . $field_performance_total;
+    $vars['content']['field_performance'][1]['#markup'] = '( 成功推荐 / 所有推荐 )';
+  }
+
+  // Formats field_income display
+  if (isset($vars['content']['field_income'])) {
+    $field_income_direct = '<a href="/my-customers/106/' . $account_uid . '?data=All&data_1=2">' . $vars['content']['field_income'][0]['#markup'] . '元' . '</a>';
+    if (isset($vars['content']['field_income'][1])) {
+      $field_income_affiliate = '<a href="/referral-customers/106/' . $account_uid . '?data=All&data_1=2">' . $vars['content']['field_income'][1]['#markup'] . '元' . '</a>';
+    }
+    else {
+      $field_income_affiliate = '<a href="/referral-customers/106/' . $account_uid . '">0元</a>';
+      // Needs to specify this in order to get item 1 printed out
+      $vars['content']['field_income']['#items'][1]['value'] = '0';
+    }
+
+    if ($is_coworker_advanced) {
+      $vars['content']['field_income'][0]['#markup'] = $field_income_direct . ' / ' . $field_income_affiliate;
+
+      $vars['content']['field_income'][1]['#markup'] = '( 直接收入 / 间接收入 )';
+    }
+    else {
+      $vars['content']['field_income'][0]['#markup'] = $field_income_direct;
+      $vars['content']['field_income'][1]['#markup'] = '( 佣金收入合计 )';
+    }
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * Alters wedding node forms.
+ */
+function wedding_commission_form_wedding_node_form_alter(&$form, &$form_state) {
+  $roles = $GLOBALS['user']->roles;
+  $is_admin = in_array('administrator', array_values($roles));
+  $is_editor = in_array('editor', array_values($roles));
+  $is_staff = in_array('staff', array_values($roles));
+  $authorised = $is_admin || $is_editor || $is_staff;
+
+  // Sets wedding node title description
+  $form['title']['#disabled'] = TRUE;
+  $form['title']['#description'] = 'Title将自动生成. <br />';
+  $form['title']['#description'] .= '格式: 婚礼日期 + 新郎姓名拼音首字母 + 新娘姓名拼音首字母.<br />';
+  $form['title']['#description'] .= '生成婚礼的访问地址为';
+  $base_url = $GLOBALS['base_url'];
+  if (isset($form['title']['#default_value'])) {
+    $node_url = $base_url . base_path() . 'wedding/' . $form['title']['#default_value'];
+    $node_link = '<a href="' . $node_url . '" class="node-link">' . $node_url . '</a>';
+  }
+  else {
+    $node_link = $base_url . base_path() . 'wedding/[title]';
+  }
+  $form['title']['#description'] .= '<em>' . $node_link . '</em>';
+
+  // Disables appropriate fields for non-admin users who have edit access to the wedding node
+  if (!$is_admin) {
+    $form['field_referer_id']['#disabled'] = TRUE;
+    $form['field_referer_submission_id']['#disabled'] = TRUE;
+    $form['field_referer_commission']['#disabled'] = TRUE;
+
+    // Disables fields need to be calculated
+    $form['field_wedding_amount'][LANGUAGE_NONE][1]['value']['#disabled'] = TRUE;
+    $form['field_material_loss'][LANGUAGE_NONE][0]['value']['#disabled'] = TRUE;
+    $form['field_total_amount']['#disabled'] = TRUE;
+    $form['field_total_cost']['#disabled'] = TRUE;
+    $form['field_profit']['#disabled'] = TRUE;
+    $form['field_profit_rate']['#disabled'] = TRUE;
+
+    if (!$is_editor) {
+      $form['field_wedding_status']['#disabled'] = TRUE;
+      
+      $hide_groups = array('group_quotation_details', 'group_cost_details', 'group_overall_view');
+      field_group_hide_field_groups($form, $hide_groups);
+
+      // Anonymous user can modify group_wedding_information only if authorisation key provided.
+      if (!$is_staff) {
+        $form['title']['#access'] = FALSE;
+        field_group_hide_field_groups($form, array('group_wedding_details', 'group_wedding_executive'));
+        $form['#groups']['group_wedding_information']->format_type = 'fieldset';
+        unset($form['#group_children']['group_wedding_information']);
+
+
+        $form['actions']['submit']['#value'] = decode_entities('&#xf0c7;') . ' 保存更改';
+      }
+    }
+  }
+
+  if (isset($form['field_image'])) { 
+    $form['field_image'][LANGUAGE_NONE][0]['#default_value']['alt'] =
+    $form['field_image'][LANGUAGE_NONE][0]['#default_value']['title'] =
+      '美音婚礼 - ' .
+      $form['#node']->field_groom[LANGUAGE_NONE][0]['value'] . '&' .
+      $form['#node']->field_bride[LANGUAGE_NONE][0]['value'] . '的婚礼';
+  }
+
+  // Hides field field_authorisation_key to authorised users
+  if ($authorised) {
+    $form['field_authorisation_key']['#access'] = FALSE;
+  }
+  else {
+    $form['field_authorisation_key']['#access'] = TRUE;
+  }
+
+  // Validates the wedding node form
+  $form['#validate'][] = 'wedding_commission_wedding_validate';
+}
+
+/**
+ * Implements wedding_commission_wedding_validate().
+ *
+ * Validates wedding node, formats mobile numbers.
+ */
+function wedding_commission_wedding_validate(&$form, &$form_state) {
+  $values = $form_state['values'];
+  // Sets wedding node title accordingly.
+  $roles = $GLOBALS['user']->roles;
+  $is_admin = in_array('administrator', array_values($roles));
+  $is_editor = in_array('editor', array_values($roles));
+  $is_staff = in_array('staff', array_values($roles));
+  $authorised = $is_admin || $is_editor || $is_staff;
+
+  if ($authorised) {
+    $form['title']['#value'] =
+    $form_state['values']['title'] = _wedding_commission_get_wedding_node_title($form);
+  }
+
+  // Authorisation key must be provided if user is not authorised staff
+  if ($form['field_authorisation_key']['#access']) {
+    $authorisation_key = check_plain($values['field_authorisation_key'][LANGUAGE_NONE][0]['value']);
+    if (empty($authorisation_key) || 
+      ($authorisation_key != $values['field_groom_mobile'][LANGUAGE_NONE][0]['value'] &&
+      $authorisation_key != $values['field_bride_mobile'][LANGUAGE_NONE][0]['value'])) {
+        form_set_error('field_authorisation_key', '需要输入正确的授权码以更改婚礼信息。');
+    }
+    // Reset authorisation key
+    $form_state['values']['field_authorisation_key'][LANGUAGE_NONE][0]['value'] = NULL;
+  }
+
+  // Validates mobile numbers
+  $field_names = array_keys(field_info_instances('node', 'wedding'));
+  foreach ($field_names as $key => $field_name) {
+    if (preg_match('/.*_mobile$/', $field_name)) {
+      $mobile = $values[$field_name][LANGUAGE_NONE][0]['value'];
+      if (!empty($mobile)) {
+        if (!_wedding_commission_valid_mobile($mobile)) {
+          form_set_error($field_name,
+            $form[$field_name][LANGUAGE_NONE][0]['#title'] . ': 请确认输入正确的11位手机号码。');
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Helper function
+ *
+ * Generates wedding node title.
+ */
+function _wedding_commission_get_wedding_node_title($form) {
+  if (!empty($form['field_wedding_date'][LANGUAGE_NONE][0]['#value']['value']['date'])) {
+    $title = str_replace('.', '', 
+      substr($form['field_wedding_date'][LANGUAGE_NONE][0]['#value']['value']['date'], 0, 10));
+  }
+  else {
+    $title = format_date(time(), 'custom', 'Ymd');
+  }
+  $title .= substr(transliteration_get(
+    $form['#node']->field_groom[LANGUAGE_NONE][0]['value']), 0, 1);
+  $title .= substr(transliteration_get(
+    $form['#node']->field_bride[LANGUAGE_NONE][0]['value']), 0, 1);
+  return $title;
+}
+
+/**
+ * Implements hook_preprocess_page().
+ *
+ * Preprocess wedding node page.
+ */
+function wedding_commission_preprocess_page(&$vars) {
+  // Profile2 profile_personal_data form
+  if (isset($vars['page']['content']['system_main']['profile_personal_data'])) {
+    $vars['page']['content']['container'] = array(
+      '#type' => 'container',
+      '#attributes' => array('class' => 'profile2-form-wrapper'),
+    );
+    $vars['page']['content']['container']['system_main'] = $vars['page']['content']['system_main'];
+    unset($vars['page']['content']['system_main']);
+  }
+  // User profile display mode
+  elseif ($vars['page']['content']['system_main']['#entity_type'] == 'user' && current_path() != 'user/register') {
+    $vars['page']['content']['container'] = array(
+      '#type' => 'container',
+      '#attributes' => array('class' => 'profile-wrapper'),
+    );
+    $vars['page']['content']['container']['system_main'] = $vars['page']['content']['system_main'];
+    unset($vars['page']['content']['system_main']);
+  }
+
+  // Wedding node form
+  if ($vars['page']['content']['system_main']['#entity_type'] == 'node' &&
+    $vars['page']['content']['system_main']['#bundle'] == 'wedding') {
+    $vars['page']['content']['container'] = array(
+      '#type' => 'container',
+      '#attributes' => array('class' => 'wedding-wrapper'),
+    );
+    $vars['page']['content']['container']['system_main'] = $vars['page']['content']['system_main'];
+    unset($vars['page']['content']['system_main']);
+  }
+
+  // Changes wedding node's page title (view mode only).
+  if (isset($vars['node']) && $vars['node']->type == 'wedding' && $vars['directory'] != 'themes/seven') {
+    $vars['title_prefix'] = array(
+      '#prefix' => '<span id="title-prefix">',
+      '#markup' => '婚礼',
+      '#suffix' => '</span>',
+    );
+    // Remove tabs for anonymous (View/Edit link)
+    if (user_is_anonymous()) {
+      unset($vars['tabs']);
+    }
+  }
+}
+
+/**
+ * Implements hook_preprocess_node().
+ *
+ * Specify multi-value referer types on wedding displays.
+ */
+function wedding_commission_preprocess_node(&$vars) {
+  if ($vars['type'] == 'wedding') {
+    $roles = $GLOBALS['user']->roles;
+    $is_admin = in_array('administrator', array_values($roles));
+    $is_editor = in_array('editor', array_values($roles));
+    $is_staff = in_array('staff', array_values($roles));
+    $is_coworker_advanced = in_array('coworker advanced', array_values($roles));
+    $is_coworker = in_array('coworker', array_values($roles));
+
+    if ($is_admin || $is_editor) {
+      // Sets lables and links for field_referer_*
+      _wedding_commission_set_wedding_referer_labels($vars);
+    }
+
+    if (!$is_admin) {
+      // Hides cost fields in group_quotation_details
+      foreach (array_keys($vars['elements']['#group_children'], 'group_quotation_details') as $field_name) {
+        $vars['content'][$field_name][1]['#access'] = FALSE;
+      }
+
+      // Hides fields in group_cost_details and group_overall_view
+      $group_names = array('group_cost_details', 'group_overall_view');
+      foreach ($group_names as $group_name) {
+        foreach (array_keys($vars['elements']['#group_children'], $group_name) as $field_name) {
+          $vars['content'][$field_name]['#access'] = FALSE;
+        }
+      }
+
+      if (!$is_editor) {
+        // Hides specified fields in fieldgroup group_wedding_details
+        $suffix_array = array('id', 'submission_id', 'commission');
+        foreach ($suffix_array as $field_name_suffix) {
+          $vars['content']['field_referer_' . $field_name_suffix]['#access'] = FALSE;
+        }
+
+        // Hide tabs
+        $vars['elements']['#groups']['group_wedding_details']->format_type = 'fieldset';
+        $vars['elements']['#groups']['group_quotation_details']->format_type = 'fieldset';        
+        $vars['elements']['#groups']['group_wedding_information']->format_type = 'fieldset';
+        unset($vars['elements']['#group_children']['group_wedding_details']);
+        unset($vars['elements']['#group_children']['group_quotation_details']);
+        unset($vars['elements']['#group_children']['group_wedding_information']);
+
+        // Change display layout
+        $vars['elements']['#groups']['group_wedding_details']->format_settings['instance_settings']['classes'] = 'field-group-fieldset one_third';
+        $vars['elements']['#groups']['group_quotation_details']->format_settings['instance_settings']['classes'] = 'field-group-fieldset one_third';
+        $vars['elements']['#groups']['group_wedding_information']->format_settings['instance_settings']['classes'] = 'field-group-fieldset';
+
+        if (!$is_staff) {
+          // Hides quotation total amount
+          $vars['content']['field_total_amount']['#access'] = FALSE;
+
+          if (!$is_coworker_advanced) {
+            // Hides remainning fields in group_quotation_details
+            foreach (array_keys($vars['elements']['#group_children'], 'group_quotation_details') as $field_name) {
+              $vars['content'][$field_name]['#access'] = FALSE;
+            }
+
+            if (!$is_coworker) {
+              // Disables submitting info
+              $vars['display_submitted'] = FALSE;
+
+              // Hides groom and bride mobile numbers from other registered and anonymous users
+              $vars['content']['field_groom_mobile']['#access'] = FALSE;
+              $vars['content']['field_bride_mobile']['#access'] = FALSE;
+
+              // Hides wedding status from other registered and anonymous users
+              $vars['content']['field_wedding_status']['#access'] = FALSE;
+            }
+          }
+        }
+      }
+    }
+
+    // Refine mobile numbers display
+    $detect = mobile_detect_get_object();
+    $is_mobile = $detect->isMobile() && !$detect->isTablet();
+
+    $wedding_details_array = array('field_groom_mobile', 'field_bride_mobile');
+    $groups_info = field_group_info_groups('node', 'wedding');
+    $wedding_info_array = array_values($groups_info['default']['group_wedding_information']->children);
+    $field_names = array_merge($wedding_details_array, $wedding_info_array);
+
+    foreach ($field_names as $field_name) {
+      if (preg_match('/(.*)_mobile$/', $field_name, $matches)) {
+        if (isset($vars['content'][$matches[1]]) && $vars['content'][$field_name]['#access']) {
+          $vars['content'][$matches[1]][0]['#prefix'] = '<span class="contact-info">';
+          $mobile = $vars['content'][$field_name][0]['#markup'];
+          if ($is_mobile) {
+            $vars['content'][$matches[1]][0]['#markup'] .= '<i class="fa fa-mobile"></i><a href="tel:' . $mobile . '">' .
+              _wedding_commission_mobile_format($mobile) . '</a>';
+          }
+          else {
+            $vars['content'][$matches[1]][0]['#markup'] .= '<i class="fa fa-mobile"></i>' .
+              _wedding_commission_mobile_format($mobile);
+          }
+          $vars['content'][$matches[1]][0]['#suffix'] = '</span>';
+
+          $vars['content'][$field_name]['#access'] = FALSE;
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_theme_registry_alter().
+ *
+ * To overide theme_fieldset() in this module.
+ */
+function wedding_commission_theme_registry_alter(&$theme_registry) {
+  $theme_registry['fieldset']['function'] = '_wedding_commission_fieldset';
+}
+
+/**
+ * Returns HTML for a fieldset form element and its children.
+ *
+ * @param $variables
+ *   An associative array containing:
+ *   - element: An associative array containing the properties of the element.
+ *     Properties used: #attributes, #children, #collapsed, #collapsible,
+ *     #description, #id, #title, #value.
+ *
+ * @ingroup themeable
+ */
+function _wedding_commission_fieldset($variables) {
+  $element = $variables['element'];
+  element_set_attributes($element, array('id'));
+  _form_set_class($element, array('form-wrapper'));
+
+  $output = '<fieldset' . drupal_attributes($element['#attributes']) . '>';
+  if (!empty($element['#title'])) {
+    // Always wrap fieldset legends in a SPAN for CSS positioning.
+    if ($variables['element']['#id'] == 'group-wedding-information' && user_is_anonymous()) {
+      $output .= '<legend><span class="fieldset-legend">' . $element['#title'] . '</span>';
+      $output .= '<span id="edit-link-legend"><a href="' . base_path() . current_path() . '/edit">编辑</a></span></legend>';
+    }
+    else {
+      $output .= '<legend><span class="fieldset-legend">' . $element['#title'] . '</span></legend>';
+    }
+  }
+  $output .= '<div class="fieldset-wrapper">';
+  if (!empty($element['#description'])) {
+    $output .= '<div class="fieldset-description">' . $element['#description'] . '</div>';
+  }
+  $output .= $element['#children'];
+  if (isset($element['#value'])) {
+    $output .= $element['#value'];
+  }
+  $output .= '</div>';
+  $output .= "</fieldset>\n";
+  return $output;
+}
+
+/**
+ * Helper function
+ *
+ * Sets referer related field labels in wedding nodes.
+ */
+function _wedding_commission_set_wedding_referer_labels(&$vars) {
+  $suffix_array = array('id', 'submission_id', 'commission');
+  $referer_type_array = array('婚宴场地', '婚纱摄影', '其他行业', '高级专员');
+  foreach ($suffix_array as $field_name_suffix) {
+    for ($i = 0; $i < 4; $i++) {
+      $markup = $vars['content']['field_referer_' . $field_name_suffix][$i]['#markup'];
+
+      if(empty($markup) || $markup == '0元') {
+        unset($vars['content']['field_referer_' . $field_name_suffix][$i]);
+      }
+      else {
+        $link_prefix = '';
+        switch ($field_name_suffix) {
+          case 'id':
+          $link_prefix = '<a href="/profile-personal_data/' . $markup . '">';
+          $link_suffix = '</a>';
+          break;
+          case 'submission_id':
+          $link_prefix = '<a href="/node/106/submission/' . $markup . '">';
+          $link_suffix = '</a>';
+          break;
+          case 'commission'; default:
+          $link_prefix = '';
+          $link_suffix = '';
+          break;
+        }
+
+        // Adds appropriate display links to each field value.
+        $vars['content']['field_referer_' . $field_name_suffix][$i]['#prefix'] = $referer_type_array[$i] . ': ' . $link_prefix;
+        $vars['content']['field_referer_' . $field_name_suffix][$i]['#suffix'] = $link_suffix;
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_node_presave().
+ *
+ * Check whether the customer is referred by any referer, if so update ref-customer status.
+ */
+function wedding_commission_node_presave($node) {
+  if ($node->type == 'wedding') {
+    $roles = $GLOBALS['user']->roles;
+    $is_admin = in_array('administrator', array_values($roles));
+    $is_editor = in_array('editor', array_values($roles));
+    $is_staff = in_array('staff', array_values($roles));
+    $authorised = $is_admin || $is_editor || $is_staff;
+
+    if ($authorised) {
+      // Initialising multi-value fields
+      _wedding_commission_initialise_multi_value_fields($node);
+
+      // Before creating or updating, check if there are referers
+      module_load_include('inc', 'webform', 'includes/webform.submissions');
+      $existing_submissions = webform_get_submissions(array('nid' => REF_CUST_WEBFORM_NID, 'is_draft' => 0));
+      $related_submissions = _wedding_commission_get_related_submissions($node, $existing_submissions);
+
+  dpm('$related_submissions is passed as: ' . $related_submissions);
+      $wedding_status = &$node->field_wedding_status[LANGUAGE_NONE][0]['value'];
+  dpm('$wedding_status is: ' . $wedding_status);
+      if (isset($related_submissions)) {
+        if ($wedding_status == 'contacted' || $wedding_status == 'ordered') {
+          _wedding_commission_process_related_submissions($node, $related_submissions);
+        }
+        elseif ($wedding_status == 'cancelled' || $wedding_status == 'finished') {
+          _wedding_commission_update_submissions($related_submissions, $wedding_status);
+        }
+      }
+      else {
+        drupal_set_message('此婚礼订单无推荐人。', 'status', FALSE);
+        if ($wedding_status == 'ordered') {
+          $wedding_status = 'confirmed';
+          drupal_set_message('此婚礼订单状态已更新为"已确认"。', 'status', FALSE);
+        }
+      }
+    }
+
+    if ($is_admin || $is_editor) {
+      // Sets wedding total amounts
+      _wedding_commission_wedding_set_total($node);
+    }
+
+    // Clear messages queue if current user is anonymous
+    if (user_is_anonymous()) {
+      drupal_get_messages();
+    }
+  }
+}
+
+/**
+ * Helper function
+ * Implements _wedding_commission_initialise_multi_value_fields().
+ *
+ * Initialise multi-value fields in wedding node.
+ */
+function _wedding_commission_initialise_multi_value_fields(&$node) {
+  $suffix_array = array('id', 'submission_id', 'commission');
+  foreach ($suffix_array as $field_name_suffix) {
+    for ($i = 0; $i < 4; $i++) {
+      if (empty($node->{'field_referer_' . $field_name_suffix}[LANGUAGE_NONE][$i]['value'])) {
+        $node->{'field_referer_' . $field_name_suffix}[LANGUAGE_NONE][$i]['value'] = 0;
+      }
+    }
+  }
+}
+
+function wedding_commission_submission_status($status) {
+  $submission_status = &drupal_static(__FUNCTION__);
+  // Status information
+  $submission_status = array(
+    'contacted' => '已咨询', 
+    'ordered' => '已定单',
+    'confirmed' => '已确认',
+    'cancelled' => '未达成',
+    'finished' => '已完成',
+  );
+  return $submission_status[$status];
+}
+
+/**
+ * Helper function
+ *
+ * Gets related ref-customer submissons match this wedding;
+ * Return $related_submission, which is a 2-dimentional array that key represents each profession.
+ */
+function _wedding_commission_get_related_submissions($node, $existing_submissions) {
+  $related_submissions_is_null = TRUE;
+  $related_submissions = array(
+    'venue' => array(),
+    'studio' => array(),
+    'other' => array(),
+  );
+
+  foreach ($existing_submissions as $sid => $submission) {
+    if(_wedding_commission_wedding_is_referred_by_submission($node, $submission)) {
+      $related_submissions_is_null = FALSE;
+
+      $profession_details = _wedding_commission_get_referral_profession_details($submission->uid);
+      if ($profession_details['profession'] == 'restaurant' || $profession_details['profession'] == 'hotel') {
+        $profession_details['profession'] = 'venue';
+      }
+
+      $related_submissions[$profession_details['profession']][] = $submission;
+    }
+  }
+
+  // If there is no related submissions, return NULL, otherwise return $related_submission
+  if ($related_submissions_is_null) {
+    return NULL;
+  }
+  return $related_submissions;
+}
+
+/**
+ * Helper function
+ *
+ * Checks if the specified ref-customer submisson matches this wedding.
+ */
+function _wedding_commission_wedding_is_referred_by_submission($node, $submission) {
+  if ($node->field_groom[LANGUAGE_NONE][0]['value'] == $submission->data[1][0] &&
+         $node->field_bride[LANGUAGE_NONE][0]['value'] == $submission->data[2][0] &&
+         (substr($node->field_groom_mobile[LANGUAGE_NONE][0]['value'], -4) == $submission->data[3][0] ||
+          substr($node->field_bride_mobile[LANGUAGE_NONE][0]['value'], -4) == $submission->data[3][0])) {
+    return TRUE;
+  }
+  else {
+    return FALSE;
+  }
+}
+
+/**
+ * Helper function
+ *
+ * Gets refferral's profession details.
+ */
+function _wedding_commission_get_referral_profession_details($uid) {
+  $profession_details = array(
+    'profession' => '',
+    'detail' => '',
+    'other' => '',
+  );
+  $profile = profile2_load_by_user($uid, PROFILE_TYPE);
+  $profession_details['profession'] = $profile->field_profession[LANGUAGE_NONE][0]['value'];
+
+  // The referral's profession is 'other'
+  if($profession_details['profession'] == 'other') {
+    $profession_details['detail'] = $profile->field_other_profession[LANGUAGE_NONE][0]['value'];
+    return $profession_details;
+  }
+
+  // The referral's profession is 'studio', 'restaurant' or 'hotel'
+  $profession_details['detail'] = $profile->{'field_' . $profession_details['profession']}[LANGUAGE_NONE][0]['value'];
+  if ($profession_details['detail'] == 'other') {
+    $profession_details['other'] = $profile->{'field_other_' . $profession_details['profession']}[LANGUAGE_NONE][0]['value'];
+  }
+  return $profession_details;
+}
+
+/**
+ * Helper function
+ *
+ * Processes existing referral submissons related to this wedding.
+ */
+function _wedding_commission_process_related_submissions(&$node, $related_submissions) {
+dpm('$related_submissions is passed in: ' . $related_submissions);
+  $assigned = array();
+dpm('the size of $node->field_referer_id is: ' . count($node->field_referer_id[LANGUAGE_NONE]));
+
+// foreach ($node->field_referer_id[LANGUAGE_NONE] as $key => $value) {
+  for ($key = 0; $key < 3; $key++) {
+    switch ($key) {
+      case 0:
+        $profession = 'venue';
+        $profession_name = '婚宴场地';
+        break;
+      case 1:
+        $profession = 'studio';
+        $profession_name = '婚纱摄影';
+        break;
+      case 2:
+        $profession = 'other';
+        $profession_name = '其他行业';
+        break;
+    }
+    $value = $node->field_referer_id[LANGUAGE_NONE][$key];
+dpm('$profession is: ' . $profession);
+    $submissions = $related_submissions[$profession];
+dpm('$submissions is:' . $submissions);
+    $wedding_status = $node->field_wedding_status[LANGUAGE_NONE][0]['value'];
+    if (!empty($submissions)) {
+dpm('$value is: ' . $value['value']);
+      // If this profession referral has not been set yet
+      if (empty($value['value'])) {
+        $assigned[$key] = _wedding_commission_update_related_submissions($node, $key, $submissions);
+      }
+      // If this profession referral already set
+      else {
+        $assigned[$key] == TRUE;
+        // Do nothing if $wedding_status is 'contacted', as already done when matching this wedding with submissions
+        // If the $wedding_status changed to 'ordered', then
+        if ($wedding_status == 'ordered') {
+          $submission = webform_get_submission(REF_CUST_WEBFORM_NID, $node->field_referer_submission_id[LANGUAGE_NONE][$key]['value']);
+          _wedding_commission_update_submission($submission, 'confirmed', 'ordered');
+          drupal_set_message($profession_name . '推荐人的推荐状态已更新为"已确认", 推荐佣金状态已更新为"已支付"。', 'status', FALSE);
+        }
+      }
+    }
+  }
+  // If all the values in $assigned is TRUE(all accepted referrals assigned), 
+  //   change the wedding status to 'confirmed'.
+  if ((bool) array_product($assigned)) {
+    drupal_set_message('所有推荐人已确认。', 'status', FALSE);
+    $wedding_status = $node->field_wedding_status[LANGUAGE_NONE][0]['value'];
+    if($wedding_status == 'ordered') {
+      $node->field_wedding_status[LANGUAGE_NONE][0]['value'] = 'confirmed';
+      drupal_set_message('婚礼状态更新为"已确认"。', 'status', FALSE);
+    }
+  }
+}
+
+/**
+ * Helper function
+ *
+ * Tries to assign refferral to the wedding, updates wedding referral info and updates related submission status.
+ */
+function _wedding_commission_update_related_submissions(&$node, $key, $submissions) {
+  $confirmed_submission = NULL;
+  _wedding_commission_determine_confirmed($node, $submissions, $confirmed_submission);
+
+dpm($submissions);
+dpm($confirmed_submission);
+
+  // If related submission is assigned
+  if (isset($confirmed_submission)) {
+    // Updates wedding referral information
+    $node->field_referer_id[LANGUAGE_NONE][$key]['value'] = $confirmed_submission->uid;
+    $node->field_referer_submission_id[LANGUAGE_NONE][$key]['value'] = $confirmed_submission->sid;  
+
+
+    // If the retruned conmission less than 100, then it is percentage rather than amount
+    $commission = _wedding_commission_get_commission($confirmed_submission->uid, 0);
+    if ($commission < 100) {
+      // percentage mode
+      $node->field_referer_commission[LANGUAGE_NONE][$key]['value'] =
+        number_format($node->field_wedding_amount[LANGUAGE_NONE][0]['value'] * $commission / 100);
+    }
+    else {
+      // amount mode
+      $node->field_referer_commission[LANGUAGE_NONE][$key]['value'] = $commission;
+    }
+
+    // Set advanced coworker if applicable
+    _wedding_commission_process_advanced_coworker($node, $confirmed_submission);
+
+dpm($node);  
+    // Sets matched submission status to 'confirmed'
+    _wedding_commission_update_submission($confirmed_submission, 'confirmed', $node->field_wedding_status[LANGUAGE_NONE][0]['value']);
+    drupal_set_message('已确定 行业' . $key . ' 推荐人。', 'status', FALSE);
+    
+    // Sets other submission status to 'cancelled'; return TRUE;
+    $confirmed_submissions = array($confirmed_submission);
+dpm($confirmed_submissions);
+    $cancelled_submissions = array_udiff($submissions, $confirmed_submissions,
+      function ($obj_a, $obj_b){
+        return $obj_a->sid - $obj_b->sid;
+      }
+    );
+dpm($cancelled_submissions);
+    if (!empty($cancelled_submissions)) {
+      _wedding_commission_update_submissions($cancelled_submissions, 'cancelled');
+      drupal_set_message('同行业其他推荐状态已设置为"未达成"。', 'status', FALSE);
+    }
+
+    return TRUE;
+  }
+  // Else if assigned unsuccessfully, set all related submission's status to 'contacted' or 'ordered'; return FALSE.
+  else {
+    $wedding_status = $node->field_wedding_status[LANGUAGE_NONE][0]['value'];
+    _wedding_commission_update_submissions($submissions, $wedding_status);
+    drupal_set_message('未能确定推荐人，推荐状态已更新为"' . wedding_commission_submission_status($wedding_status) .
+      '"。', 'status', FALSE);
+    return FALSE;
+  }
+}
+
+/**
+ * Helper function
+ *
+ * Updates specified submissions status.
+ */
+function _wedding_commission_update_submissions($related_submissions, $status) {
+  foreach ($related_submissions as $submissions) {
+    if (!empty($submissions)) {
+      foreach ($submissions as $submission){    
+        _wedding_commission_update_submission($submission, $status);
+      }
+    }
+  }
+  drupal_set_message('所有相关推荐状态已更新为"' . wedding_commission_submission_status($status) . '"。', 'status', FALSE);
+}
+
+/**
+ * Helper function
+ *
+ * Updates individual submission status.
+ */
+function _wedding_commission_update_submission($submission, $status, $wedding_status = NULL) {
+  $submission->data[6][0] = wedding_commission_submission_status($status);
+  if ($status == 'confirmed' && $wedding_status == 'ordered') {
+    $submission->data[7][0] = '已支付';
+    drupal_set_message('推荐 sid' . $submission->sid . ' 的佣金状态已更新为"已支付"。', 'status', FALSE);
+
+    // Updates referer's profile infomation
+    _wedding_commission_update_profile($submission->uid, TRUE);
+  }
+dpm($submission);
+  webform_submission_update(node_load(REF_CUST_WEBFORM_NID), $submission);
+  drupal_set_message('推荐 sid' . $submission->sid . ' 的推荐状态已更新为"' . $submission->data[6][0]. '"。', 'status', FALSE);
+}
+
+/**
+ * Helper function
+ *
+ * Determines if there is a confirmable submission for this wedding. Returns TRUE or FALSE.
+ */
+function _wedding_commission_determine_confirmed($node, $submissions, &$confirmed_submission) {
+  $referral_no = count($submissions);
+  // There is only 1 related submission for this giving profession, confirmed
+  if ($referral_no == 1) {
+    $confirmed_submission = end($submissions);
+    $confirmed_submission->data[8][0] = $node->nid;
+    return TRUE;
+  }
+  else {
+    foreach ($submissions as $sid => $submission) {
+      $submission_profession_details = _wedding_commission_get_referral_profession_details($submission->uid);
+
+      $submission_profession = $submission_profession_details['profession'];
+      $submission_profession_name = $submission_profession_details['detail'];
+      $submission_profession_other = $submission_profession_details['other'];
+
+      $wedding_profession_details = array(
+        'profession' => '',
+        'detail' => '',
+        'other' => '',
+      );
+
+      if ($submission_profession == 'other') {
+        $wedding_profession_details['profession'] = $node->field_wedding_venue[LANGUAGE_NONE][0]['value'];
+        $wedding_profession_details['detail'] = $node->field_other_profession[LANGUAGE_NONE][0]['value'];
+      }
+      else {
+        $wedding_profession_details['profession'] = $node->field_profession[LANGUAGE_NONE][0]['value'];
+        $wedding_profession_details['detail'] = $node->{'field_' . $submission_profession}[LANGUAGE_NONE][0]['value'];
+        if ($wedding_profession_details['detail'] == 'other') {
+          $wedding_profession_details['other'] = $node->{'field_other_' . $submission_profession}[LANGUAGE_NONE][0]['value'];
+        }
+      }
+
+      if ($wedding_profession_details == $submission_profession_details) {
+        $confirmed_submission = $submission;
+        $confirmed_submission->data[8][0] = $node->nid;
+        return TRUE;
+      }
+    }
+  }
+  return FALSE;
+}
+
+/**
+ * Helper function
+ *
+ * Processes advanced coworker commission if applicable.
+ */
+function  _wedding_commission_process_advanced_coworker(&$node, $confirmed_submission) {
+  $referer_uid = _wedding_commission_get_advanced_coworker($confirmed_submission->uid);
+  if ($referer_uid) {
+    // Updates wedding referral information if appropriate advanced coworker exists.
+    $node->field_referer_id[LANGUAGE_NONE][3]['value'] = $referer_uid;
+    $node->field_referer_submission_id[LANGUAGE_NONE][3]['value'] = $confirmed_submission->sid;
+    $node->field_referer_commission[LANGUAGE_NONE][3]['value'] =
+      _wedding_commission_get_commission($confirmed_submission->uid, 1);
+  }
+}
+
+/**
+ * Helper function
+ *
+ * Gets uid of refferral's referer.
+ */
+ function _wedding_commission_get_advanced_coworker($uid) {
+   $sql = 'SELECT referral_uid FROM {referral} WHERE uid = :uid';
+   $result = db_query($sql, array(':uid' => $uid));
+   if ($result) {
+     return $result->fetchObject()->referral_uid;
+   }
+   return FALSE;
+ }
+
+/**
+ * Helper function
+ *
+ * Gets refferral's commission amount.
+ */
+function _wedding_commission_get_commission($uid, $delta) {
+  $profile = profile2_load_by_user($uid, PROFILE_TYPE);     
+  return $profile->field_commission[LANGUAGE_NONE][$delta]['value'];
+}
+
+/**
+ * Helper function
+ *
+ * Updates referer's profile infomation, when:
+ *  1. user submitting a form to refer a customer;
+ *  2. user submission getting confirmed.
+ */
+function  _wedding_commission_update_profile($uid, $confirmation = NULL) {
+  $profile = profile2_load_by_user($uid, PROFILE_TYPE);
+  if (!empty($profile)) {
+    if(!$confirmation) {
+      $profile->field_performance[LANGUAGE_NONE][1]['value']++;
+    }
+    else {
+      $profile->field_performance[LANGUAGE_NONE][0]['value']++;
+      $profile->field_income[LANGUAGE_NONE][0]['value'] += $profile->field_commission[LANGUAGE_NONE][0]['value'];
+
+      $advanced_coworker_uid = _wedding_commission_get_advanced_coworker($uid);
+      if($advanced_coworker_uid) {
+        $advanced_coworker_profile = profile2_load_by_user($advanced_coworker_uid, PROFILE_TYPE);
+        $advanced_coworker_profile->field_income[LANGUAGE_NONE][1]['value'] += $advanced_coworker_profile->field_commission[LANGUAGE_NONE][1]['value'];
+
+        profile2_save($advanced_coworker_profile);
+      }
+    }
+
+    // Update user submission success rate
+    $success = $profile->field_performance[LANGUAGE_NONE][0]['value'];
+    $total = $profile->field_performance[LANGUAGE_NONE][1]['value'];
+    $profile->field_success_rate[LANGUAGE_NONE][0]['value'] = _wedding_commission_calculate_success_rate($success, $total);
+
+    profile2_save($profile);
+  }
+}
+
+/**
+ * Helper function
+ *
+ * Updates user success rate of submissions.
+ */
+function _wedding_commission_calculate_success_rate($success, $total) {
+  if ($total == 0) {
+    return 0;
+  }
+  else {
+    return number_format($success / $total * 100, 2);
+  }
+}
+
+/**
+ * Implements hook_webform_component_display_alter().
+ *
+ * Refines webform submission component display.
+ */
+function wedding_commission_webform_component_display_alter(&$element, &$component) {
+  if ($element['#title'] == '客户状态') {
+    if ($element['#markup'] == '已订单' || $element['#markup'] == '已确认') {
+      $element['#prefix'] = '<span class="submission-status success">';
+    }
+    elseif ($element['#markup'] == '已咨询') {
+      $element['#prefix'] = '<span class="submission-status process">';
+    }
+    elseif ($element['#markup'] == '未达成' || $element['#markup'] == '已完成') {
+      $element['#prefix'] = '<span class="submission-status completed">';
+    }
+    $element['#suffix'] = '</span>';
+  }
+
+  if ($element['#title'] == '佣金状态') {
+    if ($element['#markup'] == '已支付') {
+      $element['#prefix'] = '<span class="submission-status success">';
+      $element['#suffix'] = '</span>';
+    }
+  }
+}
+
+/**
+ * Implements hook_views_pre_view().
+ *
+ * Restricts coworker and coworker-adv to have access to their own webform submissions only in veiws. 
+ */
+function wedding_commission_views_pre_view(&$view, &$display_id, &$args) {
+  if (($view->name == 'webform_submissions') &&
+      ($display_id == 'page_my_customers' || $display_id == 'page_referral_customers')) {
+    $roles = $GLOBALS['user']->roles;
+    if (in_array('coworker', array_values($roles)) || in_array('coworker advanced', array_values($roles))) {
+      $args = array('106', $GLOBALS['user']->uid);
+    }
+  }
+}
+
+/**
+ * Starts functions to manipulate wedding node. ------------------------------
+ *
+ */
+
+/**
+ * Helper function
+ *
+ * Sets field_total_amount (Quotation), field_total_cost (Cost) and field_profile (Profit).
+ */
+function _wedding_commission_wedding_set_total(&$node) {
+  $material_loss_rate = variable_get('wedding_commission_material_loss_rate', '0.05');
+
+  $groups_info = field_group_info_groups('node', 'wedding');
+  $quotation_array = array_diff(
+    array_values($groups_info['form']['group_quotation_details']->children),
+    array('field_total_amount'));
+  $quotation_array_no_loss = array_diff($quotation_array, array('field_material_loss'));
+  $cost_array = array_diff(
+    array_values($groups_info['form']['group_cost_details']->children), 
+    array('field_total_cost'));
+
+  // Deals with cost
+  $node->field_marketing_cost[LANGUAGE_NONE][0]['value'] =
+    _wedding_commission_calculate_sum($node, array('field_referer_commission'), array(0, 1, 2, 3));
+  $node->field_total_cost[LANGUAGE_NONE][0]['value'] = _wedding_commission_calculate_sum($node, $cost_array, 0);
+  $node->field_wedding_amount[LANGUAGE_NONE][1]['value'] = $node->field_total_cost[LANGUAGE_NONE][0]['value'];
+
+  // Deals with quotation
+  if (isset($node->field_material_loss[LANGUAGE_NONE][1])) {
+    // Customises material loss amount
+    $node->field_material_loss[LANGUAGE_NONE][0]['value'] = $node->field_material_loss[LANGUAGE_NONE][1]['value'];
+    $node->field_total_amount[LANGUAGE_NONE][0]['value'] = _wedding_commission_calculate_sum($node, $quotation_array, 0);
+  }
+  else {
+    // Set material loss amount according to giving material loss rate
+    $subtotal = _wedding_commission_calculate_sum($node, $quotation_array_no_loss, 0);
+    $node->field_material_loss[LANGUAGE_NONE][0]['value'] = $subtotal * $material_loss_rate;
+    $node->field_total_amount[LANGUAGE_NONE][0]['value'] = $subtotal * (1 + $material_loss_rate);
+  }
+  // Calculates the actual cost without material loss
+  $node->field_total_amount[LANGUAGE_NONE][1]['value'] = _wedding_commission_calculate_sum($node, $quotation_array_no_loss, 1);
+
+  // Calculates profit
+  $node->field_profit[LANGUAGE_NONE][0]['value'] =
+    $node->field_total_amount[LANGUAGE_NONE][0]['value'] -
+    $node->field_total_amount[LANGUAGE_NONE][1]['value'];
+
+  // Calculates profit rate
+  if (empty($node->field_total_amount[LANGUAGE_NONE][0]['value'])) {
+    $node->field_profit_rate[LANGUAGE_NONE][0]['value'] = 0;
+  }
+  else {
+    $node->field_profit_rate[LANGUAGE_NONE][0]['value'] = number_format(
+      $node->field_profit[LANGUAGE_NONE][0]['value'] * 100 /
+      $node->field_total_amount[LANGUAGE_NONE][0]['value'], 2);
+  }
+}
+
+/**
+ * Helper function
+ *
+ * Calculates sum according to giving partial field name.
+ */
+function _wedding_commission_calculate_sum($node, $field_array, $delta) {
+  $delta = is_array($delta) ? $delta : array($delta);
+  $sum = 0;
+  foreach ($field_array as $field) {
+    foreach ($delta as $position) {
+      if (isset($node->{$field}[LANGUAGE_NONE][$position])) {
+        $sum += $node->{$field}[LANGUAGE_NONE][$position]['value'];
+      }
+    }
+  }
+  return $sum;
+}

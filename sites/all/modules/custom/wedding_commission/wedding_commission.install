@@ -1,0 +1,16 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the wedding_commission module.
+ *
+ * @author Jinfeng Ren (j.ren@meiyin.co) on 2016.10.04
+ */
+
+/**
+ * Implements hook_uninstall().
+ */
+function wedding_commission_uninstall() {
+  variable_del('wedding_commission_professions_amount');
+  variable_del('wedding_commission_material_loss_rate');
+}

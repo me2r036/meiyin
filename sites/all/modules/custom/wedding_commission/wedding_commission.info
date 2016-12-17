@@ -1,0 +1,12 @@
+name = Wedding Commission
+description = This module deals with wedding commission on my Drupal site.
+core = 7.x
+package = Wedding Processing
+
+dependencies[] = profile2:profile2
+dependencies[] = webform:webform
+dependencies[] = date:date
+dependencies[] = mobile_detect:mobile_detect
+dependencies[] = drupal:system (>=7.40)
+
+configure = admin/config/content/wedding_commission
