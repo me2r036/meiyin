@@ -7,7 +7,7 @@
  * @author Jinfeng Ren (j.ren@meiyin.co) on 2016.09.30
  */
 
-define('REF_CUST_WEBFORM_NID', '106');
+define('REF_CUST_WEBFORM_NID', '115');
 define('PROFILE_TYPE', 'personal_data');
 
 /**
@@ -86,7 +86,7 @@ function wedding_commission_form_alter(&$form, &$form_state, $form_id) {
   }
 
   // Validates referring customer
-  if ($form_id == 'webform_client_form_106') {
+  if ($form_id == 'webform_client_form_' . REF_CUST_WEBFORM_NID) {
     $form['actions']['draft']['#value'] = decode_entities('&#xf0c7;') . ' 保存草稿';
     $form['actions']['submit']['#value'] = decode_entities('&#xf1d8;') . ' 提交推荐';
 
@@ -316,6 +316,9 @@ function wedding_commission_preprocess_entity(&$vars) {
 
 function wedding_commission_preprocess_entity__profile2 (&$vars) {
   $account_uid = $vars['profile2']->uid;
+  $my_customers_path = '/my-customers/' . REF_CUST_WEBFORM_NID . '/';
+  $referral_customers_path = '/referral-customers/' . REF_CUST_WEBFORM_NID . '/';
+
   $user_roles = user_load($vars['profile2']->uid)->roles;
   $is_coworker_advanced = in_array('coworker advanced', array_values($user_roles)) ||
     in_array('administrator', array_values($user_roles));
@@ -341,16 +344,18 @@ function wedding_commission_preprocess_entity__profile2 (&$vars) {
   }
 
   // Removes label of fieldgroup
-  $vars['elements']['#groups']['group_glance']->label = '';
+  if (isset($vars['elements']['#groups']['group_glance'])) {
+    $vars['elements']['#groups']['group_glance']->label = '';
+  }
 
   // Formats field_performance display
   if (isset($vars['content']['field_performance'])) {
-    $field_performance_success = '<a href="/my-customers/106/' . $account_uid . '?data=All&data_1=2">' . $vars['content']['field_performance'][0]['#markup'] . '</a>';
+    $field_performance_success = '<a href="' . $my_customers_path . $account_uid . '?data=All&data_1=2">' . $vars['content']['field_performance'][0]['#markup'] . '</a>';
     if (isset($vars['content']['field_performance'][1])) {
-      $field_performance_total = '<a href="/my-customers/106/' . $account_uid . '">' . $vars['content']['field_performance'][1]['#markup'] . '</a>';
+      $field_performance_total = '<a href="' . $my_customers_path . $account_uid . '">' . $vars['content']['field_performance'][1]['#markup'] . '</a>';
     }
     else {
-      $field_performance_total = '<a href="/my-customers/106/' . $account_uid . '">0</a>';
+      $field_performance_total = '<a href="' . $my_customers_path . $account_uid . '">0</a>';
       // Needs to specify this in order to get item 1 printed out
       $vars['content']['field_performance']['#items'][1]['value'] = '0';
     }
@@ -361,12 +366,12 @@ function wedding_commission_preprocess_entity__profile2 (&$vars) {
 
   // Formats field_income display
   if (isset($vars['content']['field_income'])) {
-    $field_income_direct = '<a href="/my-customers/106/' . $account_uid . '?data=All&data_1=2">' . $vars['content']['field_income'][0]['#markup'] . '元' . '</a>';
+    $field_income_direct = '<a href="' . $my_customers_path . $account_uid . '?data=All&data_1=2">' . $vars['content']['field_income'][0]['#markup'] . '元' . '</a>';
     if (isset($vars['content']['field_income'][1])) {
-      $field_income_affiliate = '<a href="/referral-customers/106/' . $account_uid . '?data=All&data_1=2">' . $vars['content']['field_income'][1]['#markup'] . '元' . '</a>';
+      $field_income_affiliate = '<a href="' . $referral_customers_path . $account_uid . '?data=All&data_1=2">' . $vars['content']['field_income'][1]['#markup'] . '元' . '</a>';
     }
     else {
-      $field_income_affiliate = '<a href="/referral-customers/106/' . $account_uid . '">0元</a>';
+      $field_income_affiliate = '<a href="' . $referral_customers_path . $account_uid . '">0元</a>';
       // Needs to specify this in order to get item 1 printed out
       $vars['content']['field_income']['#items'][1]['value'] = '0';
     }
@@ -761,7 +766,7 @@ function _wedding_commission_set_wedding_referer_labels(&$vars) {
           $link_suffix = '</a>';
           break;
           case 'submission_id':
-          $link_prefix = '<a href="/node/106/submission/' . $markup . '">';
+          $link_prefix = '<a href="/node/' . REF_CUST_WEBFORM_NID . '/submission/' . $markup . '">';
           $link_suffix = '</a>';
           break;
           case 'commission'; default:
@@ -1278,7 +1283,7 @@ function wedding_commission_views_pre_view(&$view, &$display_id, &$args) {
       ($display_id == 'page_my_customers' || $display_id == 'page_referral_customers')) {
     $roles = $GLOBALS['user']->roles;
     if (in_array('coworker', array_values($roles)) || in_array('coworker advanced', array_values($roles))) {
-      $args = array('106', $GLOBALS['user']->uid);
+      $args = array(REF_CUST_WEBFORM_NID, $GLOBALS['user']->uid);
     }
   }
 }
