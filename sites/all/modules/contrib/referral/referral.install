@@ -1,0 +1,97 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the User Referral module.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function referral_schema() {
+  $schema = array();
+
+  $schema['referral'] = array(
+    'fields' => array(
+      'uid' => array(
+        'description' => t('The {users}.uid of the user who was invited.'),
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'referral_uid' => array(
+        'description' => t('The {users}.uid of the referer.'),
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'created' => array(
+        'description' => t('UNIX timestamp for when the user was registered.'),
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'flag' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'flag_timestamp' => array(
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'host' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => t('Network address.'),
+      ),
+      'http_referer' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => t('URL of referer site.'),
+      ),
+    ),
+    'primary key' => array('uid'),
+    'indexes' => array(
+      'referral_uid' => array('referral_uid')
+    ),
+  );
+
+  return $schema;
+}
+
+/**
+ * Implements hook_install().
+ */
+function referral_install() {
+
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function referral_uninstall() {
+  // Remove variables.
+  variable_del('referral_goto_path');
+  variable_del('referral_display_mode');
+  variable_del('referral_cookie_lifetime');
+}
+
+/**
+ * Upgrade variable referral_display_mode to the new referral_show_on_user_profile
+ */
+function referral_update_7001() {
+  $display_mode = variable_get('referral_display_mode', 0);
+
+  // If $display_mode is set to 0, we should show link on user profile page.
+  variable_set('referral_show_on_user_profile', !$display_mode);
+}

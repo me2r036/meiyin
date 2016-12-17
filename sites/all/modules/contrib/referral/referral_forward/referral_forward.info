@@ -1,0 +1,13 @@
+name = Referral Forward
+description = Integrates with the Forward module, so referral links are sent in emails that redirect to the appropriate page.
+core = 7.x
+package = User Referrals
+dependencies[] = referral
+dependencies[] = forward
+
+; Information added by Drupal.org packaging script on 2016-09-22
+version = "7.x-1.0-beta4+18-dev"
+core = "7.x"
+project = "referral"
+datestamp = "1474539540"
+
