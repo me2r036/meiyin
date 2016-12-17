@@ -141,4 +141,17 @@ Drupal.behaviors.conditionalFields = {
   }
 };
 
+// Hide fieldsets unless one of their fields is visible. See https://www.drupal.org/node/1161314#comment-11331271
+$(document).bind('state:visible', function(e) {
+  if (e.trigger) {
+    var $wrapper = $(e.target).closest('.fieldset-wrapper');
+    if ($wrapper.length) {
+      $wrapper.parents('fieldset').show();
+      do {
+        $wrapper = $wrapper.closest('fieldset').toggle($wrapper.children('.form-wrapper:visible').length > 0).closest('.fieldset-wrapper');
+      } while ($wrapper.length);
+    }
+  }
+});
+
 })(jQuery);
