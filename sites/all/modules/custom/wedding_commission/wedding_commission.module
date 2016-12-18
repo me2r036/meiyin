@@ -7,7 +7,7 @@
  * @author Jinfeng Ren (j.ren@meiyin.co) on 2016.09.30
  */
 
-define('REF_CUST_WEBFORM_NID', '115');
+define('REF_CUST_WEBFORM_NID', variable_get('wedding_commission_ref_cust_webform_nid', '106'));
 define('PROFILE_TYPE', 'personal_data');
 
 /**

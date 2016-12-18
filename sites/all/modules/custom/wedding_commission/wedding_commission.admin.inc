@@ -68,8 +68,15 @@ function wedding_commission_settings($form, &$form_state) {
   $form['wedding_commission_material_loss_rate'] = array(
     '#type' => 'textfield',
     '#title' => t('Wedding material loss rate'),
-    '#description' => 'Please set the material loss reate for weddings. e.g. "0.05" for 5%',
+    '#description' => 'Please set the material loss reate for weddings. e.g. "0.05" for 5%.',
     '#default_value' => variable_get('wedding_commission_material_loss_rate', '0.05'),
+  );
+
+  $form['wedding_commission_ref_cust_webform_nid'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Refer customer webform node id'),
+    '#description' => 'Please specify the referring customer webform node id.',
+    '#default_value' => variable_get('wedding_commission_ref_cust_webform_nid', '106'),
   );
 
   // Overwriting default system_settings_submit() 
@@ -146,6 +153,13 @@ function wedding_commission_settings_submit($form, &$form_state) {
   if ($material_loss_rate_old != $material_loss_rate_new) {
     variable_set('wedding_commission_material_loss_rate', $material_loss_rate_new);
     drupal_set_message(t('Updated settings for wedding material loss rate.'), 'status', FALSE);
+  }
+
+  $ref_cust_webform_nid_old = variable_get('wedding_commission_ref_cust_webform_nid', '');
+  $ref_cust_webform_nid_new = $form_state['values']['wedding_commission_ref_cust_webform_nid'];
+  if ($ref_cust_webform_nid_old != $ref_cust_webform_nid_new) {
+    variable_set('wedding_commission_ref_cust_webform_nid', $ref_cust_webform_nid_new);
+    drupal_set_message(t('Updated settings for referring customer webform nid.'), 'status', FALSE);
   }
   drupal_set_message(t('Configurations saved successfully.'), 'status', FALSE);
 }

@@ -13,4 +13,5 @@
 function wedding_commission_uninstall() {
   variable_del('wedding_commission_professions_amount');
   variable_del('wedding_commission_material_loss_rate');
+  variable_del('wedding_commission_ref_cust_webform_nid');
 }

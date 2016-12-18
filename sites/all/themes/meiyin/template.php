@@ -65,7 +65,7 @@
     }
 
     // Hide 'refer new customer' menu item on user menu for other users.
-    if ($element['#href'] == 'node/115') {
+    if ($element['#href'] == 'node/' . variable_get('wedding_commission_ref_cust_webform_nid', '106')) {
       $allowed_roles = array('coworker', 'coworker advanced', 'administrator');
       if (!array_intersect($allowed_roles, $GLOBALS['user']->roles)) {
         //$element['#attributes']['class'][] = 'hidden';
