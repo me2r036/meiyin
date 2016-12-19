@@ -1319,7 +1319,7 @@ padding-top: 8px; padding-bottom: 7px; padding-left: 0; padding-right: 0; -webki
 .webform-description h4 { margin-bottom: 10px; }
 .webform-body {margin-bottom: 30px; }
 .form-actions input[type="submit"] { font-family: 'FontAwesome'; }
-.webform-client-form .form-actions .btn, #wedding-node-form .form-actions .btn { margin: 0 0 20px 30px; }
+.webform-client-form input[type="submit"], #wedding-node-form input[type="submit"] { margin: 0 0 20px 30px; }
 .form-actions .btn:nth-child(1n+2) { margin-left: 20px; }
 
 /* Profile2 form & user-register-form */
@@ -1336,8 +1336,8 @@ padding-top: 8px; padding-bottom: 7px; padding-left: 0; padding-right: 0; -webki
 .page-coworker #user-register-form #edit-profile-personal-data .fieldset-legend,
 .page-coworker-advanced #user-register-form #edit-profile-personal-data .fieldset-legend { color: #ff5165; border-left: 3px solid #ff5165; padding-left: 10px; }
 
-.page-coworker #user-register-form #edit-actions .btn,
-.page-coworker-advanced #user-register-form #edit-actions .btn { margin: 0 0 20px 30px; }
+.page-coworker #user-register-form input[type="submit"],
+.page-coworker-advanced #user-register-form input[type="submit"] { margin: 0 0 20px 30px; }
 
 .fa-mars { margin-left: 5px; color: #3be; }
 .fa-venus { margin-left: 5px; color: #ff5165; }
@@ -2032,6 +2032,9 @@ a.qr-code.meiyin-contact { float: right; }
   .profile2-personal-data .content,
   .page-user .profile, .page-user.page-user-edit .profile-wrapper #user-profile-form,
   #wedding-node-form { width: 100%; }
+  #user-register-form input[type="submit"],
+  #user-login input[type="submit"], #user-pass input[type="submit"] { color: #fff; background: #3be; width: 100%; }
+  .page-coworker #user-register-form input[type="submit"], .page-coworker-advanced #user-register-form input[type="submit"] { margin: 0; }
   .qr-code-image img { max-width: 270px; }
 }
 
