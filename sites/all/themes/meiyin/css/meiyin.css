@@ -2035,6 +2035,11 @@ a.qr-code.meiyin-contact { float: right; }
   #user-register-form input[type="submit"],
   #user-login input[type="submit"], #user-pass input[type="submit"] { color: #fff; background: #3be; width: 100%; }
   .page-coworker #user-register-form input[type="submit"], .page-coworker-advanced #user-register-form input[type="submit"] { margin: 0; }
+
+  .confirm-parent, .password-parent { width: 100%; }
+  .password-strength { width: 40%; }
+  input.password-confirm, input.password-field { width: 54%; }
+  div.form-item div.password-suggestions { width: 96%; }
   .qr-code-image img { max-width: 270px; }
 }
 
