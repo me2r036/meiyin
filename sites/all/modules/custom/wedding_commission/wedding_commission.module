@@ -550,24 +550,28 @@ function wedding_commission_preprocess_page(&$vars) {
     unset($vars['page']['content']['system_main']);
   }
   // User profile display mode
-  elseif ($vars['page']['content']['system_main']['#entity_type'] == 'user' && current_path() != 'user/register') {
-    $vars['page']['content']['container'] = array(
-      '#type' => 'container',
-      '#attributes' => array('class' => 'profile-wrapper'),
-    );
-    $vars['page']['content']['container']['system_main'] = $vars['page']['content']['system_main'];
-    unset($vars['page']['content']['system_main']);
+  elseif (isset($vars['page']['content']['system_main']['#entity_type'])) {
+    if ($vars['page']['content']['system_main']['#entity_type'] == 'user' && current_path() != 'user/register') {
+      $vars['page']['content']['container'] = array(
+        '#type' => 'container',
+        '#attributes' => array('class' => 'profile-wrapper'),
+      );
+      $vars['page']['content']['container']['system_main'] = $vars['page']['content']['system_main'];
+      unset($vars['page']['content']['system_main']);
+    }
   }
 
   // Wedding node form
-  if ($vars['page']['content']['system_main']['#entity_type'] == 'node' &&
-    $vars['page']['content']['system_main']['#bundle'] == 'wedding') {
-    $vars['page']['content']['container'] = array(
-      '#type' => 'container',
-      '#attributes' => array('class' => 'wedding-wrapper'),
-    );
-    $vars['page']['content']['container']['system_main'] = $vars['page']['content']['system_main'];
-    unset($vars['page']['content']['system_main']);
+  if (isset($vars['page']['content']['system_main']['#entity_type'])) { 
+    if ($vars['page']['content']['system_main']['#entity_type'] == 'node' &&
+      $vars['page']['content']['system_main']['#bundle'] == 'wedding') {
+        $vars['page']['content']['container'] = array(
+          '#type' => 'container',
+          '#attributes' => array('class' => 'wedding-wrapper'),
+        );
+      $vars['page']['content']['container']['system_main'] = $vars['page']['content']['system_main'];
+      unset($vars['page']['content']['system_main']);
+    }
   }
 
   // Changes wedding node's page title (view mode only).
