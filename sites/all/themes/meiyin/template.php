@@ -773,7 +773,7 @@ END:VCARD';
       '#theme' => 'picture',
       '#uri' => $picture['uri'],
       '#breakpoints' => $breakpoints,
-      '#style-name' => $$fallback_image_style,
+      '#style-name' => $fallback_image_style,
       '#alt' => isset($picture['alt']) ? $picture['alt'] : '',
       '#timestamp' => $picture['timestamp'],
     );

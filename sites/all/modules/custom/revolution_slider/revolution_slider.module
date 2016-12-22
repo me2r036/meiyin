@@ -151,7 +151,7 @@ function revolution_slider_access($op, $revolution_slider = NULL, $account = NUL
   if (user_access('administer revolution_slider', $account)) {
     return TRUE;
   }
-  if (isset($revolution_slider) && $type_name = $revolution_slider->type) {
+  if (!empty($revolution_slider) && $type_name = $revolution_slider->type) {
     $op = ($op == 'view') ? 'view' : 'edit';
     if (user_access("$op any $type_name revolution_slider", $account)) {
       return TRUE;
@@ -159,7 +159,6 @@ function revolution_slider_access($op, $revolution_slider = NULL, $account = NUL
   }
   return FALSE;
 }
-
 
 /**
  * Access callback for the entity API.
@@ -567,7 +566,7 @@ function revolution_slider_block_view($delta = '') {
 				
 				/* Sort Slides by Weight */
 				foreach ($slide_items as $row) {
-					$weight = $slide_items[$row->revolution_slider_id]->field_weight['und'][0]['value'];
+					$weight = $slide_items[$row->revolution_slider_id]->field_weight[LANGUAGE_NONE][0]['value'];
 					$order[]  = $weight;
 				}
 				array_multisort($order, SORT_ASC, $slide_items);
@@ -597,22 +596,23 @@ function revolution_slider_block_view($delta = '') {
 				
 				foreach($slide_items as $list_item) {
 					
-					$blocks['content'] .= '<li data-transition="'.$slide_items[$slide_id]->field_slide_settings['und'][0]['transition'].'"';
+					$blocks['content'] .= '<li data-transition="'.$slide_items[$slide_id]->field_slide_settings[LANGUAGE_NONE][0]['transition'].'"';
 					
 					foreach($slide as $item) {
-						$value = $slide_items[$slide_id]->field_slide_settings['und'][0][$item];
+						$value = $slide_items[$slide_id]->field_slide_settings[LANGUAGE_NONE][0][$item];
 						if((!$value == NULL) && (!$value == 0)){ $blocks['content'] .= ' data-'.$item.'="'.$value.'"'; }
 					}
 					
-					$blocks['content'] .= '><img src="'.file_create_url($slide_items[$slide_id]->field_image['und'][0]['uri']).'" data-lazyload="'.file_create_url($slide_items[$slide_id]->field_image['und'][0]['uri']).'" />';
+          if (isset($slide_items[$slide_id]->field_image[LANGUAGE_NONE])) {
+					  $blocks['content'] .= '><img src="'.file_create_url($slide_items[$slide_id]->field_image[LANGUAGE_NONE][0]['uri']).'" data-lazyload="'.file_create_url($slide_items[$slide_id]->field_image[LANGUAGE_NONE][0]['uri']).'" />';
+          }
 
           /* Add responsive capability, by me2, 2016.04.04 */
-          //$blocks['content'] .= '><div class="slotholder"><picture><source srcset="'.image_style_url('revo_slider_breakpoints_theme_meiyin_tv_1x', $slide_items[$slide_id]->field_image['und'][0]['uri']).' 1x" media="(min-width: 3456px)"><source srcset="'.image_style_url('revo_slider_breakpoints_theme_meiyin_wide_1x', $slide_items[$slide_id]->field_image['und'][0]['uri']).' 1x" media="(min-width: 1200px)"><source srcset="'.image_style_url('revo_slider_breakpoints_theme_meiyin_normal_1x', $slide_items[$slide_id]->field_image['und'][0]['uri']).' 1x, '.image_style_url('revo_slider_breakpoints_theme_meiyin_normal_2x', $slide_items[$slide_id]->field_image['und'][0]['uri']).' 2x" media="(min-width: 980px)"><source srcset="'.image_style_url('revo_slider_breakpoints_theme_meiyin_narrow_1x', $slide_items[$slide_id]->field_image['und'][0]['uri']).' 1x, '.image_style_url('revo_slider_breakpoints_theme_meiyin_narrow_2x', $slide_items[$slide_id]->field_image['und'][0]['uri']).' 2x" media="(min-width: 768px)"><source srcset="'.image_style_url('revo_slider_breakpoints_theme_meiyin_tablet_1x', $slide_items[$slide_id]->field_image['und'][0]['uri']).' 1x, '.image_style_url('revo_slider_breakpoints_theme_meiyin_tablet_2x', $slide_items[$slide_id]->field_image['und'][0]['uri']).' 2x" media="(min-width: 480px)"><source srcset="'.image_style_url('revo_slider_breakpoints_theme_meiyin_mobile_1x', $slide_items[$slide_id]->field_image['und'][0]['uri']).' 1x, '.image_style_url('revo_slider_breakpoints_theme_meiyin_mobile_2x', $slide_items[$slide_id]->field_image['und'][0]['uri']).' 2x" media="(min-width: 0px)"><img src="'.image_style_url('revo_slider_breakpoints_theme_meiyin_wide_1x', $slide_items[$slide_id]->field_image['und'][0]['uri']).'" data-lazyload="'.image_style_url('revo_slider_breakpoints_theme_meiyin_wide_1x', $slide_items[$slide_id]->field_image['und'][0]['uri']).'" /></picture></div>';
+          //$blocks['content'] .= '><div class="slotholder"><picture><source srcset="'.image_style_url('revo_slider_breakpoints_theme_meiyin_tv_1x', $slide_items[$slide_id]->field_image[LANGUAGE_NONE][0]['uri']).' 1x" media="(min-width: 3456px)"><source srcset="'.image_style_url('revo_slider_breakpoints_theme_meiyin_wide_1x', $slide_items[$slide_id]->field_image[LANGUAGE_NONE][0]['uri']).' 1x" media="(min-width: 1200px)"><source srcset="'.image_style_url('revo_slider_breakpoints_theme_meiyin_normal_1x', $slide_items[$slide_id]->field_image[LANGUAGE_NONE][0]['uri']).' 1x, '.image_style_url('revo_slider_breakpoints_theme_meiyin_normal_2x', $slide_items[$slide_id]->field_image[LANGUAGE_NONE][0]['uri']).' 2x" media="(min-width: 980px)"><source srcset="'.image_style_url('revo_slider_breakpoints_theme_meiyin_narrow_1x', $slide_items[$slide_id]->field_image[LANGUAGE_NONE][0]['uri']).' 1x, '.image_style_url('revo_slider_breakpoints_theme_meiyin_narrow_2x', $slide_items[$slide_id]->field_image[LANGUAGE_NONE][0]['uri']).' 2x" media="(min-width: 768px)"><source srcset="'.image_style_url('revo_slider_breakpoints_theme_meiyin_tablet_1x', $slide_items[$slide_id]->field_image[LANGUAGE_NONE][0]['uri']).' 1x, '.image_style_url('revo_slider_breakpoints_theme_meiyin_tablet_2x', $slide_items[$slide_id]->field_image[LANGUAGE_NONE][0]['uri']).' 2x" media="(min-width: 480px)"><source srcset="'.image_style_url('revo_slider_breakpoints_theme_meiyin_mobile_1x', $slide_items[$slide_id]->field_image[LANGUAGE_NONE][0]['uri']).' 1x, '.image_style_url('revo_slider_breakpoints_theme_meiyin_mobile_2x', $slide_items[$slide_id]->field_image[LANGUAGE_NONE][0]['uri']).' 2x" media="(min-width: 0px)"><img src="'.image_style_url('revo_slider_breakpoints_theme_meiyin_wide_1x', $slide_items[$slide_id]->field_image[LANGUAGE_NONE][0]['uri']).'" data-lazyload="'.image_style_url('revo_slider_breakpoints_theme_meiyin_wide_1x', $slide_items[$slide_id]->field_image[LANGUAGE_NONE][0]['uri']).'" /></picture></div>';
 
-					
-					if(!empty($slide_items[$slide_id]->field_layer_settings['und'])) {
-						foreach($slide_items[$slide_id]->field_layer_settings['und'] as $item) {
-							$layerType = $slide_items[$slide_id]->field_layer_settings['und'][$layer_id]['layer'];
+					if(!empty($slide_items[$slide_id]->field_layer_settings[LANGUAGE_NONE])) {
+						foreach($slide_items[$slide_id]->field_layer_settings[LANGUAGE_NONE] as $item) {
+							$layerType = $slide_items[$slide_id]->field_layer_settings[LANGUAGE_NONE][$layer_id]['layer'];
 							
 							if($layerType == 'img') {
 								$blocks['content'] .= '<div';
@@ -623,25 +623,25 @@ function revolution_slider_block_view($delta = '') {
 							$blocks['content'] .= ' class="caption';
 								
 							foreach($css as $item){
-								$blocks['content'] .= ' '.$slide_items[$slide_id]->field_layer_settings['und'][$layer_id][$item];
+								$blocks['content'] .= ' '.$slide_items[$slide_id]->field_layer_settings[LANGUAGE_NONE][$layer_id][$item];
 							}
 						
 							$blocks['content'] .= '"';
 							
 							foreach($layer as $item){
-								$blocks['content'] .= ' data-'.$item.'="'.$slide_items[$slide_id]->field_layer_settings['und'][$layer_id][$item].'"';
+								$blocks['content'] .= ' data-'.$item.'="'.$slide_items[$slide_id]->field_layer_settings[LANGUAGE_NONE][$layer_id][$item].'"';
 							}
 							
 							if($layerType == 'img') {
-								$blocks['content'] .= '><img src="'.file_create_url(file_load($slide_items[$slide_id]->field_layer_settings['und'][$layer_id]['img'])->uri).'"/></div>';
+								$blocks['content'] .= '><img src="'.file_create_url(file_load($slide_items[$slide_id]->field_layer_settings[LANGUAGE_NONE][$layer_id]['img'])->uri).'"/></div>';
 							} else {
-								$blocks['content'] .= '>'.$slide_items[$slide_id]->field_layer_settings['und'][$layer_id]['markup'];
+								$blocks['content'] .= '>'.$slide_items[$slide_id]->field_layer_settings[LANGUAGE_NONE][$layer_id]['markup'];
 								$blocks['content'] .= '</'.$layerType.'>';
 							}
 							
 							$layer_id++;
 						}
-						$layer_id = 0;	
+						$layer_id = 0;
 					}
 					$slide_id++;
 					$blocks['content'] .= '</li>';

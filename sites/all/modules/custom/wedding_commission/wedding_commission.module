@@ -80,7 +80,9 @@ function wedding_commission_form_alter(&$form, &$form_state, $form_id) {
 
     $form['profile_personal_data']['field_commission'][LANGUAGE_NONE][0]['value']['#required'] = FALSE;
     $form['actions']['submit']['#value'] = decode_entities('&#xf0c7;') . ' 保存更改';
-    $form['actions']['delete']['#value'] = decode_entities('&#xf1f8;') . ' ' . $form['actions']['delete']['#value'];
+    if (isset($form['actions']['delete'])) {
+      $form['actions']['delete']['#value'] = decode_entities('&#xf1f8;') . ' ' . $form['actions']['delete']['#value'];
+    }
 
     array_unshift($form['#submit'], 'wedding_commission_update_profile_success_rate_submit');
   }
@@ -726,7 +728,8 @@ function _wedding_commission_fieldset($variables) {
   $output = '<fieldset' . drupal_attributes($element['#attributes']) . '>';
   if (!empty($element['#title'])) {
     // Always wrap fieldset legends in a SPAN for CSS positioning.
-    if ($variables['element']['#id'] == 'group-wedding-information' && user_is_anonymous()) {
+    if (isset($variables['element']['#id']) &&
+        $variables['element']['#id'] == 'group-wedding-information' && user_is_anonymous()) {
       $output .= '<legend><span class="fieldset-legend">' . $element['#title'] . '</span>';
       $output .= '<span id="edit-link-legend"><a href="' . base_path() . current_path() . '/edit">编辑</a></span></legend>';
     }
