@@ -23,7 +23,7 @@ class SmtpMailSystem implements MailSystemInterface {
    *   The formatted $message.
    */
   public function format(array $message) {
-    $this->AllowHtml = smtp_provider_variable_get('smtp_allowhtml', 0);
+    $this->AllowHtml = variable_get('smtp_allowhtml', 0);
     // Join the body array into one string.
     $message['body'] = implode("\n\n", $message['body']);
     if ($this->AllowHtml == 0) {
@@ -66,15 +66,6 @@ class SmtpMailSystem implements MailSystemInterface {
     $headers = $message['headers'];
     $subject = $message['subject'];
 
-    // Gets prefered or default provider
-    if ($current_provider = smtp_prefered_provider($message)) {
-      smtp_current_provider($current_provider);
-    }
-    else {
-      // Use default provider
-      $current_provider = smtp_current_provider();
-    }
-
     // Optionally reroute all emails to a single address.
     $reroute_address = variable_get('smtp_reroute_address', '');
     if (!empty($reroute_address)) {
@@ -104,8 +95,8 @@ class SmtpMailSystem implements MailSystemInterface {
       if (is_object($langcode)) {
         $langcode = $langcode->language;
       }
-      if (i18n_variable_get('smtp_fromname_' . $current_provider, $langcode, '') != '') {
-        $from_name = i18n_variable_get('smtp_fromname_' . $current_provider, $langcode, '');
+      if (i18n_variable_get('smtp_fromname', $langcode, '') != '') {
+        $from_name = i18n_variable_get('smtp_fromname', $langcode, '');
       }
       else {
         // If value is not defined in settings, use site_name.
@@ -121,11 +112,10 @@ class SmtpMailSystem implements MailSystemInterface {
       $mailer->Helo = variable_get('smtp_client_helo', '');
     }
 
-    // If i18n is not enabled, we get the From Name through normal provider
-    // variables
+    // If i18n is not enabled, we get the From Name through normal variables
     if (!$from_name) {
-      if (smtp_provider_variable_get('smtp_fromname', '') != '') {
-        $from_name = smtp_provider_variable_get('smtp_fromname', '');
+      if (variable_get('smtp_fromname', '') != '') {
+        $from_name = variable_get('smtp_fromname', '');
       }
       else {
         // If value is not defined in settings, use site_name.
@@ -143,7 +133,7 @@ class SmtpMailSystem implements MailSystemInterface {
       }
       $headers['Reply-To'] = $reply;
     }
-    $properfrom = variable_get('site_mail', '');
+    $properfrom = variable_get('smtp_from', '');
     if (!empty($properfrom)) {
       $headers['From'] = $properfrom;
       $from = $properfrom;
@@ -153,7 +143,7 @@ class SmtpMailSystem implements MailSystemInterface {
 
     if ($from == NULL || $from == '') {
       // If from e-mail address is blank, use smtp_from config option.
-      if (($from = smtp_provider_variable_get('smtp_from', '')) == '') {
+      if (($from = variable_get('smtp_from', '')) == '') {
         // If smtp_from config option is blank, use site_email.
         if (($from = variable_get('site_mail', '')) == '') {
           drupal_set_message(t('There is no submitted from address.'), 'error');
@@ -176,7 +166,7 @@ class SmtpMailSystem implements MailSystemInterface {
 
     // Defines the From value to what we expect.
     $mailer->From     = $from_comp['email'];
-    $mailer->FromName = $from_comp['name'];
+    $mailer->FromName = empty($from_comp['name']) ? $from_name : $from_comp['name'];
     $mailer->Sender   = $from_comp['email'];
 
 
@@ -505,8 +495,8 @@ class SmtpMailSystem implements MailSystemInterface {
     }
 
     // Set the authentication settings.
-    $username = smtp_provider_variable_get('smtp_username', '');
-    $password = smtp_provider_variable_get('smtp_password', '');
+    $username = variable_get('smtp_username', '');
+    $password = variable_get('smtp_password', '');
 
     // If username and password are given, use SMTP authentication.
     if ($username != '' && $password != '') {
@@ -517,7 +507,7 @@ class SmtpMailSystem implements MailSystemInterface {
 
 
     // Set the protocol prefix for the smtp host.
-    switch (smtp_provider_variable_get('smtp_protocol', 'standard')) {
+    switch (variable_get('smtp_protocol', 'standard')) {
       case 'ssl':
         $mailer->SMTPSecure = 'ssl';
         break;
@@ -532,8 +522,8 @@ class SmtpMailSystem implements MailSystemInterface {
 
 
     // Set other connection settings.
-    $mailer->Host = smtp_provider_variable_get('smtp_host', '') . ';' . smtp_provider_variable_get('smtp_hostbackup', '');
-    $mailer->Port = smtp_provider_variable_get('smtp_port', '25');
+    $mailer->Host = variable_get('smtp_host', '') . ';' . variable_get('smtp_hostbackup', '');
+    $mailer->Port = variable_get('smtp_port', '25');
     $mailer->Mailer = 'smtp';
 
     // Integration with the Maillog module.

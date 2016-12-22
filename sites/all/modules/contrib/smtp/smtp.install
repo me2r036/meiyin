@@ -34,47 +34,6 @@ function smtp_requirements($phase) {
 }
 
 /**
- * Implements hook_schema().
- */
-function smtp_schema() {
-  $schema['smtp_selection_criteria'] = array(
-    'description' => 'Stores criterias for provider selection.',
-    'fields' => array(
-      'cid' => array(
-        'type' => 'serial',
-        'size' => 'big',
-        'unsigned' => TRUE,
-        'not null' => TRUE,
-      ),
-      'provider' => array(
-        'type' => 'varchar',
-        'length' => 64,
-        'not null' => TRUE,
-      ),
-      'message_module' => array(
-        'type' => 'varchar',
-        'length' => 255,
-      ),
-      'message_key' => array(
-        'type' => 'varchar',
-        'length' => 255,
-      ),
-      'message_language' => array(
-        'type' => 'varchar',
-        'length' => 12,
-      ),
-      'weight' => array(
-        'type' => 'int',
-        'not null' => TRUE,
-        'default' => 0,
-      ),
-    ),
-    'primary key' => array('cid'),
-  );
-  return $schema;
-}
-
-/**
  * Implements hook_install().
  */
  function smtp_install() {
@@ -163,55 +122,10 @@ function smtp_update_7102() {
 }
 
 /**
- * Set the current smtp server into a 'default' provider
- */
-function smtp_update_7103() {
-  $smtp_providers = array();
-  $smtp_providers['default'] = array(
-    'machine_name' => 'default',
-  );
-
-  $smtp_fields = array(
-    'smtp_host' => '',
-    'smtp_hostbackup' => '',
-    'smtp_port' => '25',
-    'smtp_protocol' => 'standard',
-    'smtp_username' => '',
-    'smtp_password' => '',
-    'smtp_from' => '',
-    'smtp_fromname' => '',
-    'smtp_allowhtml' => '',
-  );
-
-  foreach ($smtp_fields as $field => $default_value) {
-    // If the field is set, remove it. If not, use the default value
-    $value = variable_get($field, FALSE);
-    if ($value) {
-      variable_del($field);
-    }
-    else {
-      $value = $default_value;
-    }
-    $smtp_providers['default'][$field] = $value;
-  }
-  variable_set('smtp_providers', $smtp_providers);
-
-  variable_set('smtp_default_provider', 'default');
-}
-
-/**
  * Delete the variable "smtp_test_address". It is unlikely that this would
  * actually be set in the normal course of events, and it's no longer needed as
  * it was replaced with a form submit handler.
  */
-function smtp_update_7104() {
+function smtp_update_7103() {
   variable_del('smtp_test_address');
-}
-
-/**
- * Create table to store selection criterias.
- */
-function smtp_update_7105() {
-  $schema = drupal_get_schema_unprocessed('smtp', 'smtp_selection_criteria');
-  db_create_table('smtp_selection_criteria', $schema);
 }

@@ -69,7 +69,7 @@ class SmtpUnitTest extends DrupalWebTestCase {
    * Tests logging mail with maillog module.
    */
   public function testLogging() {
-    $language = language_default();
+    $langcode = language_default('language');
 
     // This is automatically assigned by Simpletest.
     $sender = 'simpletest@example.com';
@@ -78,7 +78,7 @@ class SmtpUnitTest extends DrupalWebTestCase {
     $to_email = 'to_test@example.com';
     $reply_email = 'reply_test@example.com';
     $params = array();
-    drupal_mail('smtp_tests', 'smtp_basic_test', $to_email, $language, $params);
+    drupal_mail('smtp_tests', 'smtp_basic_test', $to_email, $langcode, $params);
 
     // The SMTP module controls the 'from' address but defaults to using the
     // site's system email address.
@@ -105,12 +105,12 @@ class SmtpUnitTest extends DrupalWebTestCase {
     variable_set('smtp_queue', TRUE);
 
     // Send a test message.
-    $language = language_default();
+    $langcode = language_default('language');
     $sender = 'simpletest@example.com';
     $to_email = 'to_test@example.com';
     $reply_email = 'reply_test@example.com';
     $params = array();
-    drupal_mail('smtp_tests', 'smtp_basic_test', $to_email, $language, $params);
+    drupal_mail('smtp_tests', 'smtp_basic_test', $to_email, $langcode, $params);
 
     // Check the queue for messages.
     $queue_count = $this->getQueueCount();
@@ -142,12 +142,12 @@ class SmtpUnitTest extends DrupalWebTestCase {
     variable_set('smtp_username', 'hello@example.com');
 
     // Send a test message.
-    $language = language_default();
+    $langcode = language_default('language');
     $sender = 'simpletest@example.com';
     $to_email = 'to_test@example.com';
     $reply_email = 'reply_test@example.com';
     $params = array();
-    drupal_mail('smtp_tests', 'smtp_basic_test', $to_email, $language, $params);
+    drupal_mail('smtp_tests', 'smtp_basic_test', $to_email, $langcode, $params);
 
     // Check the queue for messages.
     $queue_count = $this->getQueueCount('smtp_failure_queue');
