@@ -603,9 +603,16 @@ function revolution_slider_block_view($delta = '') {
 						$value = $slide_items[$slide_id]->field_slide_settings[LANGUAGE_NONE][0][$item];
 						if((!$value == NULL) && (!$value == 0)){ $blocks['content'] .= ' data-'.$item.'="'.$value.'"'; }
 					}
-					
+
           if (isset($slide_items[$slide_id]->field_image)) {
-					  $blocks['content'] .= '><img src="'.file_create_url($slide_items[$slide_id]->field_image[LANGUAGE_NONE][0]['uri']).'" data-lazyload="'.file_create_url($slide_items[$slide_id]->field_image[LANGUAGE_NONE][0]['uri']).'" />';
+            // Slide with no image specified
+            if (empty($slide_items[$slide_id]->field_image)) {
+              $image_uri = $GLOBALS['base_url'] . '/';
+            }
+            else {
+              $image_url = file_create_url($slide_items[$slide_id]->field_image[LANGUAGE_NONE][0]['uri']);
+            }
+					  $blocks['content'] .= '><img src="'. $image_url .'" data-lazyload="'. $image_url .'" />';
           }
 
           /* Add responsive capability, by me2, 2016.04.04 */
