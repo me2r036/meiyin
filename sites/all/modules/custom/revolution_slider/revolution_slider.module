@@ -140,8 +140,8 @@ function revolution_slider_permission() {
  *   The operation being performed. One of 'view', 'update', 'create', 'delete'
  *   or just 'edit' (being the same as 'create' or 'update').
  * @param $revolution_slider
- *   Optionally a revolution_slider or a revolution_slider type to check access for. If nothing is
- *   given, access for all revolution_slider is determined.
+ *   Optionally a revolution_slider or a revolution_slider type to check access for. 
+ *   If nothing is given, access for all revolution_slider is determined.
  * @param $account
  *   The user to check for. Leave it to NULL to check for the global user.
  * @return boolean
@@ -151,7 +151,8 @@ function revolution_slider_access($op, $revolution_slider = NULL, $account = NUL
   if (user_access('administer revolution_slider', $account)) {
     return TRUE;
   }
-  if (!empty($revolution_slider) && $type_name = $revolution_slider->type) {
+  if (!empty($revolution_slider)) {
+    $type_name = is_object($revolution_slider) ? $revolution_slider->type: $revolution_slider;
     $op = ($op == 'view') ? 'view' : 'edit';
     if (user_access("$op any $type_name revolution_slider", $account)) {
       return TRUE;
