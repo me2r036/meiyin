@@ -604,7 +604,7 @@ function revolution_slider_block_view($delta = '') {
 						if((!$value == NULL) && (!$value == 0)){ $blocks['content'] .= ' data-'.$item.'="'.$value.'"'; }
 					}
 					
-          if (isset($slide_items[$slide_id]->field_image[LANGUAGE_NONE])) {
+          if (isset($slide_items[$slide_id]->field_image)) {
 					  $blocks['content'] .= '><img src="'.file_create_url($slide_items[$slide_id]->field_image[LANGUAGE_NONE][0]['uri']).'" data-lazyload="'.file_create_url($slide_items[$slide_id]->field_image[LANGUAGE_NONE][0]['uri']).'" />';
           }
 
