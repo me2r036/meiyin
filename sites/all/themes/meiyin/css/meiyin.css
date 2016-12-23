@@ -1409,8 +1409,8 @@ padding-top: 8px; padding-bottom: 7px; padding-left: 0; padding-right: 0; -webki
 .node-wedding .field-items { width: 58%; margin-right: 1%; }
 .node-wedding .field-items .field-item { text-align: right; }
 .node-wedding .field-type-image .field-items { margin-left: 3%; }
-.contact-info .fa { margin-left: 15px; color: #3be;}
-.contact-info a { color: #333; }
+.wedding-contact-info .fa { margin-left: 15px; color: #3be; }
+.wedding-contact-info a { color: #333; }
 
 .node-wedding .field-group-htab .field-label { width: 110px; }
 .node-wedding .field-group-htab .field-items { width: 200px; }
@@ -2075,7 +2075,8 @@ a.qr-code.meiyin-contact { float: right; }
   /* CONTENT CONTAINER */
   /* ------------------------------------ */
   .allwrapper, .allwrapper.boxed, .allwrapper.wide { width:100%; padding:0px 20px; margin-left: -20px; }
-  .contenttable { padding: 18px 24px 18px; }
+  .contenttable { padding: 18px 15px 18px; }
+  .page-contact .contact-subject { width: 30%; }
 
   /* START HEIGHT OF REVOLUTION SLIDER */
   .homeslider { height:150px; }

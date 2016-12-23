@@ -681,7 +681,7 @@ function wedding_commission_preprocess_node(&$vars) {
     foreach ($field_names as $field_name) {
       if (preg_match('/(.*)_mobile$/', $field_name, $matches)) {
         if (isset($vars['content'][$matches[1]]) && $vars['content'][$field_name]['#access']) {
-          $vars['content'][$matches[1]][0]['#prefix'] = '<span class="contact-info">';
+          $vars['content'][$matches[1]][0]['#prefix'] = '<span class="wedding-contact-info">';
           $mobile = $vars['content'][$field_name][0]['#markup'];
           if ($is_mobile) {
             $vars['content'][$matches[1]][0]['#markup'] .= '<i class="fa fa-mobile"></i><a href="tel:' . $mobile . '">' .
