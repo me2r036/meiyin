@@ -261,7 +261,7 @@
     if ($is_mobile) {
       if ($view->name == 'meiyin_blog' || $view->name == 'meiyin_portfolio') {
         foreach ($view->result as $result) {
-          if( $result->field_field_video != NULL ) {
+          if (isset($result->field_field_video) && $result->field_field_video != NULL ) {
             $result->field_field_video[0]['rendered'][0]['#style'] = 'mobile';
           }
         }
