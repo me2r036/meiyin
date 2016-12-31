@@ -2,3 +2,6 @@ name = QR Codes
 description = This modules allows for the creation of two dimensional (2D) QR barcodes.
 core = 7.x
 package = QR Codes
+configure = admin/config/media/qr_codes
+
+denpendencies[] = drupal:system (>=7.40)
