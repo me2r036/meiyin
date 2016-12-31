@@ -2277,3 +2277,17 @@ ul.retina-icons li i {
 #toolbar { z-index: 5000; }
 .node-type-blog-post .field-type-image img { width: 100%; }
 .page-blog .content .block.block-views .blocktitle { margin-top: 20px; }
+
+.view-display-id-page_2 .scalevid a:after {
+    content: "";
+    background: url(../img/xplayerv4.png) no-repeat 0 0;
+    position: absolute;
+    width: 86px;
+    height: 86px;
+    left: 50%;
+    top: 50%;
+    margin-left: -43px;
+    margin-top: -43px;
+    z-index: 100;
+    opacity: .6;
+}

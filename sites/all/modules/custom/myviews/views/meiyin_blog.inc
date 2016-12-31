@@ -825,8 +825,10 @@ $handler->display->display_options['fields']['field_video_1']['alter']['text'] =
 $handler->display->display_options['fields']['field_video_1']['element_label_colon'] = FALSE;
 $handler->display->display_options['fields']['field_video_1']['element_default_classes'] = FALSE;
 $handler->display->display_options['fields']['field_video_1']['click_sort_column'] = 'video_url';
+$handler->display->display_options['fields']['field_video_1']['type'] = 'video_embed_field_thumbnail';
 $handler->display->display_options['fields']['field_video_1']['settings'] = array(
-  'video_style' => 'normal',
+  'image_style' => '',
+  'image_link' => 'content',
 );
 /* Field: User: Name */
 $handler->display->display_options['fields']['name']['id'] = 'name';
@@ -906,8 +908,10 @@ $handler->display->display_options['fields']['field_video']['alter']['text'] = '
 $handler->display->display_options['fields']['field_video']['element_label_colon'] = FALSE;
 $handler->display->display_options['fields']['field_video']['empty'] = '[field_image]';
 $handler->display->display_options['fields']['field_video']['click_sort_column'] = 'video_url';
+$handler->display->display_options['fields']['field_video']['type'] = 'video_embed_field_thumbnail';
 $handler->display->display_options['fields']['field_video']['settings'] = array(
-  'video_style' => 'teaser',
+  'image_style' => '',
+  'image_link' => 'content',
 );
 $handler->display->display_options['fields']['field_video']['group_column'] = 'value';
 /* Field: Content: Slider Block */
