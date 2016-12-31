@@ -230,7 +230,6 @@
    */
   function meiyin_field__video_embed_field(&$vars) {
     $output ='';
-
     // Render the label, if it's not hidden.
     if (!$vars['label_hidden']) {
       $output .= '<div class="field-label"' . $variables['title_attributes'] . '>' . $variables['label'] . ':&nbsp;</div>';
@@ -261,7 +260,7 @@
     if ($is_mobile) {
       if ($view->name == 'meiyin_blog' || $view->name == 'meiyin_portfolio') {
         foreach ($view->result as $result) {
-          if (isset($result->field_field_video) && $result->field_field_video != NULL ) {
+          if (!empty($result->field_field_video)) {
             $result->field_field_video[0]['rendered'][0]['#style'] = 'mobile';
           }
         }
@@ -686,23 +685,23 @@ END:VCARD';
 
       switch ($nid) {
         case $first->nid:
-        $prev = $last->nid;
-        $next = next($result['node'])->nid;
-        break;
+          $prev = $last->nid;
+          $next = next($result['node'])->nid;
+          break;
         case $last->nid:
-        end($result['node']);
-        $prev = prev($result['node'])->nid;
-        $next = $first->nid;
-        break;
+          end($result['node']);
+          $prev = prev($result['node'])->nid;
+          $next = $first->nid;
+          break;
         default:
-        while(list($key, ) = each($result['node'])){
-          if($key == $nid){
-            $next = current($result['node'])->nid;
-            prev($result['node']);
-            $prev = prev($result['node'])->nid;
-            break;
+          while(list($key, ) = each($result['node'])){
+            if($key == $nid){
+              $next = current($result['node'])->nid;
+              prev($result['node']);
+              $prev = prev($result['node'])->nid;
+              break;
+            }
           }
-        }
       }
 
       $path = "node/".$nid;
