@@ -170,7 +170,7 @@ $handler->display->display_options['menu']['type'] = 'normal';
 $handler->display->display_options['menu']['title'] = 'My referrals';
 $handler->display->display_options['menu']['description'] = 'List of my referrals';
 $handler->display->display_options['menu']['weight'] = '10';
-$handler->display->display_options['menu']['name'] = 'main-menu';
+$handler->display->display_options['menu']['name'] = 'user-menu';
 $handler->display->display_options['menu']['context'] = 0;
 $handler->display->display_options['menu']['context_only_inline'] = 0;
 
@@ -203,7 +203,7 @@ $handler->display->display_options['fields']['created']['label'] = 'Registration
 $handler->display->display_options['fields']['created']['date_format'] = 'short';
 $handler->display->display_options['fields']['created']['second_date_format'] = 'long';
 $handler->display->display_options['block_description'] = 'My referrals';
-$translatables['referral_my_referrals'] = array(
+$translatables['meiyin_my_referrals'] = array(
   t('Master'),
   t('My referrals'),
   t('more'),
