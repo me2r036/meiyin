@@ -98,7 +98,7 @@ function video_embed_youku_handle_video($url, $settings) {
       $embed = '<iframe src="http://player.youku.com/embed/!id" width="!width" height="!height" frameborder=0 allowfullscreen></iframe>';
     }
     else {
-      $embed = '<embed src="http://player.youku.com/player.php/sid/!id/v.swf" wmode="opaque" allowfullscreen="true" quality="high" width="!width" height="!height" align="middle" allowscriptaccess="always" type="application/x-shockwave-flash">';
+      $embed = '<embed src="http://player.youku.com/player.php/sid/!id/v.swf" wmode="opaque" allowfullscreen="true" quality="high" width="!width" height="!height" align="middle" allowscriptaccess="always" type="application/x-shockwave-flash"></embed>';
     }
 
     // Use format_string to replace our placeholders with the settings values.
@@ -129,7 +129,7 @@ function video_embed_youku_handle_video($url, $settings) {
 function video_embed_youku_handle_thumbnail($url) {
   $id = _video_embed_youku_get_video_id($url);
   $id = str_replace('.html', '', $id);
-  $link = 'https://openapi.youku.com/v2/videos/show_basic.json?client_id=' .
+  $link = 'https://openapi.youku.com/v2/videos/show.json?client_id=' .
     variable_get('video_embed_field_youku_client_id', '8d025b9c897b22a8') . '&video_id=' . $id;
 
   $http = drupal_http_request($link);
@@ -137,7 +137,7 @@ function video_embed_youku_handle_thumbnail($url) {
 
   return array(
     'id' => $json['id'],
-    'url' => $json['thumbnail'],
+    'url' => $json['bigThumbnail'],
   );
 }
 
