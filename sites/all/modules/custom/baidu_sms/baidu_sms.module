@@ -1,0 +1,253 @@
+<?php
+
+/**
+ * @file
+ * Sending SMS messages using the Baidu Cloud SMS SDK.
+ *
+ * @author Jinfeng Ren (j.ren@meiyin.co) on 2016.12.30
+ */
+
+define('DEFAULT_BAIDU_SDK_NAME', 'baidubce');
+
+/**
+ * Implements hook_help().
+ *
+ * Displays help and module information.
+ *
+ * @param path 
+ *   Which path of the site we're using to display help
+ * @param arg 
+ *   Array that holds the current path as returned from arg() function
+ */
+function baidu_sms_help($path, $arg) {
+  switch ($path) {
+    case 'admin/help#baidu_sms':
+      $output = '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Sending SMS messages using the Baidu Cloud SMS SDK') . '</p>';
+      return $output;
+      break;
+  }
+}
+
+/**
+ * Implements hook_menu().
+ * Provides Drupal with path and menu item configuration for this module.
+ *
+ * @return array Drupal menu items
+ */
+function baidu_sms_menu() {
+  $items = array();
+  $items['admin/config/system/baidu_sms'] = array(
+    'type' => MENU_NORMAL_ITEM,
+    'title' => 'Baidu SMS',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('baidu_sms_settings'),
+    'access arguments' => array('administer baidu_sms'),
+  );
+  return $items;
+}
+
+/**
+ * Configuration form
+ *   Settings callback for 'admin/config/system/baidu_sms' path
+ *
+ * @param array $configuration
+ * @return array Drupal form structure
+ */
+function baidu_sms_settings($form, &$form_state) {
+  $form['baidu_sms_quota'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Current quota'),
+    '#cols' => 40,
+    '#rows' => 4,
+    '#disabled' => TRUE,
+    '#access' => FALSE,
+  );
+  $form['baidu_sms_api_ak'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Access Key (AK)'),
+    '#description' => t('Baidu API authorisation - Access Key (AK)'),
+    '#size' => 40,
+    '#maxlength' => 255,
+    '#default_value' => variable_get('baidu_sms_api_ak', ''),
+    '#required' => TRUE,
+  );
+  $form['baidu_sms_api_sk'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Secret Key (SK)'),
+    '#description' => t('Baidu API authorisation - Secret Key (SK)'),
+    '#size' => 40,
+    '#maxlength' => 255,
+    '#default_value' => variable_get('baidu_sms_api_sk', ''),
+    '#required' => TRUE,
+  );
+  $form['baidu_sms_host'] = array(
+    '#type' => 'select',
+    '#title' => t('Baidu SMS Host'),
+    '#description' => t('Host of the SMS API'),
+    '#options' => array('sms.bj.baidubce.com' => 'Beijing', 'sms.gz.baidubce.com' => 'Guangzhou'),
+    '#default_value' => variable_get('baidu_sms_host', 'sms.bj.baidubce.com'),
+  );
+  $form['baidu_sms_invoke_id'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Invoke ID (Sender signature ID)'),
+    '#description' => t('Baidu certified sender signature ID'),
+    '#size' => 40,
+    '#maxlength' => 255,
+    '#default_value' => variable_get('baidu_sms_invoke_id', ''),
+    '#required' => TRUE,
+  );
+  $form['#after_build'][] = '_baidu_sms_show_quota_after_build';
+  return system_settings_form($form);
+}
+
+function baidu_sms_settings_validate($form, &$form_state) {
+  // Clear previous set messages on form loading
+  drupal_get_messages();
+}
+
+function baidu_sms_send_message($phone_number, $template_code, $content_var, $options = array(), $invoke_id = '') {
+  if (empty($invoke_id)) {
+    $invoke_id = variable_get('baidu_sms_invoke_id');
+  }
+  $data = array(
+    'invoke_id' => $invoke_id,
+    'phone_number' => $phone_number,
+    'template_code' => $template_code,
+    'content_var' => $content_var,
+    'options' => $options,
+  );
+  return baidu_sms_command('sendmessage', $data, $options);
+}
+
+function baidu_sms_get_quota($options = array()) {
+  $quota_info = baidu_sms_command('auth', $options);
+  $quota = '';
+  if (!empty($quota_info)) {
+    $quota = 'Send: '. $quota_info->maxSendPerDay . ' / day' . PHP_EOL .
+      'Receive per phone number: '. $quota_info->maxReceivePerPhoneNumberDay . ' / day' . PHP_EOL .
+      'Sent today: ' . $quota_info->sentToday;
+  }
+  return $quota;
+}
+
+/**
+ * Executes a command using the BaiduBce SmsClient API
+ *
+ * data array fields:
+ *   invoke_id - Baidu certified invoke id (signature id).
+ *   phone_number - Reciever phone number.
+ *   template_code - Baidu certified template code.
+ *   content_var - content vars that defined in template.
+ *   options - Array of additional options, as below.
+ *
+ * data['options'] array fields: alternative options of the Baidu SMS service.
+ *
+ * @param string $command One of 'auth', 'sendmessage' or 'getbalance'.
+ * @param array $data All data required to perform the command.
+ * @param array $config Gateway configuration parameters.
+ * @return array call result.
+ */
+function baidu_sms_command($command = 'auth', $data = array(), $config = NULL) {
+  if ($config == NULL) {
+    $config = _baidu_sms_get_client_config();
+  }
+  
+  require_once _baidu_sms_get_library_path() . '/SmsClient.php';
+  $sms_client = new SmsClient($config);
+
+  $result = array();
+  switch ($command) {
+    case 'auth':
+      try {
+        $result = $sms_client->getQuota($data);
+      }
+      catch (Exception $e) {
+        drupal_set_message($e->getMessage(), 'error', FALSE);
+      }
+      break;
+    case 'sendmessage':
+      try {
+        $result = $sms_client->sendMessage(
+          $data['invoke_id'],
+          $data['phone_number'],
+          $data['template_code'],
+          $data['content_var'],
+          $data['options']);
+      }
+      catch (Exception $e) {
+        drupal_set_message($e->getMessage(), 'error', FALSE);
+      }
+      break;
+  }
+
+  watchdog('baidu_sms', '<br /><pre>' . print_r($result, TRUE) . '</pre>', array(), WATCHDOG_INFO);
+
+  return $result;
+
+}
+
+/**
+ * Retrieve the path to the BaiduBce library.
+ * 
+ * @return string
+ * Candidate path to the BaiduBce library, relative
+ * to Drupal root.
+ *
+ * @access private
+ */
+function _baidu_sms_get_library_path() {
+  if (function_exists('libraries_get_path')) {
+    $library_path = libraries_get_path(DEFAULT_BAIDU_SDK_NAME);
+    if (!$library_path) {
+      $library_path = 'sites/all/libraries/' . DEFAULT_BAIDU_SDK_NAME;
+    }
+  }
+  else {
+    $library_path = 'sites/all/libraries/' . DEFAULT_BAIDU_SDK_NAME;
+  }
+  return $library_path;
+}
+
+/**
+ * Creates the SmsClient configuration from the gateway configuration.
+ * 
+ * @return array
+ * Formatted SmsClient configuration
+ *
+ * @access private
+ */
+function _baidu_sms_get_client_config() {
+  $config = array(
+    'credentials' => array(
+      'ak' => variable_get('baidu_sms_api_ak'),
+      'sk' => variable_get('baidu_sms_api_sk'),
+    ),
+    'endpoint' => 'http://' . variable_get('baidu_sms_host', 'sms.bj.baidubce.com'),
+  );
+  return $config;
+}
+
+/**
+ * Replace configuration form validator.
+ *   Display the quota info element if authorised successfully.
+ * 
+ * @return array
+ * Form element
+ *
+ * @access private
+ */
+function _baidu_sms_show_quota_after_build($form) {
+  if (!empty($form['baidu_sms_api_ak']) && !empty($form['baidu_sms_api_sk'])) {
+    $quota = baidu_sms_get_quota();
+    if (!empty($quota)) {
+      $form['baidu_sms_quota']['#value'] = $quota;
+      $form['baidu_sms_quota']['#access'] = TRUE;
+      drupal_set_message(t('Authorised successfully with current configurations.'), 'status', FALSE);
+    }
+    else {
+      drupal_set_message(t('Authorisation failed, please check your configurations.'), 'error', FALSE);
+    }
+  }
+  return $form;
+}

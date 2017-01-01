@@ -1,0 +1,19 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the baidu_sms module.
+ *
+ * @author Jinfeng Ren (j.ren@meiyin.co) on 2016.12.30
+ */
+
+/**
+ * Implements hook_uninstall().
+ */
+function baidu_sms_uninstall() {
+  variable_del('baidu_sms_api_ak');
+  variable_del('baidu_sms_api_sk');
+  variable_del('baidu_sms_host');
+  variable_del('baidu_sms_invoke_id');
+  variable_del('baidu_sms_quota');
+}

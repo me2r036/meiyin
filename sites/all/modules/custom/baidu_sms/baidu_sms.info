@@ -1,0 +1,7 @@
+name = Baidu SMS
+description = Baidu SMS - the Baidu cloud service to send message.
+core = 7.x
+package = SMS
+configure = admin/config/system/baidu_sms
+
+denpendencies[] = drupal:system (>=7.40)
