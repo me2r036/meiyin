@@ -22,11 +22,11 @@ define('PROFILE_TYPE', 'personal_data');
  */
 function wedding_commission_help($path, $arg) {
   switch ($path) {
-  	case 'admin/help#wedding_commission':
-   	  $output = '<h3>' . t('About') . '</h3>';
-   	  $output .= '<p>' . t('This module deals with wedding commission on my Drupal site.') . '</p>';
-   	  return $output;
-   	  break;
+    case 'admin/help#wedding_commission':
+      $output = '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('This module deals with wedding commission on my Drupal site.') . '</p>';
+      return $output;
+      break;
   }
 }
 
