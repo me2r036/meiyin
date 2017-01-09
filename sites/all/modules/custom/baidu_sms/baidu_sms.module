@@ -254,6 +254,6 @@ function _baidu_sms_show_quota_after_build($form) {
     else {
       drupal_set_message(t('Authorisation failed, please check your configurations.'), 'error', FALSE);
     }
-  }dpm($form);
+  }
   return $form;
 }
