@@ -7,6 +7,12 @@
  * @author Jinfeng Ren (j.ren@meiyin.co) on 2016.10.04
  */
 
+define('INIT_PROFESSIONS_AMOUNT', 'hotel|1000
+restaurant|500
+studio|500
+other|300
+referer|200');
+
 /**
  * Settings callback for 'admin/config/content/wedding_commission' path.
  *
@@ -15,7 +21,7 @@ function wedding_commission_settings($form, &$form_state) {
   $options = wedding_commission_get_field_configurations();
   $form = array();
   $description = '<p>' . t('The possible values this field can contain. Enter one value per line, in the format key|label.');
-  $description .= '<br/>' . t('The key is the stored value, and must be numeric. The label will be used in displayed values and edit forms.');
+  $description .= '<br/>' . t('The key is the stored value. The label will be used in displayed values and edit forms.');
   $description .= '<br/>' . t('The label is optional: if a line contains a single number, it will be used as key and label.');
   $description .= '<br/>' . t('Lists of labels are also accepted (one label per line), only if the field does not hold any values yet. Numeric keys will be automatically generated from the positions in the list.');
   $description .= '</p>';
@@ -76,7 +82,7 @@ function wedding_commission_settings($form, &$form_state) {
     '#type' => 'textfield',
     '#title' => t('Refer customer webform node id'),
     '#description' => 'Please specify the referring customer webform node id.',
-    '#default_value' => variable_get('wedding_commission_ref_cust_webform_nid', '106'),
+    '#default_value' => variable_get('wedding_commission_ref_cust_webform_nid', REF_CUST_WEBFORM_NID),
   );
 
   // Overwriting default system_settings_submit() 

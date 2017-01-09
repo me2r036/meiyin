@@ -7,6 +7,8 @@ dependencies[] = profile2:profile2
 dependencies[] = webform:webform
 dependencies[] = date:date
 dependencies[] = mobile_detect:mobile_detect
+dependencies[] = baidu_sms:baidu_sms
+dependencies[] = shurly:shurly
 dependencies[] = drupal:system (>=7.40)
 
 configure = admin/config/content/wedding_commission
