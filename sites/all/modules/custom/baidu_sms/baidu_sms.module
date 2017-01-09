@@ -165,6 +165,10 @@ function baidu_sms_command($command = 'auth', $data = array(), $config = NULL) {
       catch (Exception $e) {
         drupal_set_message($e->getMessage(), 'error', FALSE);
       }
+
+      watchdog('baidu_sms', '-> SMS auth .' , array(), WATCHDOG_INFO);
+      watchdog('baidu_sms', '<- SMS result: <br /><pre>' . print_r($result, TRUE) . '</pre>', array(), WATCHDOG_INFO);
+
       break;
     case 'sendmessage':
       try {
@@ -178,13 +182,14 @@ function baidu_sms_command($command = 'auth', $data = array(), $config = NULL) {
       catch (Exception $e) {
         drupal_set_message($e->getMessage(), 'error', FALSE);
       }
+
+      watchdog('baidu_sms', '--> SMS ' . $data['phone_number'] . ' <br /><pre>' . print_r($data, TRUE) . '</pre>', array(), WATCHDOG_INFO);
+      watchdog('baidu_sms', '<-- SMS ' . $result->message . ' <br /><pre>' . print_r($result, TRUE) . '</pre>', array(), WATCHDOG_INFO);
+
       break;
   }
 
-  watchdog('baidu_sms', '<br /><pre>' . print_r($result, TRUE) . '</pre>', array(), WATCHDOG_INFO);
-
   return $result;
-
 }
 
 /**
@@ -238,7 +243,8 @@ function _baidu_sms_get_client_config() {
  * @access private
  */
 function _baidu_sms_show_quota_after_build($form) {
-  if (!empty($form['baidu_sms_api_ak']) && !empty($form['baidu_sms_api_sk'])) {
+  if (!empty($form['baidu_sms_api_ak']['#default_value']) &&
+      !empty($form['baidu_sms_api_sk']['#default_value'])) {
     $quota = baidu_sms_get_quota();
     if (!empty($quota)) {
       $form['baidu_sms_quota']['#value'] = $quota;
@@ -248,6 +254,6 @@ function _baidu_sms_show_quota_after_build($form) {
     else {
       drupal_set_message(t('Authorisation failed, please check your configurations.'), 'error', FALSE);
     }
-  }
+  }dpm($form);
   return $form;
 }
