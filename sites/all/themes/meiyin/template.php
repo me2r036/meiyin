@@ -534,8 +534,8 @@
     }
 
     // Load fontawesome from cdn, fallback within globle js.
-    drupal_add_css('//cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css', 
-                          array('type' => 'external', 'group' => CSS_THEME, 'every_page' => TRUE));
+    drupal_add_css('//cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css',
+      array('type' => 'external', 'group' => CSS_THEME, 'every_page' => TRUE));
 
    // $vars['jquery'] = '<script type="text/javascript" src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>';
    // $vars['migrate'] = '<script type="text/javascript" src="http://cdn.bootcss.com/jquery-migrate/1.2.1/jquery-migrate.min.js"></script>';
@@ -704,7 +704,7 @@ END:VCARD';
           }
       }
 
-      $path = "node/".$nid;
+      $path = 'node/' . $nid;
       $options = array('absolute' => TRUE);
       $url = url($path, $options);
 
@@ -758,7 +758,9 @@ END:VCARD';
     $vars['title_prefix'] = $theme->page['title_prefix'];
     $vars['title'] = $theme->page['title'];
     $vars['title_suffix'] = $theme->page['title_suffix'];
-    $vars['tabs'] = $theme->page['tabs'];
+    if (!empty($theme->page['tabs'])) {
+      $vars['tabs'] = $theme->page['tabs'];
+    }
     $vars['action_links'] = $theme->page['action_links'];
     $vars['feed_icons'] = $theme->page['feed_icons'];
   }

@@ -8,7 +8,7 @@
 
 <?php if ($content): ?>
   <div class="<?php print $classes; ?>">
-    <?php if ($tabs): ?>
+    <?php if (!empty($tabs)): ?>
       <div class="tabs clearfix">
         <?php print render($tabs); ?>
       </div>
