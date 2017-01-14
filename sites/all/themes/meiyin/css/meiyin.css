@@ -1336,6 +1336,9 @@ padding-top: 8px; padding-bottom: 7px; padding-left: 0; padding-right: 0; -webki
 .page-coworker #user-register-form #edit-profile-personal-data .fieldset-legend,
 .page-coworker-advanced #user-register-form #edit-profile-personal-data .fieldset-legend { color: #ff5165; border-left: 3px solid #ff5165; padding-left: 10px; }
 
+.page-coworker #user-register-form #edit-account .form-item.form-type-password-confirm .form-type-password,
+.page-coworker-advanced #user-register-form #edit-account .form-item.form-type-password-confirm .form-type-password { padding: 12px 0 12px 0; }
+
 .page-coworker #user-register-form input[type="submit"],
 .page-coworker-advanced #user-register-form input[type="submit"] { margin: 0 0 20px 30px; }
 
