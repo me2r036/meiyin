@@ -65,11 +65,22 @@ function wedding_commission_form_alter(&$form, &$form_state, $form_id) {
       $form['profile_personal_data']['field_commission']['#access'] = FALSE;
     }
     $form['actions']['submit']['#value'] = decode_entities('&#xf234;') . ' ' . $form['actions']['submit']['#value'];
-    
+
     // Add submit handler to:
     //   1. set the initial commission amount for the registering user
     //   2. send welcome message
-    array_unshift($form['#submit'], 'wedding_commission_user_register_form_submit');
+    if (current_path() != 'user/register') {
+      array_unshift($form['#submit'], 'wedding_commission_user_register_form_submit');
+    }
+    else {
+      // If register from user/register, then don't attach profile persontal_data
+      unset($form['profile_personal_data']);
+      foreach (profile2_get_types() as $type_name => $profile_type) {
+        if ($type_name == 'personal_data') {
+          $profile_type->data['registration'] = NULL;
+        }
+      }
+    }
   }
 
   // Effective on profile2 edit-form mode ONLY.
@@ -138,7 +149,10 @@ function wedding_commission_form_profile2_form_alter(&$form, &$form_state) {
 
   // Remove label of fieldset 'group_bank_account'
   $form['profile_personal_data']['#groups']['group_bank_account']->label = '';
-  $form['#validate'][] = 'wedding_commission_personal_data_validate';
+
+  if (current_path() != 'user/register') {
+    $form['#validate'][] = 'wedding_commission_personal_data_validate';
+  }
 }
 
 /**
