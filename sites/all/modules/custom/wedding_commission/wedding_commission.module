@@ -1635,7 +1635,7 @@ function _wedding_commission_calculate_sum($node, $field_array, $delta) {
  */
 function _wedding_commission_send_message($phone_number, $template_name, $content_var, $diff = FALSE) {
   $templates = array(
-    'coworker_registered'           => 'smsTpl:48917a57-61fa-46d5-a76a-cf8a9cadc858',
+    'coworker_registered'           => 'smsTpl:d3f9736b-8042-4fac-a6e1-1684dce360dc',
     'coworker_referred'             => 'smsTpl:0f7b8a78-1d28-4741-94a6-9f1a44db689b',
     'coworker_success'              => 'smsTpl:4f4a3c1e-285b-42b7-87aa-1ee3d92a8a62',
     'coworker_advanced_referred'    => 'smsTpl:47b1c3a1-98cc-452d-8397-6739fc0e7d19',
