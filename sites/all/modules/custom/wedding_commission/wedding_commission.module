@@ -1852,3 +1852,14 @@ function wedding_commission_date_display_remaining($variables) {
 
   return '<div class="date-display-remaining"><span class="date-display-remaining">' . $show_remaining_text . '</span></div>';
 }
+
+/**
+ * Implements hook_init().
+ *
+ * Disables caching of coworker registration pages.
+ */
+function wedding_commission_init() {
+  if (current_path() == 'coworker' || current_path() == 'coworker-advanced') {
+    drupal_page_is_cacheable(FALSE);
+  }
+}
