@@ -164,12 +164,37 @@ function wedding_commission_user_register_form_submit($form, &$form_state) {
   // 1. set the initial commission amount for the registering user
   if (isset($form_state['values']['profile_personal_data'])) {
     $commission = &$form_state['values']['profile_personal_data']['field_commission'][LANGUAGE_NONE][0]['value'];
-    $professions_amount = list_extract_allowed_values(variable_get('wedding_commission_professions_amount', ''), 'list_integer', FALSE);
     $profession = $form_state['values']['profile_personal_data']['field_profession'][LANGUAGE_NONE][0]['value'];
+    $assigned = FALSE;
 
-    $commission = $professions_amount[$profession];
-    $form_state['values']['profile_personal_data']['field_commission'][LANGUAGE_NONE][1]['value'] =
-      $professions_amount['referer'];
+    // Tries to find if the commissions are predefined for this profession (detailed_name)
+    $professions_amount = list_extract_allowed_values(variable_get('wedding_commission_professions_amount_specified', ''), 'list_text', FALSE);
+    if (!empty($professions_amount)) {
+      if (in_array($profession, array('studio', 'restaurant', 'hotel'))) {
+        $detailed_name = $form_state['values']['profile_personal_data']['field_' . $profession][LANGUAGE_NONE][0]['value'];
+        if (!empty($professions_amount[$detailed_name])) {
+          $commission_info = explode(' ', $professions_amount[$detailed_name]);
+          if (current_path() == 'coworker-advanced') {
+            $commission = $commission_info[0];
+            $form_state['values']['profile_personal_data']['field_commission'][LANGUAGE_NONE][1]['value'] =
+              $commission_info[0] - $commission_info[1];
+              $assigned = TRUE;
+          }
+          elseif (current_path() == 'coworker') {
+            $commission = $commission_info[1];
+            $assigned = TRUE;
+          }
+        }
+      }
+    }
+
+    // If not predefined, consult the default amount list
+    if (!$assigned) {
+      $professions_amount = list_extract_allowed_values(variable_get('wedding_commission_professions_amount', ''), 'list_integer', FALSE);
+      $commission = $professions_amount[$profession];
+      $form_state['values']['profile_personal_data']['field_commission'][LANGUAGE_NONE][1]['value'] =
+        $professions_amount['referer'];
+    }
   }
 
   // 2. send welcome message

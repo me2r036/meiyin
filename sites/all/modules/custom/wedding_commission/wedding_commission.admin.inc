@@ -64,9 +64,16 @@ function wedding_commission_settings($form, &$form_state) {
     '#rows' => 18,      
   );
 
+  $form['wedding_commission_professions_amount_specified'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Specified commission amounts as "name|coworker-advanced_value coworker_value"') . ' ' . '(<em>wedding_commission_professions_amount_specified</em>)',
+    '#description' => $description,
+    '#default_value' => variable_get('wedding_commission_professions_amount_specified', ''),
+  );
+
   $form['wedding_commission_professions_amount'] = array(
     '#type' => 'textarea',
-    '#title' => t('Commission amount according to each profession') . ' ' . '(<em>field_professions_amount</em>)',
+    '#title' => t('Commission amount according to each profession') . ' ' . '(<em>wedding_commission_professions_amount</em>)',
     '#description' => $description,
     '#default_value' => variable_get('wedding_commission_professions_amount', ''),
   );
@@ -147,11 +154,18 @@ function wedding_commission_settings_submit($form, &$form_state) {
     }
   }
 
+  $professions_amount_specified_old = variable_get('wedding_commission_professions_amount_specified', '');
+  $professions_amount_specified_new = $form_state['values']['wedding_commission_professions_amount_specified'];
+  if (preg_replace('/\n/', '', $professions_amount_specified_old) != preg_replace('/\n/', '', $professions_amount_specified_new)) {
+    variable_set('wedding_commission_professions_amount_specified', $professions_amount_specified_new);
+    drupal_set_message(t('Updated settings for wedding_commission_professions_amount_specified.'), 'status', FALSE);
+  }
+
   $professions_amount_old = variable_get('wedding_commission_professions_amount', '');
   $professions_amount_new = $form_state['values']['wedding_commission_professions_amount'];
   if (preg_replace('/\n/', '', $professions_amount_old) != preg_replace('/\n/', '', $professions_amount_new)) {
     variable_set('wedding_commission_professions_amount', $professions_amount_new);
-    drupal_set_message(t('Updated settings for field_professions_amount.'), 'status', FALSE);
+    drupal_set_message(t('Updated settings for wedding_commission_professions_amount.'), 'status', FALSE);
   }
 
   $material_loss_rate_old = variable_get('wedding_commission_material_loss_rate', '');
